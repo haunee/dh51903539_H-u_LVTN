@@ -7,10 +7,13 @@ use Illuminate\Support\Facades\Session;
 use App\Mail\VerifyAccount;
 use App\Mail\VerifyPassword;
 use App\Models\Customer;
+use App\Models\ResetPasswordCustomer;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\log;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
@@ -61,7 +64,8 @@ class CustomerController extends Controller
         session(['verification_token' => $token]);
         return view("shop.mail.verify");
     }
-    //mã xác thực
+
+    //trang nhập mã xác thực
     public function verifyToken(Request $request)
     {
         $token = $request->input('token');
@@ -70,7 +74,7 @@ class CustomerController extends Controller
         if ($customer) {
             // Xác thực thành công
             $customer->email_verified = true;
-            $customer->verification_token = null;
+            $customer->verification_token = null; 
             $customer->save();
             return redirect('/login')->with('message', 'Xác thực thành công! Bạn đã có thể đăng nhập.');
         } else {
@@ -91,16 +95,24 @@ class CustomerController extends Controller
 
         return view("shop.account.register");
     }
+
     public function submit_register(Request $request)
     {
         $validator = Validator::make($request->all(), [
+            'username' => 'required|unique:customer',
             'password' => 'required|min:8|regex:/[A-Z]/', // Mật khẩu phải có ít nhất 8 kí tự
 
+        ], [
+            'username.required' => 'Vui lòng nhập tên người dùng',
+            'username.unique' => 'Tên người dùng đã tồn tại',
+            'password.required' => 'Vui lòng nhập mật khẩu',
+            'password.min' => 'Mật khẩu phải có ít nhất 8 ký tự',
+            'password.regex' => 'Mật khẩu phải chứa ít nhất 1 ký tự hoa',
         ]);
 
         // Kiểm tra nếu validator thất bại
         if ($validator->fails()) {
-            return redirect()->back()->with('error', 'mật khẩu ít nhất 1 kí tự hoa và nhiều hơn 8 kí tự');
+            return redirect()->back()->withErrors($validator)->withInput();
         }
 
         $verificationToken = rand(100000, 999999);
@@ -113,10 +125,10 @@ class CustomerController extends Controller
 
         // Tạo khách hàng mới
         $customer = new Customer();
-        $data = $request->only('username','email', 'password', 'PhoneNumber', 'Avatar', 'verification_token');
+        $data = $request->only('username', 'email', 'password', 'PhoneNumber', 'Avatar', 'verification_token');
         $data['password'] = bcrypt($request->password);
 
-        // Kiểm tra xem email đã tồn tại chưa
+        // Kiểm tra xem username đã tồn tại chưa
         $check_customer = Customer::where('username', $data['username'])->first();
         if ($check_customer) {
             return redirect()->back()->with('error', 'Tên tài khoản đã tồn tại');
@@ -141,6 +153,8 @@ class CustomerController extends Controller
 
 
 
+
+
     //ĐĂNG NHẬP
     public function login()
     {
@@ -150,14 +164,14 @@ class CustomerController extends Controller
     public function submit_login(Request $request)
     {
         $data = $request->all();
-        $email = $data['email'];
+        $username = $data['username'];
         $password = $data['password'];
 
-        $customer = Customer::where('email', $email)->first();
+        $customer = Customer::where('username', $username)->first();
 
         if ($customer && Hash::check($password, $customer->password)) {
             if (!$customer->email_verified) {
-                return redirect()->back()->with('error', 'Email của bạn chưa được xác thực. Vui lòng kiểm tra email và xác thực.');
+                return redirect()->back()->with('error', 'tài khoản của bạn chưa được xác thực. Vui lòng kiểm tra email và xác thực.');
             }
 
             Session::put('idCustomer', $customer->idCustomer);
@@ -242,64 +256,95 @@ class CustomerController extends Controller
 
 
 
-
-
-
-
-
-
-
-
-
     //XÁC HỰC QUÊN MẬT KHẨU
     public function forgot_password()
     {
         return view("shop.account.forgot_password");
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
+    //submit xác thực email
     public function submit_forgot_password(Request $request)
     {
-        $verificationToken = rand(100000, 999999);
-        $request->validate(['email' => 'required|email|exists:email']);
-        $customer = Customer :: where('email', $request->email) -> first();
+        $token = rand(100000, 999999);
 
-        Mail::to($customer->email)->send(new VerifyPassword($customer, $verificationToken));
-
-
-        return redirect()->back()->with('message', 'vui lòng kiểm tra email để xác nhận tài khoản.');
+        $tokenData = ResetPasswordCustomer::where('email', $request->email)->first();
+        if ($tokenData) {
+            $tokenData->token = $token;
+            $tokenData->save();
+        } 
+        $customer = Customer::where('email', $request->email)->first();
+        if(!$customer)
+        {
+            return redirect()->back()->with('error', 'email không tồn tại');
+        }
+        Mail::to($request->email)->send(new VerifyPassword($customer, $token));
+        return redirect()->back()->with('message', 'ok check mail');
     }
 
 
-    public function submit_reset_password(Request $request)  
-    {
-        $token = $request->input('token');
-        $customer = Customer::where('verification_token', $token)->first();
 
-        if ($customer) {
-            // Xác thực thành công
-            $customer->email_verified = true;
-            $customer->verification_token = null;
-            $customer->save();
-            return redirect('/login')->with('message', 'Xác thực thành công! Bạn đã có thể đăng nhập.');
-        } else {
-            // Mã token không hợp lệ
-            return redirect()->back()->with('error', 'Mã xác thực không hợp lệ.');
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //xác nhận đặt lại mật khẩu
+    public function submit_reset_password(Request $request)
+    {
+        $request->validate([
+            'username' => 'required|exists:customer,username',
+            'token' => 'required|string',
+            'new_password' => 'required|min:8|regex:/[A-Z]/',
+            'new_password_confirmation' => 'required|same:new_password',
+        ],[
+            'username.required' => 'Vui lòng nhập tên tài khoản',
+            'token.required' => 'Vui lòng nhập mã xác nhận',
+
+            'new_password.required' => 'Vui lòng nhập mật khẩu mới',
+            'new_password.min' => 'Mật khẩu mới phải chứa ít nhất 8 ký tự và kí tự hoa',
+
+            'new_password_confirmation.required' => 'Vui lòng nhập xác nhận mật khẩu mới',
+            'new_password.confirmed' => 'Xác nhận mật khẩu không khớp',
+        ]);
+
+        // Lấy thông tin từ request
+        $token = $request->input('token');
+        $username = $request->input('username');
+        $new_password = $request->input('new_password');
+
+        $data= $request->all();
+
+        $token = ResetPasswordCustomer::where('token', $request->token)->first();
+        if (!$token) {
+            return redirect()->back()->with('reset_error', 'sai mã xác nhận');
         }
 
+
+        $customer = DB::table('customer')->where('username', $username)->first();
+        // Kiểm tra xem username có tồn tại không
+        if (!$customer) {
+            return redirect()->back()->with(['reset_error' => 'Username không tồn tại'], 400);
+        }
+
+        if($data['new_password'] !== $data['new_password_confirmation']) {
+            return redirect()->back()->with('reset_error', 'mat khau khong trung khop');
+        }
+       
+        // Cập nhật mật khẩu mới
+        DB::table('customer')->where('username', $username)->update(['password' => Hash::make($new_password)]);
+
+        $token -> token =null;
+        $token -> save();
+       
+
+        return redirect()->back()->with(['reset_message' => 'Mật khẩu đã được cập nhật thành công']);
     }
-
-
-
 }

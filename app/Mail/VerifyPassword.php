@@ -20,9 +20,10 @@ class VerifyPassword extends Mailable
      public $customer;
      public $token;
 
-    public function __construct($data)
+    public function __construct($data,$token)
     {
         $this -> customer = $data;
+        $this -> token = $token;
     }
 
     public function build()

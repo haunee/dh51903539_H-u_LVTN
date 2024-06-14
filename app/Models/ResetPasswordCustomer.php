@@ -15,14 +15,14 @@ class ResetPasswordCustomer extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        
+        'id',
         'email',
         'token',
         
         
     ];
-    protected $primaryKey = 'email'; 
-    protected $table = 'customer_forgot_passowrd'; 
+    protected $primaryKey = 'id'; 
+    protected $table = 'reset_password_customer'; 
     /**
      * The attributes that should be hidden for serialization.
      *

@@ -35,12 +35,10 @@ Route::post('/edit-profile', [CustomerController::class, 'edit_profile']);
 //đoi mk
 Route::get('/change-password', [CustomerController::class, 'change_password']);
 Route::post('/submit-change-password', [CustomerController::class, 'submit_change_password']);
-
-
-
 //chuyển trang quên mk
 Route::get('/forgot-password', [CustomerController::class, 'forgot_password']);
-
-
 //submit xác thực
 Route::post('/submit-forgot-password', [CustomerController::class, 'submit_forgot_password']);
+
+//submit reset password
+Route::post('/submit-reset-password', [CustomerController::class, 'submit_reset_password'])->name('submit_reset_password');

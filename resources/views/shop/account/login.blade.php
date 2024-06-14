@@ -39,8 +39,8 @@
                                 }
                             ?>
                             <div class="form-group mt-15">
-                                <label for="email">Email tài khoản</label>
-                                <input id="email" type="text" name="email">
+                                <label for="username">Tên tài khoản</label>
+                                <input id="username" type="text" name="username">
                                 <span class="text-danger"></span>
                             </div>
                             <div class="form-group mt-15">

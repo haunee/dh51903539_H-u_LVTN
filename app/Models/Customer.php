@@ -29,6 +29,10 @@ class Customer extends Authenticatable
     ];
     protected $primaryKey = 'idCustomer'; 
     protected $table = 'customer'; 
+    public function resetPasswordCustomers() {
+        return $this -> hasMany(ResetPasswordCustomer::class,'email','email');
+        
+    }
     /**
      * The attributes that should be hidden for serialization.
      *

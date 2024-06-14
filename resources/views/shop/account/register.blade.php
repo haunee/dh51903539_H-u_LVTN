@@ -40,15 +40,19 @@
                                     Session::put('error', null);
                                 }
                             ?>  
-                               <div class="form-group mt-15">
+                            <div class="form-group mt-15">
                                 <a for="username">Tên tài khoản</a>
                                 <input id="username" type="text" name="username" required>
-                                <span class="text-danger"></span>
+                                @error('username')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
                             <div class="form-group mt-15">
                                 <a for="email">email tài khoản</a>
                                 <input id="email" type="text" name="email" required>
-                                <span class="text-danger"></span>
+                                @error('email')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
                             <div class="form-group mt-15">
                                 <a for="password">Mật khẩu</a>
@@ -79,66 +83,6 @@
 </div>
 <!--Register End-->
 
-<!-- Validate form đăng ký -->
-<script>
-    window.scrollBy(0,300);
 
-    $(document).ready(function(){  
-        $('.register').on('click',function(){
-            $("#form-register").validate({
-                rules: {
-                    email: {
-                        required: true,
-                        minlength: 8
-                    },
-                    password: {
-                        required: true,
-                        minlength: 8
-                    },
-                    password_confirmation: {
-                        required: true,
-                        minlength: 8,
-                        equalTo: "#password"
-                    }
-                },
-
-                messages: {
-                    email: {
-                        required: "Vui lòng nhập trường này",
-                        minlength: "Nhập mật khẩu cũ tối thiểu 8 ký tự"
-                    },
-                    password: {
-                        required: "Vui lòng nhập trường này",
-                        minlength: "Nhập mật khẩu mới tối thiểu 8 ký tự"
-                    },
-                    password_confirmation: {
-                        required: "Vui lòng nhập trường này",
-                        minlength: "Nhập lại mật khẩu mới tối thiểu 8 ký tự",
-                        equalTo: "Nhập lại mật khẩu không trùng khớp"
-                    }
-                },
-
-                submitHandler: function(form) {
-                    let formData = new FormData($('#form-register')[0]);
-
-                    $.ajax({
-                        url: APP_URL + '/submit-register',
-                        type: 'POST',   
-                        contentType: false,
-                        processData: false,   
-                        cache: false,        
-                        data: formData,
-                        success:function(data){
-                            $('.alert-password').html(data);
-                            $('#email').val("");
-                            $('#password').val("");
-                            $('#password_confirmation').val("");
-                        }
-                    });
-                }
-            });
-        });
-    });
-</script>
 
 @endsection
