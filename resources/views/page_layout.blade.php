@@ -248,7 +248,7 @@
     <script src="{{asset('/page/js/vendor/popper.min.js')}}"></script>
 
     <script src="{{asset('/page/js/vendor/bootstrap.min.js')}}"></script>
-    <script src="{{asset('/page/js/custom.js')}}"></script>
+    
     
 
     

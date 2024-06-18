@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\log;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
@@ -245,7 +244,7 @@ class CustomerController extends Controller
         $customer = Customer::find(Session::get('idCustomer'));
 
         if (!Hash::check($request->current_password, $customer->password)) {
-            return redirect()->back()->withErrors(['current_password' => 'Mật khẩu hiện tại không đúng']);
+            return redirect()->back()->withErrors(['current_password' => 'Mật khẩu hiện tại không đúng!!']);
         }
 
         $customer->password = Hash::make($request->new_password);

@@ -68,7 +68,7 @@
                                                             @if($customer->Avatar)
                                                                 <img class="crm-profile-pic rounded-circle avatar-100 replace-avt" src="/storage/page/images/customer/{{ $customer->Avatar }}">
                                                             @else
-                                                                <img class="crm-profile-pic rounded-circle avatar-100 replace-avt" src="/storage/page/images/user/01.jpg">
+                                                                <img class="crm-profile-pic rounded-circle avatar-100 replace-avt" src="/storage/user/01.jpg">
                                                             @endif
                                                             <div class="crm-p-image bg-primary">
                                                                 <label for="Avatar" style="cursor:pointer;"><span class="ti-pencil upload-button d-block"></span></label>

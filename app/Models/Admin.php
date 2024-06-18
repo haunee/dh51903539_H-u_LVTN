@@ -9,16 +9,14 @@ class Admin extends Model
 {
    
     protected $fillable = [
-        'AdminName',
+        
         'AdminUser',
         'AdminPass',
-        'Position',
-        'Address',
         'NumberPhone',
         'Email',
         'Avatar'
     ];
-    protected $primaryKey = 'idAdmin';  // Khóa chính của bảng
-    protected $table = 'admin';  // Tên bảng
+    protected $primaryKey = 'idAdmin';  
+    protected $table = 'admin';  
 
 }
