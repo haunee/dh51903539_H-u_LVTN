@@ -31,13 +31,24 @@
                               <div class="p-3">
                                  <h2 class="mb-2">Đăng Nhập</h2>
                                  <p>Đăng nhập để giữ kết nối.</p>
-                                 <?php
-                                    $message = Session::get('message');
-                                    if($message){
-                                       echo '<span class="text-danger">'.$message.'</span>';
-                                       Session::put('message', null);
-                                    }
-                                 ?>
+                                 <!-- Hiển thị thông báo thành công -->
+                                 @if(session('message'))
+                                 <div class="alert alert-success">
+                                     {{ session('message') }}
+                                 </div>
+                             @endif
+                             
+                             <!-- Hiển thị lỗi validation -->
+                             @if($errors->any())
+                                 <div class="alert alert-danger">
+                                     <ul>
+                                         @foreach ($errors->all() as $error)
+                                             <li>{{ $error }}</li>
+                                         @endforeach
+                                     </ul>
+                                 </div>
+                             @endif
+                             
                                  <form action="{{URL::to('/submit-admin-login')}}" method="POST">
                                     @csrf
                                     <div class="row">
@@ -45,16 +56,18 @@
                                           <div class="floating-label form-group">
                                              <input class="floating-input form-control" type="text" placeholder=" " name="AdminUser" required>
                                              <label>Tên Đăng Nhập</label>
+                                             
                                           </div>
                                        </div>
                                        <div class="col-lg-12">
                                           <div class="floating-label form-group">
                                              <input class="floating-input form-control" type="password" placeholder=" " name="AdminPass" required>
                                              <label>Mật Khẩu</label>
+                                             
                                           </div>
                                        </div>
                                     </div>
-                                    <input type="submit"   class="btn btn-primary btn-block" value="Đăng Nhập"/>
+                                    <input type="submit"  class="btn btn-primary btn-block" value="Đăng Nhập"/>
                                     <div class="mt-3">
                                         <a href="{{ URL::to('/admin-register') }}"  class="btn btn-outline-secondary btn-block">Đăng Ký</a>
                                     </div>

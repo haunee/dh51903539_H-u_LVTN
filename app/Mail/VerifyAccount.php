@@ -39,7 +39,7 @@ class VerifyAccount extends Mailable
                     ->with([
                     'customer' => $this->account,
                     'token' => $this->token,
-                    ]);
+        ]);
     }
     /**
      * Get the message content definition.

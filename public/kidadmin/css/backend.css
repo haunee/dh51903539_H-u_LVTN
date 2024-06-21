@@ -34,6 +34,7 @@
   --iq-purple: #4731b6;
   --iq-skyblue: #158df7;
   --iq-light-gray: #f4f5fa; }
+  
 
 :root {
   --blue: #32BDEA;
@@ -839,6 +840,8 @@ pre {
   .offset-sm-11 {
     margin-left: 91.66667%; } }
 
+
+    
 @media (min-width: 768px) {
   .col-md {
     flex-basis: 0;

@@ -44,7 +44,7 @@ use Illuminate\Support\Facades\Session;
             $position = Session::get('Position');
             $avatar = Session::get('Avatar');
 
-            if ($position != 'Nhân Viên') {
+          
             ?>
                 <div class="data-scrollbar" data-scroll="1">
                     <nav class="iq-sidebar-menu">
@@ -66,8 +66,8 @@ use Illuminate\Support\Facades\Session;
                                             <i class="las la-minus"></i><span>Sửa Hồ Sơ</span>
                                         </a>
                                     </li>
-                                    <li class="{{ Request::is('change-password') ? 'active' : '' }}">
-                                        <a href="{{URL::to('/change-password')}}">
+                                    <li class="{{ Request::is('change-adpassword') ? 'active' : '' }}">
+                                        <a href="{{URL::to('/change-adpassword')}}">
                                             <i class="las la-minus"></i><span>Đổi Mật Khẩu</span>
                                         </a>
                                     </li>
@@ -92,51 +92,87 @@ use Illuminate\Support\Facades\Session;
                                     </li>
                                 </ul>
                             </li>
+
+
+                            <li class=" ">
+                                <a href="#category" class="collapsed" data-toggle="collapse" aria-expanded="false">
+                                    
+                                    <span class="ml-4">Quản Lý Danh Mục</span>
+                                    
+                                </a>
+                                <ul id="category" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
+                                    <li class="{{ Request::is('manage-category') ? 'active' : '' }}">
+                                        <a href="{{URL::to('/manage-category')}}">
+                                            <i class="las la-minus"></i><span>Danh Sách Danh Mục</span>
+                                        </a>
+                                    </li>
+                                    <li class="{{ Request::is('add-category') ? 'active' : '' }}">
+                                        <a href="{{URL::to('/add-category')}}">
+                                            <i class="las la-minus"></i><span>Thêm Danh Mục</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+
+
+                            <li class=" ">
+                                <a href="#product" class="collapsed" data-toggle="collapse" aria-expanded="false">
+                                  
+                                    <span class="ml-4">Quản Lý Sản Phẩm</span>
+                                   
+                                </a>
+                                <ul id="product" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
+                                    <li class="{{ Request::is('manage-products') ? 'active' : '' }}">
+                                        <a href="{{URL::to('/manage-products')}}">
+                                            <i class="las la-minus"></i><span>Danh Sách Sản Phẩm</span>
+                                        </a>
+                                    </li>
+                                    <li class="{{ Request::is('add-product') ? 'active' : '' }}">
+                                        <a href="{{URL::to('/add-product')}}">
+                                            <i class="las la-minus"></i><span>Thêm Sản Phẩm</span>
+                                        </a>
+                                    </li>
+                                    
+                                   
+                                    
+                                </ul>
+                            </li>
+
+                            <li class=" ">
+                                <a href="#attribute" class="collapsed" data-toggle="collapse" aria-expanded="false">
+                                  
+                                    <span class="ml-4">Quản Lý Phân Loại</span>
+                                   
+                                </a>
+                               
+                                    <ul id="attribute" class="iq-submenu collapse" data-parent="#product">
+                                        <li class="{{ Request::is('manage-attribute') ? 'active' : '' }}">
+                                            <a href="{{URL::to('/manage-attribute')}}">
+                                                <i class="las la-minus"></i><span>Nhóm Phân Loại</span>
+                                            </a>
+                                        </li>
+                                        <li class="{{ Request::is('manage-attri-value') ? 'active' : '' }}">
+                                            <a href="{{URL::to('/manage-attri-value')}}">
+                                                <i class="las la-minus"></i><span>Phân Loại</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+     
+                                </ul>
+                            </li>
+
+
+
+
+                            
                         </ul>
                     </nav>
                     
                     <div class="p-3"></div>
                 </div>
             <?php
-            } else {
-            ?>
-                <div class="data-scrollbar" data-scroll="1">
-                    <nav class="iq-sidebar-menu">
-                        <ul id="iq-sidebar-toggle" class="iq-menu">
-                            <li class=" ">
-                            </li>
-                            <li class=" ">
-                                <a href="#myaccount" class="collapsed" data-toggle="collapse" aria-expanded="false">
-                                  
-                                    <span class="ml-4">Quản Lý Tài Khoản</span>
-                                    
-                                </a>
-                                <ul id="myaccount" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
-                                    <li class="{{ Request::is('my-adprofile') ? 'active' : '' }}">
-                                        <a href="{{URL::to('/my-adprofile')}}">
-                                            <i class="las la-minus"></i><span>Hồ Sơ Của Tôi</span>
-                                        </a>
-                                    </li>
-                                    <li class="{{ Request::is('edit-profile') ? 'active' : '' }}">
-                                        <a href="{{URL::to('/edit-profile')}}">
-                                            <i class="las la-minus"></i><span>Sửa Hồ Sơ</span>
-                                        </a>
-                                    </li>
-                                    <li class="{{ Request::is('change-password') ? 'active' : '' }}">
-                                        <a href="{{URL::to('/change-password')}}">
-                                            <i class="las la-minus"></i><span>Đổi Mật Khẩu</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            
-                        </ul>
-                    </nav>
-                   
-                    <div class="p-3"></div>
-                </div>
-            <?php
-            }
+           
             ?>
         </div>
         <div class="iq-top-navbar">
@@ -169,7 +205,7 @@ use Illuminate\Support\Facades\Session;
                                         </div>
                                         <div class="p-3">
                                             <h5 class="mb-1"><?php echo Session::get('AdminName'); ?></h5>
-                                            <p class="mb-0">(<?php echo Session::get('AdminUser'); ?>)</p>
+                                            <p class="mb-0"><?php echo Session::get('AdminUser'); ?></p>
                                             <div class="d-flex align-items-center justify-content-center mt-3">
                                                   <a href="{{URL::to('/my-adprofile')}}" class="btn border mr-2">Profile</a>
                                                   <a href="{{URL::to('/admin-logout')}}" class="btn border">Đăng Xuất</a>

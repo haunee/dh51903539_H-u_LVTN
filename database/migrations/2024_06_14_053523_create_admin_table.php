@@ -15,8 +15,10 @@ return new class extends Migration
             $table->increments('idAdmin');      
             $table->string('AdminUser',50);
             $table->string('AdminPass');
-            $table->string('NumberPhone')->nullable();
-            $table->string('Email',50);
+            $table->integer('NumberPhone')->nullable();
+            $table->string('AdminName',50)->nullable();
+            $table->string('Email',50)->nullable();
+            $table->string('Address')->nullable();
             $table->string('Avatar')->nullable();
             $table->timestamps();
         });

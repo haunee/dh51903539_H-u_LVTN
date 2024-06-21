@@ -41,9 +41,27 @@
                                         <div class="col-md-12" style="border-bottom: solid 1px #efefef;">
                                             <h4 class="account-title" style="margin-bottom: 0;">Hồ Sơ Của Tôi</h4>
                                             <h5 style="color: #666;">Quản lý thông tin hồ sơ để bảo mật tài khoản</h5>
+
+                                            
                                         </div>
-                                        <form id="form-edit-profile" class="d-flex flex-wrap p-0 mt-3" enctype="multipart/form-data">
+
+                                    
+                                        @if(session('message'))
+                                        <div class="  text-success mt-0">{{ session('message') }}</div>
+                                        @endif
+                                        @if($errors->any())
+                                        <div class="text-danger mt-3">
+                                            <ul class="mb-0">
+                                                @foreach ($errors->all() as $error)
+                                                    <li>{{ $error }}</li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                        @endif
+                                    
+                                        <form id="form-edit-profile" class="d-flex flex-wrap p-0 mt-3"  action="{{ url('/profile') }}" method="POST" enctype="multipart/form-data">
                                             @csrf
+                                           
                                             <div class="col-md-8">
                                                 <div class="account-address p-3 bg-light rounded">
                                                     <div>
@@ -53,10 +71,12 @@
                                                     <div class="form-group mb-3 d-flex align-items-center">
                                                         <label for="username" class="profile__info-body-left-item-title me-3">Tên tài khoản</label>
                                                         <input id="username" name="username" class="form-control ms-3" type="text" value="{{ $customer->username }}">
+                                                        
                                                     </div>
                                                     <div class="form-group mb-3 d-flex align-items-center">
                                                         <label for="PhoneNumber" class="profile__info-body-left-item-title me-3">Số Điện Thoại</label>
-                                                        <input id="PhoneNumber" name="PhoneNumber" class="form-control ms-3" type="text" value="{{ $customer->PhoneNumber }}">
+                                                        <input id="PhoneNumber" name="PhoneNumber" class="form-control ms-3" type="text" pattern="\d*" maxlength="10" oninput="validateNumberPhone(this)" value="{{ $customer->PhoneNumber }}">
+                                                        
                                                     </div>
                                                     <button class="btn btn-primary edit-profile float-right"><i class="fa fa-edit"></i> Sửa Hồ Sơ</button>
                                                 </div>
@@ -64,17 +84,15 @@
                                             <div class="col-md-4 d-flex align-items-center justify-content-center" style="border-left: solid 1px #efefef;">
                                                 <div class="profile__info-body-right-avatar text-center">
                                                     <div class="profile-img-edit">
-                                                        <div class="crm-profile-img-edit position-relative">
-                                                            @if($customer->Avatar)
-                                                                <img class="crm-profile-pic rounded-circle avatar-100 replace-avt" src="/storage/page/images/customer/{{ $customer->Avatar }}">
-                                                            @else
-                                                                <img class="crm-profile-pic rounded-circle avatar-100 replace-avt" src="/storage/user/01.jpg">
-                                                            @endif
+                                                        <div class="crm-profile-img-edit">
+                                                            @if($customer->Avatar != null)
+                                                            <img class="crm-profile-pic rounded-circle avatar-100 replace-avt" src="/storage/page/images/customer/{{$customer->Avatar}}"> 
+                                                            @else <img class="crm-profile-pic rounded-circle avatar-100 replace-avt" src="/storage/page/images/user/01.jpg"> @endif 
                                                             <div class="crm-p-image bg-primary">
                                                                 <label for="Avatar" style="cursor:pointer;"><span class="ti-pencil upload-button d-block"></span></label>
                                                                 <input type="file" class="file-upload" id="Avatar" name="Avatar" onchange="loadPreview(this)" accept="image/*">
                                                             </div>
-                                                        </div>
+                                                        </div>                                          
                                                     </div>
                                                     <div class="text-danger alert-img mt-3"></div>
                                                     <div class="mt-3">
@@ -100,56 +118,12 @@
 
 <script>
     window.scrollBy(0,300);
-
-    $(document).ready(function(){  
-        $('.edit-profile').on('click',function(){
-            $("#form-edit-profile").validate({
-                rules: {
-                    CustomerName: {
-                        required: true,
-                        minlength: 5
-                    },
-                    PhoneNumber: {
-                        required: true,
-                        minlength: 10,
-                        maxlength: 12
-                    }
-                },
-
-                messages: {
-                    CustomerName: {
-                        required: "Vui lòng nhập trường này",
-                        minlength: "Nhập họ và tên tối thiểu 5 ký tự"
-                    },
-                    PhoneNumber: {
-                        required: "Vui lòng nhập trường này",
-                        minlength: "Nhập số điện thoại tối thiểu 10 chữ số",
-                        maxlength: "Nhập số điện thoại tối đa 12 chữ số"
-                    }
-                },
-
-                submitHandler: function(form) {
-                    let formData = new FormData($('#form-edit-profile')[0]);
-                    if($('input[type=file]')[0].files[0]){
-                        let file = $('input[type=file]')[0].files[0];
-                        formData.append('file', file, file.name);
-                    }
-
-                    $.ajax({
-                        url: APP_URL + '/edit-profile',
-                        type: 'POST',   
-                        contentType: false,
-                        processData: false,   
-                        cache: false,        
-                        data: formData,
-                        success:function(data){
-                            location.reload();
-                        }
-                    });
-                }
-            });
-        });
-    });
+    function validateNumberPhone(input) {
+            input.value = input.value.replace(/[^0-9]/g, ''); // Loại bỏ ký tự không phải là số
+            if (input.value.length > 10) {
+                input.value = input.value.slice(0, 10); // Giới hạn độ dài tối đa là 10
+            }
+        }
 
     function loadPreview(input){
         var data = $(input)[0].files; //this file data

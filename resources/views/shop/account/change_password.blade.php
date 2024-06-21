@@ -64,7 +64,7 @@
                                         <div class="account-address mt-30">
                                             <div class="form-group mb-30">
                                                 <span class="profile__info-body-left-item-title d-inline-block" style="width: 20%; margin-right:9%;">Mật Khẩu Cũ</span>
-                                                <input name="current_password" id="1" type="password" style="width: 70%">
+                                                <input name="current_password" id="current_password" type="password" style="width: 70%">
                                             </div>
                                             <div class="form-group mb-30">
                                                 <span class="profile__info-body-left-item-title d-inline-block" style="width: 20%; margin-right:9%;">Mật Khẩu Mới</span>

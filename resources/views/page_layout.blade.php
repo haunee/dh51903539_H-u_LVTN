@@ -167,22 +167,6 @@
                 <div class="footer-widget-area section-padding-6">
                     <div class="row justify-content-between">
 
-                        <!--Footer Widget Start-->
-                        <div class="col-lg-4 col-md-6">
-                            <div class="footer-widget">
-                              
-                           
-                                <div class="widget-social">
-                                    <ul>
-                                        <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-youtube"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <!--Footer Widget End-->
-                        </div>
 
                         <div class="col-lg-2 col-md-4 col-sm-6">
                             <div class="footer-widget">
