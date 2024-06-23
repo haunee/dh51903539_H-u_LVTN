@@ -277,6 +277,11 @@ class CustomerController extends Controller
     {
         $token = rand(100000, 999999);
         //
+        $customer = Customer::where('email', $request->email)->first();
+        if (!$customer) {
+            return redirect()->back()->with('error', 'email không tồn tại');
+        }
+        
         $tokenData = ResetPasswordCustomer::where('email', $request->email)->first();
         if ($tokenData) {
             $tokenData->token = $token;
@@ -289,10 +294,7 @@ class CustomerController extends Controller
             ]);
         }
            
-        $customer = Customer::where('email', $request->email)->first();
-        if (!$customer) {
-            return redirect()->back()->with('error', 'email không tồn tại');
-        }
+       
         Mail::to($request->email)->send(new VerifyPassword($customer, $token));
         return redirect()->back()->with('message', 'ok check mail');
     }
