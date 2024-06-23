@@ -276,12 +276,19 @@ class CustomerController extends Controller
     public function submit_forgot_password(Request $request)
     {
         $token = rand(100000, 999999);
-
+        //
         $tokenData = ResetPasswordCustomer::where('email', $request->email)->first();
         if ($tokenData) {
             $tokenData->token = $token;
             $tokenData->save();
+        }else {
+            // Nếu email không tồn tại, chèn bản ghi mới vào bảng ResetPasswordCustomer
+            ResetPasswordCustomer::create([
+                'email' => $request->email,
+                'token' => $token,
+            ]);
         }
+           
         $customer = Customer::where('email', $request->email)->first();
         if (!$customer) {
             return redirect()->back()->with('error', 'email không tồn tại');
