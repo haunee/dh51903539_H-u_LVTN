@@ -12,10 +12,8 @@ class Product extends Model
     'idBrand',
     'QuantityTotal',
     'ProductName',
-    'DesProduct',
-    'ShortDes',
     'Price',
-    'Sold',
+    //'Sold',
     ];
 
     protected $primaryKey = 'idProduct';

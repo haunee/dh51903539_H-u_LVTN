@@ -6,6 +6,7 @@ use App\Http\Controllers\AttributeValueController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use App\Mail\VerifyAccount;
 use App\Models\AttributeValue;
@@ -66,9 +67,6 @@ Route::post('/submit-reset-password', [CustomerController::class, 'submit_reset_
 
 Route::get('/admin', [AdminController::class, 'show_login'])->name('admin.login');
 
-Route::get('/admin-register', [AdminController::class, 'admin_register'])->name('admin.register');
-
-Route::post('/submit-admin-register', [AdminController::class, 'submit_admin_register'])->name('admin.submit_admin_registers');
 
 Route::post('/submit-admin-login', [AdminController::class, 'submit_admin_login'])->name('admin.submit_admin_login');
 
@@ -142,3 +140,21 @@ Route::get('/edit-attribute/{idAttribute}', [AttributeController::class, 'edit_a
 Route::post('/submit-edit-attribute/{idAttribute}', [AttributeController::class, 'submit_edit_attribute']);
 
 Route::get('/delete-attribute/{idAttribute}', [AttributeController::class, 'delete_attribute']);
+
+Route::post('/select-attribute', [AttributeController::class, 'select_attribute']);
+
+
+
+
+//PRODUCT
+
+Route::get('/add-product', [ProductController::class, 'add_product']);
+Route::post('/submit-add-product', [ProductController::class, 'submit_add_product']);
+
+Route::get('/manage-product', [ProductController::class, 'manage_product']);
+
+Route::get('delete-product/{idProduct}', [ProductController::class, 'delete_product']);
+
+
+Route::get('/edit-product/{idProduct}', [ProductController::class, 'edit_product']);
+Route::post('/submit-edit-product/{idProduct}', [ProductController::class, 'submit_edit_product']);

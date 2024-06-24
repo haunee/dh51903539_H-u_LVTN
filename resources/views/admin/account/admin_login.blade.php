@@ -69,12 +69,11 @@
                                     </div>
                                     <input type="submit"  class="btn btn-primary btn-block" value="Đăng Nhập"/>
                                     <div class="mt-3">
-                                        <a href="{{ URL::to('/admin-register') }}"  class="btn btn-outline-secondary btn-block">Đăng Ký</a>
+                                        <a href="{{ URL::to('/admin-forgotpass') }}"  class="text-primary">Quên Mật Khẩu</a>
                                     </div>
                                  </form>
                               </div>
                            </div>
-                           
                         </div>
                      </div>
                   </div>

@@ -123,8 +123,8 @@ use Illuminate\Support\Facades\Session;
                                    
                                 </a>
                                 <ul id="product" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
-                                    <li class="{{ Request::is('manage-products') ? 'active' : '' }}">
-                                        <a href="{{URL::to('/manage-products')}}">
+                                    <li class="{{ Request::is('manage-product') ? 'active' : '' }}">
+                                        <a href="{{URL::to('/manage-product')}}">
                                             <i class="las la-minus"></i><span>Danh Sách Sản Phẩm</span>
                                         </a>
                                     </li>

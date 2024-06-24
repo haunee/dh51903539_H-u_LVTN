@@ -31,56 +31,6 @@ class AdminController extends Controller
 
 
 
-    // public function admin_layout()
-    // {
-    //     return view('admin_layout');
-    // }
-
-
-
-
-    //register
-    public function admin_register()
-    {
-        return view('admin.account.admin_register');
-    }
-
-    public  function submit_admin_register(Request $request)
-    {
-
-        // Validate dữ liệu
-        $request->validate([
-            'AdminUser' => 'required|min:6|unique:admin,AdminUser',
-            'AdminPass' => 'required|confirmed|min:8|regex:/[A-Z]/',
-        ], [
-            'AdminUser.min' => 'tên tài khoản 6 kí tự trở lên',
-            'AdminUser.unique' => 'tên tài khoản đã tồn tại',
-
-            'AdminPass.regex' => 'Mật khẩu phải có ít nhất một kí tự hoa',
-            'AdminPass.min' => 'Mật khẩu phải 8 kí tự trở lên',
-            'AdminPass.confirmed' => 'Mật khẩu không trùng khớp',
-        ]);
-
-
-        // Tạo tài khoản mới của lớp Admin tương ứng với admin trong csdl 
-        $user = new Admin();
-        //lấy giá trị adminuser trong yêu cầu dk gán vào thuộc tính adminuser của đối tượng user
-        $user->AdminUser = $request->AdminUser;
-        //mã hóa adminpass trong yêu cầu dk bằng hash make vào thuộc tính adminpass của đối tượng user 
-        $user->AdminPass = Hash::make($request->AdminPass); // Mã hóa mật khẩu
-        //lưu đối tượng user vào csdl
-        $user->save();
-
-        // Chuyển hướng người dùng về lại trang đó sau khi đăng ký thành công
-        return redirect()->back()->with('message', 'Đăng ký thành công!');
-    }
-
-
-
-
-   
-
-
     public function submit_admin_login(Request $request)
     {
         // Kiểm tra dữ liệu đầu vào

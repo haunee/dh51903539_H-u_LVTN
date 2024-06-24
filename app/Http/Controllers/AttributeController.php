@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use App\Models\Attribute;
-
+use Illuminate\Support\Facades\Log;
+use App\Models\AttributeValue;
 //NHÓM PHÂN LOẠI
 class AttributeController extends Controller
 {
@@ -82,5 +83,25 @@ class AttributeController extends Controller
     {
         Attribute::where('idAttribute', $idAttribute)->delete();
         return redirect()->back();
+    }
+
+
+
+
+    // Hiện checkbox chọn phân loại sản phẩm
+    public function select_attribute(Request $request)
+    {
+        $data = $request->all();
+        $output = '';
+
+        if ($data['action'] && $data['action'] == "attribute") {
+            $list_attribute_val = AttributeValue::where('idAttribute', $data['idAttribute'])->get();
+            foreach ($list_attribute_val as $key => $attribute_val) {
+                $output .= '<label for="chk-attr-' . $attribute_val->idAttriValue . '" class="d-block col-lg-3 p-0 m-0"><div id="attr-name-' . $attribute_val->idAttriValue . '" class="select-attr text-center mr-2 mt-2">' . $attribute_val->AttriValName . '</div></label>
+                            <input type="checkbox" class="checkstatus d-none chk_attr" id="chk-attr-' . $attribute_val->idAttriValue . '" data-id="' . $attribute_val->idAttriValue . '" data-name="' . $attribute_val->AttriValName . '" name="chk_attr[]" value="' . $attribute_val->idAttriValue . '">';
+            }
+        }
+
+        return $output; // Return output
     }
 }
