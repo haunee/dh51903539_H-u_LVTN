@@ -93,16 +93,7 @@
                                                         <span class="text-danger">{{ $message }}</span>
                                                     @enderror
                                                 </div>
-                                                <div class="form-group col-sm-6">
-                                                    <label class="required" for="editmail">Email:</label>
-                                                    <input type="email" name="Email" class="form-control" id="editmail"
-                                                        value="{{ old('Email', Session::get('Email')) }}">
-
-                                                    @error('Email')
-                                                        <span class="text-danger">{{ $message }}</span>
-                                                    @enderror
-
-                                                </div>
+                                                
                                                 <div class="form-group col-sm-6">
                                                     <label class="required" for="address">Địa Chỉ:</label>
                                                     <input type="text" name="Address" class="form-control" id="address"

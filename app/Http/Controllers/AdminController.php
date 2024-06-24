@@ -7,9 +7,9 @@ use Illuminate\Http\Request;
 use App\Models\Admin;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
-//use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Customer;
 
 class AdminController extends Controller
 {
@@ -102,16 +102,13 @@ class AdminController extends Controller
     {
         $request->validate([
             'AdminName' => 'required',
-            'NumberPhone' => 'required|digits:10',
-            'Email' => 'required|ends_with:@gmail.com',
+            'NumberPhone' => 'required|digits:10',         
             'Address' => 'required',
 
         ], [
             'AdminName.required' => 'Họ và tên không để trống',
             'NumberPhone.required' => 'Số điện thoại không để trống',
             'NumberPhone.digits' => 'Số điện thoại phải có đúng 10 chữ số',
-            'Email.ends_with' => 'Email không đúng cú pháp',
-            'Email.required' => 'Email không để trống',
             'Address.required' => 'Địa chỉ không để trống',
         ]);
 
@@ -123,7 +120,7 @@ class AdminController extends Controller
         //giá trị từ form nhập vào gán cho thuộc tính
         $admin->AdminName = $data['AdminName'];
         $admin->NumberPhone = $data['NumberPhone'];
-        $admin->Email = $data['Email'];
+      
         $admin->Address = $data['Address'];
 
         if ($request->file('Avatar')) {
@@ -145,7 +142,7 @@ class AdminController extends Controller
         Session::put('AdminName', $data['AdminName']);
         Session::put('Address', $data['Address']);
         Session::put('NumberPhone', $data['NumberPhone']);
-        Session::put('Email', $data['Email']);
+
         return redirect()->back()->with('message', 'Sửa hồ sơ thành công');
     }
 
@@ -186,5 +183,21 @@ class AdminController extends Controller
         $admin->save();
 
         return redirect()->back()->with('message', 'Đổi mật khẩu thành công');
+    }
+
+
+
+    //chuyển trang quản lí người dùng
+    public function manage_customers()
+    {
+        
+        $list_customer = Customer::get();
+        $count_customer = Customer::count();
+        return view("admin.manage-user.manage-customers")->with(compact('list_customer', 'count_customer'));
+    }
+    public function delete_customer($idCustomer)
+    {
+        Customer::find($idCustomer)->delete();
+        return redirect()->back();
     }
 }

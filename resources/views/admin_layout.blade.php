@@ -140,27 +140,45 @@ use Illuminate\Support\Facades\Session;
                             </li>
 
                             <li class=" ">
-                                <a href="#attribute" class="collapsed" data-toggle="collapse" aria-expanded="false">
-                                  
-                                    <span class="ml-4">Quản Lý Phân Loại</span>
-                                   
+                                <a href="#manage-attribute" class="collapsed" data-toggle="collapse" aria-expanded="false">
+                                    <span class="ml-4">Quản Lý Nhóm Phân Loại</span>
                                 </a>
-                               
-                                    <ul id="attribute" class="iq-submenu collapse" data-parent="#product">
-                                        <li class="{{ Request::is('manage-attribute') ? 'active' : '' }}">
-                                            <a href="{{URL::to('/manage-attribute')}}">
-                                                <i class="las la-minus"></i><span>Nhóm Phân Loại</span>
-                                            </a>
-                                        </li>
-                                        <li class="{{ Request::is('manage-attri-value') ? 'active' : '' }}">
-                                            <a href="{{URL::to('/manage-attri-value')}}">
-                                                <i class="las la-minus"></i><span>Phân Loại</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-     
+                                <ul id="manage-attribute" class="iq-submenu collapse" data-parent="#product">
+                                    <li class="{{ Request::is('manage-attribute') ? 'active' : '' }}">
+                                        <a href="{{ URL::to('/manage-attribute') }}">
+                                            <i class="las la-minus"></i><span>Danh sách Nhóm Phân Loại</span>
+                                        </a>
+                                    </li>
+                                    <li class="{{ Request::is('manage-attri-value') ? 'active' : '' }}">
+                                        <a href="{{ URL::to('/manage-attri-value') }}">
+                                            <i class="las la-minus"></i><span>Danh sách Phân Loại</span>
+                                        </a>
+                                    </li>
                                 </ul>
                             </li>
+                            
+                            <li class=" ">
+                                <a href="#manage-people" class="collapsed" data-toggle="collapse" aria-expanded="false">
+                                    <span class="ml-4">Quản Lý Người Dùng</span>
+                                </a>
+                                <ul id="manage-people" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
+                                    <li class="{{ Request::is('manage-customers') ? 'active' : '' }}">
+                                        <a href="{{ URL::to('/manage-customers') }}">
+                                            <i class="las la-minus"></i><span>Danh Sách Tài Khoản User</span>
+                                        </a>
+                                    </li>
+                                   
+                                </ul>
+                            </li>
+                            
+                          
+                          
+
+
+
+
+
+
 
 
 

@@ -158,3 +158,11 @@ Route::get('delete-product/{idProduct}', [ProductController::class, 'delete_prod
 
 Route::get('/edit-product/{idProduct}', [ProductController::class, 'edit_product']);
 Route::post('/submit-edit-product/{idProduct}', [ProductController::class, 'submit_edit_product']);
+
+
+
+
+//Quản lí người dùng
+
+Route::get('/manage-customers', [AdminController::class, 'manage_customers']);
+Route::get('/delete-customer/{idCustomer}', [AdminController::class, 'delete_customer']);
