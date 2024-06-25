@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Mail\VerifyAdminPass;
 use Illuminate\Http\Request;
 use App\Models\Admin;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use App\Models\Customer;
 
 class AdminController extends Controller
@@ -62,7 +64,7 @@ class AdminController extends Controller
         Session::put('AdminName', $admin->AdminName);
         Session::put('Address', $admin->Address);
         Session::put('NumberPhone', $admin->NumberPhone);
-        Session::put('Email', $admin->Email);
+        Session::put('email', $admin->email);
         Session::put('Avatar', $admin->Avatar);
 
 
@@ -73,7 +75,7 @@ class AdminController extends Controller
 
 
 
-   
+
 
 
 
@@ -102,7 +104,7 @@ class AdminController extends Controller
     {
         $request->validate([
             'AdminName' => 'required',
-            'NumberPhone' => 'required|digits:10',         
+            'NumberPhone' => 'required|digits:10',
             'Address' => 'required',
 
         ], [
@@ -120,7 +122,6 @@ class AdminController extends Controller
         //giá trị từ form nhập vào gán cho thuộc tính
         $admin->AdminName = $data['AdminName'];
         $admin->NumberPhone = $data['NumberPhone'];
-      
         $admin->Address = $data['Address'];
 
         if ($request->file('Avatar')) {
@@ -142,7 +143,6 @@ class AdminController extends Controller
         Session::put('AdminName', $data['AdminName']);
         Session::put('Address', $data['Address']);
         Session::put('NumberPhone', $data['NumberPhone']);
-
         return redirect()->back()->with('message', 'Sửa hồ sơ thành công');
     }
 
@@ -190,7 +190,7 @@ class AdminController extends Controller
     //chuyển trang quản lí người dùng
     public function manage_customers()
     {
-        
+
         $list_customer = Customer::get();
         $count_customer = Customer::count();
         return view("admin.manage-user.manage-customers")->with(compact('list_customer', 'count_customer'));
@@ -198,6 +198,72 @@ class AdminController extends Controller
     public function delete_customer($idCustomer)
     {
         Customer::find($idCustomer)->delete();
+        return redirect()->back();
+    }
+
+
+
+
+
+
+
+
+
+
+
+    //forgot password
+    public function admin_forgotpass()
+    {
+        return view('admin.account.adforgot-pass');
+    }
+
+
+    //gửi mail
+    public function submit_send_mail(Request $request)
+{
+    $request->validate([
+        'email' => 'required|email|exists:admin,email',
+    ]);
+
+    $admin = Admin::where('email', $request->email)->first();
+    $resetCode = rand(100000, 999999);
+
+    // Lưu mã xác nhận vào cơ sở dữ liệu
+    $admin->code = $resetCode;
+    $admin->save();
+
+    try {
+        Mail::to($admin->email)->send(new VerifyAdminPass($admin, $resetCode));
+        Session::flash('message', 'Mã xác nhận đã được gửi đến email của bạn.');
+        Session::flash('section', 'send-code');
+    } catch (\Exception $e) {
+        // Ghi lỗi vào file log
+        Log::error('Error sending email: ' . $e->getMessage());
+        Session::flash('error', 'Có lỗi xảy ra khi gửi email. Vui lòng thử lại sau.');
+        Session::flash('section', 'send-code');
+    }
+
+    return redirect()->back();
+}
+    
+
+
+    //trang nhập mã xác thực
+    public function submit_reset_Password(Request $request)
+    {
+        $request->validate([
+            'reset_code' => 'required|exists:admin,code',
+            'password' => 'required|confirmed|min:6',
+        ]);
+
+        $admin = Admin::where('code', $request->reset_code)->first();
+        $admin->AdminPass = Hash::make($request->password);
+        $admin->code = null; // Xóa mã xác nhận sau khi đặt lại mật khẩu
+        $admin->save();
+
+        Session::flash('message', 'Mật khẩu của bạn đã được đặt lại thành công.');
+        Session::flash('section', 'reset-password');
+
         return redirect()->back();
     }
 }

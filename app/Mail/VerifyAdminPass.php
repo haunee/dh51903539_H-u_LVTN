@@ -12,13 +12,15 @@ use Illuminate\Queue\SerializesModels;
 class VerifyAdminPass extends Mailable
 {
     use Queueable, SerializesModels;
-
+    public $admin;
+    public $token;
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct($admin,$token)
     {
-        //
+        $this -> admin = $admin;
+        $this -> token = $token;
     }
 
     /**
@@ -31,13 +33,25 @@ class VerifyAdminPass extends Mailable
         );
     }
 
+
+    public function build()
+    {
+        return $this->view('admin.account.mail-forgot')
+                    ->subject('Verify your account')
+                    ->with([
+                    'admin' => $this->admin,
+                    'token' => $this->token,
+                    ]);
+    }
+
+
     /**
      * Get the message content definition.
      */
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            view: 'admin.account.mail-forgot',
         );
     }
 

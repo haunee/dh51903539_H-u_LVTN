@@ -57,7 +57,7 @@
                          
                             <div class="form-group mt-15">
                                 <a>Bạn chưa có tài khoản?</a>
-                                <a href="{{URL::to('/register')}}" class="btn btn-dark btn-block">Đăng ký ngay</a>
+                                <a href="{{URL::to('/register')}}" type="submit" class="btn btn-dark btn-block">Đăng ký ngay</a>
                             </div>
                         </form>
                     </div>

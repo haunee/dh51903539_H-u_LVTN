@@ -13,9 +13,10 @@ class Admin extends Model
         'AdminUser',
         'AdminPass',
         'NumberPhone',
-        'Email',
+        'email',
         'AdminName',
         'Address',
+        'code',
         'Avatar'
     ];
     protected $primaryKey = 'idAdmin';  

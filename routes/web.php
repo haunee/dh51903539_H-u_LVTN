@@ -67,14 +67,10 @@ Route::post('/submit-reset-password', [CustomerController::class, 'submit_reset_
 
 Route::get('/admin', [AdminController::class, 'show_login'])->name('admin.login');
 
-
 Route::post('/submit-admin-login', [AdminController::class, 'submit_admin_login'])->name('admin.submit_admin_login');
-
-//Route::get('/admin-layout', [AdminController::class, 'admin_layout'])->name('admin.layout');
 
 Route::get('/admin-logout', [AdminController::class, 'admin_logout'])->name('admin.logout');
 
-//Route::get('/my-adprofile', function () {return view('admin.account.my-adprofile');})->name('admin.profile');
 Route::get('/my-adprofile',[AdminController::class, 'my_profile'])->name('admin.profile');
 
 Route::get('/edit-profile', [AdminController::class, 'edit_profile']);
@@ -83,6 +79,41 @@ Route::post('/submit-edit-adprofile', [AdminController::class, 'submit_edit_adpr
 
 Route::get('/change-adpassword', [AdminController::class, 'change_adpassword']);
 Route::post('/submit-change-adpassword', [AdminController::class, 'submit_change_adpassword']);
+
+
+
+
+
+
+
+//quan lí người dùng
+Route::get('/manage-customers', [AdminController::class, 'manage_customers']);
+Route::get('/delete-customer/{idCustomer}', [AdminController::class, 'delete_customer']);
+
+//forgor password
+Route::get('/admin-forgotpass', [AdminController::class, 'admin_forgotpass']);
+
+//
+Route::post('/send-reset-code', [AdminController::class, 'submit_send_mail']);
+Route::post('/reset-password', [AdminController::class, 'submit_reset_Password']);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -163,6 +194,3 @@ Route::post('/submit-edit-product/{idProduct}', [ProductController::class, 'subm
 
 
 //Quản lí người dùng
-
-Route::get('/manage-customers', [AdminController::class, 'manage_customers']);
-Route::get('/delete-customer/{idCustomer}', [AdminController::class, 'delete_customer']);
