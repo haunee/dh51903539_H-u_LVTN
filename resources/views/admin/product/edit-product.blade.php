@@ -117,6 +117,22 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="required">Mô tả ngắn</label>
+                                    <textarea id="ShortDes" name="ShortDes" class="form-control" placeholder="Nhập mô tả ngắn" rows="3" required>{{$product->ShortDes}}</textarea>
+                                    <div class="text-danger alert-shortdespd"></div>
+                                    <script>$(document).ready(function(){CKEDITOR.replace('ShortDes');});</script>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="required">Mô tả / Chi tiết sản phẩm</label>
+                                    <textarea id="DesProduct" name="DesProduct" class="form-control tinymce" placeholder="Nhập mô tả chi tiết" rows="4">{{$product->DesProduct}}</textarea>
+                                    <div class="text-danger alert-despd"></div>
+                                    <script>$(document).ready(function(){CKEDITOR.replace('DesProduct');});</script>
+                                </div>
+                            </div>
                                                 
                         <input type="submit" class="btn btn-primary mr-2" id="btn-submit" value="Sửa sản phẩm">
                         <a href="{{URL::to('/manage-product')}}" class="btn btn-light">Trở về</a>

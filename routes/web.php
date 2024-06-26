@@ -7,20 +7,20 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
-use App\Mail\VerifyAccount;
-use App\Models\AttributeValue;
-use Illuminate\Support\Facades\Mail;
 
 
 
 //PAGE
-Route::get('/', function () {
-    return view('shop.home');
-});
-Route::get('/home', function () {
-    return view('shop.home');
-});
+// Route::get('/', function () {
+//     return view('shop.home');
+// });
+// Route::get('/home', function () {
+//     return view('shop.home');
+// });
+Route::get('/', [HomeController::class, 'index']);
+Route::get('/home', [HomeController::class, 'index']);
 
 //ACCOUNT customer
 //chuyển trang xác nhận  //xac nhận mã
@@ -55,12 +55,31 @@ Route::post('/submit-reset-password', [CustomerController::class, 'submit_reset_
 
 
 
+//PRODUCT
+Route::get('/store', [ProductController::class, 'show_all_product']);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 
 //ADMIN
-
 
 
 //ACCOUNT
@@ -82,34 +101,13 @@ Route::post('/submit-change-adpassword', [AdminController::class, 'submit_change
 
 
 
-
-
-
-
-//quan lí người dùng
 Route::get('/manage-customers', [AdminController::class, 'manage_customers']);
 Route::get('/delete-customer/{idCustomer}', [AdminController::class, 'delete_customer']);
 
-//forgor password
-Route::get('/admin-forgotpass', [AdminController::class, 'admin_forgotpass']);
 
-//
+Route::get('/admin-forgotpass', [AdminController::class, 'admin_forgotpass']);
 Route::post('/send-reset-code', [AdminController::class, 'submit_send_mail']);
 Route::post('/reset-password', [AdminController::class, 'submit_reset_Password']);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -192,5 +190,3 @@ Route::post('/submit-edit-product/{idProduct}', [ProductController::class, 'subm
 
 
 
-
-//Quản lí người dùng

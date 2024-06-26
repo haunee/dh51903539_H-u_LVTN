@@ -96,7 +96,20 @@
                                     <div class="d-flex flex-wrap" id="image-list"></div>
                                 </div>
                             </div>
-                         
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="ShortDes" class="required">Mô tả</label>
+                                    <textarea id="ShortDes" name="ShortDes" class="form-control" rows="4" placeholder="Nhập mô tả sản phẩm" required></textarea>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="DesProduct" class="required">Mô tả chi tiết</label>
+                                    <textarea id="DesProduct" name="DesProduct" class="form-control" rows="6" placeholder="Nhập mô tả chi tiết sản phẩm" required></textarea>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
                         </div>                            
                         <input type="submit" class="btn btn-primary mr-2" id="btn-submit" value="Thêm sản phẩm">
                         <a href="{{URL::to('/manage-products')}}" class="btn btn-light">Trở về</a>

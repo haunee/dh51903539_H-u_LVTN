@@ -13,7 +13,9 @@ class Product extends Model
     'QuantityTotal',
     'ProductName',
     'Price',
-    //'Sold',
+    'DesProduct',
+    'ShortDes',
+
     ];
 
     protected $primaryKey = 'idProduct';
