@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Category;
-use App\Models\Brand;
-use Illuminate\Support\Carbon;
+
 use App\Models\Product;
 use Symfony\Component\HttpFoundation\Session\Session;
 class HomeController extends Controller

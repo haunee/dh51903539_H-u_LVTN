@@ -13,12 +13,7 @@ use Illuminate\Support\Facades\Route;
 
 
 //PAGE
-// Route::get('/', function () {
-//     return view('shop.home');
-// });
-// Route::get('/home', function () {
-//     return view('shop.home');
-// });
+
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/home', [HomeController::class, 'index']);
 
@@ -55,18 +50,9 @@ Route::post('/submit-reset-password', [CustomerController::class, 'submit_reset_
 
 
 
+
 //PRODUCT
 Route::get('/store', [ProductController::class, 'show_all_product']);
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -95,22 +81,14 @@ Route::get('/my-adprofile',[AdminController::class, 'my_profile'])->name('admin.
 Route::get('/edit-profile', [AdminController::class, 'edit_profile']);
 Route::post('/submit-edit-adprofile', [AdminController::class, 'submit_edit_adprofile'])->name('admin.submit_edit_adprofile');
 
-
 Route::get('/change-adpassword', [AdminController::class, 'change_adpassword']);
 Route::post('/submit-change-adpassword', [AdminController::class, 'submit_change_adpassword']);
-
-
-
-Route::get('/manage-customers', [AdminController::class, 'manage_customers']);
-Route::get('/delete-customer/{idCustomer}', [AdminController::class, 'delete_customer']);
-
 
 Route::get('/admin-forgotpass', [AdminController::class, 'admin_forgotpass']);
 Route::post('/send-reset-code', [AdminController::class, 'submit_send_mail']);
 Route::post('/reset-password', [AdminController::class, 'submit_reset_Password']);
 
-
-
+Route::get('/manage-customers', [AdminController::class, 'manage_customers']);
 
 
 

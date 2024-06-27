@@ -82,9 +82,6 @@
                         </a>
                     @endif
 
-                    @if($product->QuantityTotal == '0')
-                        <span class="sticker-new soldout-title">Hết hàng</span>
-                    @endif
                 </div>
                 <div class="product-content">
                     <h4 class="product-name"><a href="{{ URL::to('/shop-single/'.$product->idProduct) }}">{{ $product->ProductName }}</a></h4>

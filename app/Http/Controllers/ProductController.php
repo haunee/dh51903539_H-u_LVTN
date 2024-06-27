@@ -231,37 +231,18 @@ class ProductController extends Controller
     {
         $list_category = Category::all();
         $list_brand = Brand::all();
-    
+
         $query = Product::query();
         $query->join('brand', 'brand.idBrand', '=', 'product.idBrand')
             ->join('category', 'category.idCategory', '=', 'product.idCategory')
             ->join('productimage', 'productimage.idProduct', '=', 'product.idProduct')
             ->select('product.*', 'BrandName', 'CategoryName', 'ImageName');
-    
-       
-    
-        switch ($request->input('sort_by')) {
-            case 'new':
-                $query->orderBy('created_at', 'desc');
-                break;
-            case 'old':
-                $query->orderBy('created_at', 'asc');
-                break;
-            case 'price_desc':
-                $query->orderBy('Price', 'desc');
-                break;
-            case 'price_asc':
-                $query->orderBy('Price', 'asc');
-                break;
-            default:
-                $query->orderBy('created_at', 'desc');
-                break;  
-        }
-    
+
+        $query->orderBy('created_at', 'desc');
+
         $count_pd = $query->count();
         $list_pd = $query->paginate(15);
-    
+
         return view("shop.product.shop-all-product")->with(compact('list_category', 'list_brand', 'list_pd', 'count_pd'));
     }
-    
 }

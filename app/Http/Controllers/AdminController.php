@@ -187,29 +187,6 @@ class AdminController extends Controller
 
 
 
-    //chuyển trang quản lí người dùng
-    public function manage_customers()
-    {
-
-        $list_customer = Customer::get();
-        $count_customer = Customer::count();
-        return view("admin.manage-user.manage-customers")->with(compact('list_customer', 'count_customer'));
-    }
-    public function delete_customer($idCustomer)
-    {
-        Customer::find($idCustomer)->delete();
-        return redirect()->back();
-    }
-
-
-
-
-
-
-
-
-
-
 
     //forgot password
     public function admin_forgotpass()
@@ -265,5 +242,18 @@ class AdminController extends Controller
         Session::flash('section', 'reset-password');
 
         return redirect()->back();
+    }
+
+
+
+
+    
+    //chuyển trang quản lí người dùng
+    public function manage_customers()
+    {
+
+        $list_customer = Customer::get();
+        $count_customer = Customer::count();
+        return view("admin.manage-user.manage-customers")->with(compact('list_customer', 'count_customer'));
     }
 }

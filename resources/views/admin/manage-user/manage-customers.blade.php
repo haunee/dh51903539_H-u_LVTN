@@ -22,7 +22,7 @@
                                 <th>Tên Tài Khoản</th>
                                 <th>Email</th>
                                 <th>Số Điện Thoại</th>
-                                <th>Thao Tác</th>
+                               
                             </tr>
                         </thead>
                         <tbody class="ligth-body">
@@ -38,33 +38,8 @@
                                 <td>{{$customer->username}}</td>
                                 <td>{{$customer->email}}</td>
                                 <td>{{$customer->PhoneNumber}}</td>
-                                <td>
-                                    <div class="d-flex align-items-center list-action">
-                                        <a class="badge bg-warning mr-2" data-toggle="modal" data-target="#modal-delete-{{$customer->idCustomer}}" data-placement="top" title="" data-original-title="Xoá"
-                                            style="cursor:pointer;"><i class="fas fa-trash-alt mr-0"></i></a>
-                                    </div>
-                                </td>
+                                
                             </tr>
-
-                            <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" id="modal-delete-{{$customer->idCustomer}}"  aria-hidden="true">
-                                <div class="modal-dialog modal-sm">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title">Thông báo</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">×</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <p>Bạn có muốn xóa tài khoản khách hàng {{$customer->username}} không?</p>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-light" data-dismiss="modal">Trở về</button>
-                                            <a href="{{URL::to('/delete-customer/'.$customer->idCustomer)}}" type="button" class="btn btn-primary">Xác nhận</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                             @endforeach
                         </tbody>
                     </table>
