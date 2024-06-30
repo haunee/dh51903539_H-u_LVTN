@@ -55,11 +55,14 @@ Route::post('/submit-reset-password', [CustomerController::class, 'submit_reset_
 //PRODUCT
 Route::get('/store', [ProductController::class, 'show_all_product']);
 
-Route::get('/search',[ProductController::class, 'search'])->name('search');
-
 Route::get('/shop-single/{idProduct}',[ProductController::class,'show_product_details']);
 
 
+
+Route::get('/search',[ProductController::class, 'search'])->name('search');
+
+
+Route::post('/search-suggestions',[ProductController::class, 'search_suggestions']);
 
 
 

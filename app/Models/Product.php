@@ -20,4 +20,6 @@ class Product extends Model
 
     protected $primaryKey = 'idProduct';
     protected $table = 'product';
+
+  
 }

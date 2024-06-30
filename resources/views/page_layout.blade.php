@@ -121,11 +121,15 @@
                         <div class="col-lg-3">
                             <div class="header-meta-info" style="position:relative;">
                                 <div class="header-search">
-                                    
+                                    <form type="GET" action="{{route('search')}}">
                                         <input type="text" name="keyword" id="search-input" placeholder="Tìm kiếm sản phẩm " autocomplete="off">
                                         <button class="search-btn"><i class="icon-search"></i></button>
-                                   
+                                    </form>
                                 </div>
+
+                                <ul class="search-product">
+                                    
+                                </ul>
                               
                                 <div class="header-account">
                                     <div class="header-account-list dropdown top-link">
@@ -299,6 +303,125 @@
                 split_url = url.split("&sort_by");
                 if(url.indexOf("?show=all") != -1 || url.indexOf("?keyword") != -1) window.location.href = split_url[0] + sort_by;
                 else window.location.href = url + '?show=all' + sort_by;
+            });
+
+
+
+             // Gợi ý tìm kiếm sản phẩm
+             $('#search-input').on('keyup',function(){
+                var value = $(this).val();
+                var _token = $('input[name="_token"]').val();
+                if(value != ''){
+                    $.ajax({
+                        url: '{{url("/search-suggestions")}}',
+                        method: 'POST',
+                        data: {value:value, _token:_token},
+                        success:function(data){
+                            $('.search-product').fadeIn();
+                            $('.search-product').html(data);
+
+                            $('.search-product-item').on('click',function(){
+                                $('#search-input').val($(this).text());
+                                $('.search-product').fadeOut();
+                            });
+                        }
+                    });
+                }else $('.search-product').fadeOut();
+            });
+
+            $('#search-input').on('blur',function(){
+                $('.search-product').fadeOut();
+            });
+
+
+
+
+
+
+             // Bộ lọc tìm kiếm
+             var category = [], tempArrayCat = [], brand = [], tempArrayBrand = [];
+            url = window.location.href;
+
+            $(".filter-product").on("click", function() 
+            {
+                var sort_by = $('.select-input__sort').data("sort");
+                var min_price = $('.input-filter-price.min').val();
+                var max_price = $('.input-filter-price.max').val();
+                var min_price_filter = '';
+                var max_price_filter = '';
+                
+                if(url.indexOf("search?keyword=") != -1){
+                    var keyword = $('#keyword-link').val(); 
+                    page = 'search?keyword=' +keyword;
+                }else page = 'store?show=all';
+
+                $.each( $("[data-filter='brand']:checked"), function(){
+                    tempArrayBrand.push($(this).val());
+                });
+                tempArrayBrand.reverse();
+
+                $.each( $("[data-filter='category']:checked"), function(){
+                    tempArrayCat.push($(this).val());
+                });
+                tempArrayCat.reverse();
+   
+                if(min_price != '' && max_price != '' && parseInt(min_price) > parseInt(max_price)) $('.alert-filter-price').removeClass("d-none");
+                else{
+                    if(min_price != '') min_price_filter = '&priceMin=' + min_price;
+                    else min_price_filter = '';
+
+                    if(max_price != '') max_price_filter = '&priceMax=' + max_price;
+                    else max_price_filter = '';
+
+                    if(tempArrayBrand.length !== 0 && tempArrayCat.length !== 0){
+                        brand += '&brand='+tempArrayBrand.toString();
+                        category += '&category='+tempArrayCat.toString();
+                        window.location.href = page + brand + category + min_price_filter + max_price_filter + sort_by;
+                    }else if(tempArrayCat.length !== 0){
+                        category += '&category='+tempArrayCat.toString();
+                        window.location.href = page + category + min_price_filter + max_price_filter + sort_by;
+                    }else if(tempArrayBrand.length !== 0){
+                        brand += '&brand='+tempArrayBrand.toString();
+                        window.location.href = page + brand + min_price_filter + max_price_filter + sort_by;
+                    }else window.location.href = page + min_price_filter + max_price_filter + sort_by;
+                }
+            });
+
+            $('.select-input__item').on('click',function(){
+                var sort_by = $(this).data("sort");
+                split_url = url.split("&sort_by");
+                if(url.indexOf("?show=all") != -1 || url.indexOf("?keyword") != -1) window.location.href = split_url[0] + sort_by;
+                else window.location.href = url + '?show=all' + sort_by;
+            });
+
+            $('.btn-filter-price').on('click',function(){
+                var min_price = $('.input-filter-price.min').val();
+                var max_price = $('.input-filter-price.max').val();
+                var min_price_filter = '';
+                var max_price_filter = '';
+
+                if(min_price != '' && max_price != '' && parseInt(min_price) > parseInt(max_price)) $('.alert-filter-price').removeClass("d-none");
+                else{
+                    if(min_price != '') min_price_filter = '&priceMin=' + min_price;
+                    else min_price_filter = '';
+
+                    if(max_price != '') max_price_filter = '&priceMax=' + max_price;
+                    else max_price_filter = '';
+
+                    if(url.indexOf("&sort_by") != -1){
+                        split_url = url.split("&sort_by");
+                        if(url.indexOf("&price") != -1){
+                            split_url_price = url.split("&price");                   
+                            window.location.href = split_url_price[0] + min_price_filter + max_price_filter + "&sort_by" + split_url[1];
+                        }
+                        else window.location.href = split_url[0] + min_price_filter + max_price_filter + "&sort_by" + split_url[1];
+                    }else{
+                        split_url = url.split("&price");
+                        if(url.indexOf("?show=all") != -1 || url.indexOf("?keyword") != -1)
+                            window.location.href = split_url[0] + min_price_filter + max_price_filter;
+                        else window.location.href = url + '?show=all' + min_price_filter + max_price_filter;
+                    } 
+                }
             });
 
         });

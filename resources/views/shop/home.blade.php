@@ -123,7 +123,7 @@
                                 <div class="single-product">
                                     <div class="product-image">
                                         <?php $image = json_decode($product->ImageName)[0]; ?>
-                                        <a href="{{ URL::to('/shop-single/' . $product->ProductSlug) }}">
+                                        <a href="{{ URL::to('/shop-single/' . $product->idProduct) }}">
                                             <img src="{{ asset('/storage/kidadmin/images/product/' . $image) }}"
                                                 alt="{{ $product->ProductName }}">
                                         </a>

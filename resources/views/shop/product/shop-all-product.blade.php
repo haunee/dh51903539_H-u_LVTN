@@ -21,26 +21,11 @@
                 <div class="col-lg-9">
                     <!--Shop Top Bar Start-->
                     <div class="shop-top-bar d-sm-flex align-items-center justify-content-between mt-3">
-                        <div class="top-bar-btn">
-                            <ul class="nav" role="tablist">
-                                <li class="nav-item"><a class="nav-link grid active" data-toggle="tab" href="#grid"
-                                        role="tab"></a></li>
-                                <li class="nav-item"><a class="nav-link list" data-toggle="tab" href="#list"
-                                        role="tab"></a></li>
-                            </ul>
-                        </div>
+
                         <div class="top-bar-sorter">
                             <div class="sorter-wrapper d-flex align-items-center">
                                 <label>Sắp xếp theo:</label>
-                                <!-- <select class="sorter wide" name="SortBy" id="SortBy">
-                                        <option value="&sort_by=new">Mới Nhất</option>
-                                        <option value="&sort_by=old">Cũ Nhất</option>
-                                        <option value="&sort_by=bestsellers">Bán Chạy</option>
-                                        <option value="&sort_by=featured">Nổi Bật</option>
-                                        <option value="&sort_by=sale">Đang SALE</option>
-                                        <option value="&sort_by=price_desc">Giá, Cao đến Thấp</option>
-                                        <option value="&sort_by=price_asc">Giá, Thấp đến Cao</option>
-                                    </select> -->
+
                                 <div class="select-input">
                                     <span class="select-input__sort" <?php
                                     if (isset($_GET['sort_by'])) {
@@ -277,34 +262,6 @@
                         </div>
                         <!--Sidebar Categories End-->
 
-                        <!--Sidebar Color Start-->
-                        <!-- <div class="sidebar-color">
-                                <h3 class="widget-title">Color</h3>
-        
-                                <ul class="color-list">
-                                    <li class="active"> <span data-color="#ff0000"></span> Red</li>
-                                    <li> <span data-color="#008000"></span> Green</li>
-                                    <li> <span data-color="#0000ff"></span> Blue</li>
-                                    <li> <span data-color="#ffff00"></span> Yellow</li>
-                                    <li> <span data-color="#ffffff"></span> White</li>
-                                    <li> <span data-color="#ffd700"></span> Gold</li>
-                                </ul>
-                            </div> -->
-                        <!--Sidebar Color End-->
-
-                        <!--Sidebar Size Start-->
-                        <!-- <div class="sidebar-size">
-                                <h3 class="widget-title">Size</h3>
-        
-                                <ul class="size-list">
-                                    <li><a href="javascript:void(0)">S</a></li>
-                                    <li><a href="javascript:void(0)">M</a></li>
-                                    <li><a href="javascript:void(0)">L</a></li>
-                                    <li><a href="javascript:void(0)">Xl</a></li>
-                                    <li><a href="javascript:void(0)">XXl</a></li>
-                                </ul>
-                            </div> -->
-                        <!--Sidebar Size End-->
 
                         <!--Sidebar Size Start-->
                         <div class="sidebar-banner">
@@ -313,44 +270,7 @@
                         <!--Sidebar Size End-->
 
 
-                        <!--Sidebar Product Start-->
-                        {{-- <div class="sidebar-product">
-                            <h3 class="widget-title">Top sản phẩm bán chạy</h3>
-    
-                            <ul class="product-list">
-                                @foreach ($top_bestsellers_pd as $key => $top_pd)
-                                <li>
-                                    <div class="single-mini-product">
-                                        <div class="product-image">
-                                            <?php //$image = json_decode($top_pd->ImageName)[0];
-                                            ?>
-                                            <a href="{{URL::to('/shop-single/'.$top_pd->ProductSlug)}}">
-                                                <img src="{{asset('/storage/kidoldash/images/product/'.$image)}}" alt="">
-                                            </a>
-                                        </div>
-                                        <div class="product-content">
-                                            <h4 class="title"><a class="two-line" href="{{URL::to('/shop-single/'.$top_pd->ProductSlug)}}">{{$top_pd->ProductName}}</a></h4>
-                                            <span class="text-primary h6">Đã bán: {{$top_pd->Sold}}</span>
-                                            <?php
-                                            // $SalePrice = $top_pd->Price;
-                                            // $get_time_sale = ProductController::get_sale_pd($top_pd->idProduct);
-                                            // if($get_time_sale) $SalePrice = $top_pd->Price - ($top_pd->Price/100) * $get_time_sale->Percent;
-                                            ?>
-                                            <div class="price-box">
-                                                @if ($SalePrice < $top_pd->Price)
-                                                    <span class="old-price">{{number_format($top_pd->Price,0,',','.')}}đ</span>
-                                                    <span class="current-price">{{number_format(round($SalePrice,-3),0,',','.')}}đ</span>
-                                                @else
-                                                    <span class="current-price">{{number_format($top_pd->Price,0,',','.')}}đ</span>
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                @endforeach
-                            </ul>
-                        </div> --}}
-                        <!--Sidebar Product End-->
+
 
                     </div>
                 </div>
@@ -358,4 +278,10 @@
         </div>
         <!-- Shop End -->
     </div>
+
+
+
+
+
+    
 @endsection
