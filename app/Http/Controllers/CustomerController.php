@@ -8,7 +8,6 @@ use App\Mail\VerifyAccount;
 use App\Mail\VerifyPassword;
 use App\Models\Customer;
 use App\Models\ResetPasswordCustomer;
-use Dotenv\Validator as DotenvValidator;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -16,6 +15,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Category;
+use App\Models\Brand;
 
 
 
@@ -90,7 +91,9 @@ class CustomerController extends Controller
     public function register()
     {
 
-        return view("shop.account.register");
+        $list_category = Category::get();
+        $list_brand = Brand::get();
+        return view("shop.account.register")->with(compact('list_category','list_brand'));
     }
 
     public function submit_register(Request $request)
@@ -152,7 +155,9 @@ class CustomerController extends Controller
     //ĐĂNG NHẬP
     public function login()
     {
-        return view("shop.account.login");
+        $list_category = Category::get();
+        $list_brand = Brand::get();
+        return view("shop.account.login")->with(compact('list_category','list_brand'));
     }
 
     public function submit_login(Request $request)
