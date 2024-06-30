@@ -164,8 +164,8 @@
 
                         <div class="pb-3 d-flex flex-wrap" id="attribute_value">
                             @foreach($list_pd_attr as $key => $pd_attr)
-                            <label for="chk-attr-{{$pd_attr->idAttrValue}}" class="d-block col-lg-3 p-0 m-0"><div id="attr-name-{{$pd_attr->idAttrValue}}" class="select-attr text-center mr-2 mt-2 border-primary text-primary">{{$pd_attr->AttrValName}}</div></label>
-                            <input type="checkbox" class="checkstatus d-none chk_attr" id="chk-attr-{{$pd_attr->idAttrValue}}" data-id="{{$pd_attr->idAttrValue}}" data-name = "{{$pd_attr->AttrValName}}" name="chk_attr[]" value="{{$pd_attr->idAttrValue}}">
+                            <label for="chk-attr-{{$pd_attr->idAttriValue}}" class="d-block col-lg-3 p-0 m-0"><div id="attr-name-{{$pd_attr->idAttriValue}}" class="select-attr text-center mr-2 mt-2 border-primary text-primary">{{$pd_attr->AttriValName}}</div></label>
+                            <input type="checkbox" class="checkstatus d-none chk_attr" id="chk-attr-{{$pd_attr->idAttriValue}}" data-id="{{$pd_attr->idAttriValue}}" data-name = "{{$pd_attr->AttriValName}}" name="chk_attr[]" value="{{$pd_attr->idAttriValue}}">
                             @endforeach
                         </div>
                         <div class="col-lg-12 mt-4">

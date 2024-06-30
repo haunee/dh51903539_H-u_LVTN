@@ -20,12 +20,19 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{{asset('/page/css/vendor/bootstrap.min.css')}}">
 
+    <!-- Plugins CSS -->
+    <link rel="stylesheet" href="{{asset('/page/css/plugins/animate.css')}}">
+    <link rel="stylesheet" href="{{asset('/page/css/plugins/swiper-bundle.min.css')}}">
+    <link rel="stylesheet" href="{{asset('/page/css/plugins/select2.min.css')}}">
     <!-- Icon Font CSS -->
     <link rel="stylesheet" href="{{asset('/page/css/vendor/plazaicon.css')}}">
     <link rel="stylesheet" href="{{asset('/page/css/vendor/themify-icons.css')}}">
     <link rel="stylesheet" href="{{asset('/page/css/vendor/font-awesome.min.css')}}">
 
-
+ <!-- Helper CSS -->
+ <link rel="stylesheet" href="{{asset('/page/css/helper.css')}}">
+ <link rel="stylesheet" href="{{asset('/page/css/dataTables.bootstrap.min.css')}}">
+ <link rel="stylesheet" href="{{asset('/page/css/responsive.bootstrap.min.css')}}">
     <!-- Main Style CSS -->
     <link rel="stylesheet" href="{{asset('/page/css/style.css')}}">
 
@@ -43,7 +50,7 @@
 
 <body data-aos-easing="ease" data-aos-duration="400" data-aos-delay="0" class="preloader-deactive">
     <div class="main-wrapper">
-    
+     
         <div class="preloader js-preloader flex-center">
             <div class="dots">
                 <div class="dot"></div>
@@ -79,19 +86,17 @@
                                                 <li class="mega-dropdown">
                                                     <a class="mega-title" >Danh mục</a>
                                                     <ul class="mega-item">
-                                                        <li><a >Sản phẩm mới</a></li>
-                                                        <li><a >Sản phẩm bán chạy</a></li>
-                                                        <li><a >Sản phẩm nổi bật</a></li>
-                                                        <li><a >Sản phẩm đang SALE</a></li>
-                                                    </ul>   
+                                                        @foreach($list_category as $key => $category)
+                                                        <li><a href="{{URL::to('/store?show=all&category='.$category->idCategory.'&sort_by=new')}}">{{$category->CategoryName}}</a></li>
+                                                        @endforeach
+                                                    </ul>
                                                   
                                                 <li class="mega-dropdown">
                                                     <a class="mega-title" >Thương hiệu</a>
                                                     <ul class="mega-item">
-                                                        <li><a >Sản phẩm mới</a></li>
-                                                        <li><a >Sản phẩm bán chạy</a></li>
-                                                        <li><a >Sản phẩm nổi bật</a></li>
-                                                        <li><a >Sản phẩm đang SALE</a></li>
+                                                        @foreach($list_brand as $key => $brand)
+                                                        <li><a href="{{URL::to('/store?show=all&brand='.$brand->idBrand.'&sort_by=new')}}">{{$brand->BrandName}}</a></li>
+                                                        @endforeach
                                                     </ul>
                                                     
                                                 </li>
@@ -167,6 +172,24 @@
                 <div class="footer-widget-area section-padding-6">
                     <div class="row justify-content-between">
 
+                        <!--Footer Widget Start-->
+                        <div class="col-lg-4 col-md-6">
+                            <div class="footer-widget">
+                                <a class="footer-logo" href="#"><img src="{{asset('/kidolshop/images/logo/logo.png')}}" alt=""></a>
+                                <div class="footer-widget-text">
+                                    <p>A perfect blend of creativity, energy, communication, happiness and love. Let us arrange a smile for you. </p>
+                                </div>
+                                <div class="widget-social">
+                                    <ul>
+                                        <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                                        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                                        <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                                        <li><a href="#"><i class="fa fa-youtube"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!--Footer Widget End-->
+                        </div>
 
                         <div class="col-lg-2 col-md-4 col-sm-6">
                             <div class="footer-widget">
@@ -184,7 +207,21 @@
                             </div>
                         </div>
 
-                        
+                        <div class="col-lg-2 col-md-4 col-sm-6">
+                            <div class="footer-widget">
+                                <h4 class="footer-widget-title">My Account</h4>
+
+                                <div class="footer-widget-menu">
+                                    <ul>
+                                        <li><a href="#">Delivery</a></li>
+                                        <li><a href="#">Legal Notice</a></li>
+                                        <li><a href="#">Secure payment</a></li>
+                                        <li><a href="#">Sitemap</a></li>
+                                        <li><a href="about.html">About us</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="col-lg-2 col-md-4 col-sm-6">
                             <div class="footer-widget">
@@ -223,19 +260,24 @@
             </div>
         </div>
         <!--Footer Section End-->
-
   
     </div>
 
     <!-- JS
     ============================================ -->
+     <!-- Bootstrap JS -->
     <script src="{{asset('/page/js/vendor/popper.min.js')}}"></script>
-
     <script src="{{asset('/page/js/vendor/bootstrap.min.js')}}"></script>
     
+    <!-- Plugins JS -->
+    <script src="{{asset('/page/js/plugins/swiper-bundle.min.js')}}"></script>
+    <script src="{{asset('/page/js/plugins/jquery.countdown.min.js')}}"></script>
+    <script src="{{asset('/page/js/plugins/jquery.elevateZoom.min.js')}}"></script>
+    <script src="{{asset('/page/js/plugins/select2.min.js')}}"></script>
+    <script src="{{asset('/page/js/plugins/ajax-contact.js')}}"></script>
     
 
-    
+    <script src="{{asset('/page/js/main.js')}}"></script>
     <script>
         $('.js-preloader').preloadinator();
         $('.js-preloader').preloadinator({

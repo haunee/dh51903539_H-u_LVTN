@@ -167,7 +167,6 @@
                         var img = $('<img/>').addClass('img-fluid rounded avatar-100 mr-3 mt-2').attr('src', e.target.result); //create image thumb element
                         $("#image-list").append('<div id="image-item-'+index+'" class="image-item"></div>');
                         $('#image-item-'+index).append(img);
-                        //    $('#image-item-'+index).append('<span id="dlt-item-'+index+'" class="dlt-item"><span class="dlt-icon">x</span></span>');
                     };
                 })(file);
                 fRead.readAsDataURL(file);
@@ -176,7 +175,6 @@
             }else{
                 document.querySelector('#images').value = '';
                 $('.alert-img').html("Tệp hình ảnh phải có định dạng .gif, .jpeg, .png, .jpg, .svg dưới 2MB");
-                //    $('#btn-submit').addClass('disabled-button');
             }
         });
     }
@@ -199,7 +197,7 @@
                 url: '{{url("/select-attribute")}}',
                 method: 'POST',
                 data: {action:action, idAttribute:idAttribute, _token:_token},
-                success:function(data){
+                success:function(data){// hàm callback
                     $('#'+result).html(data);
 
                     $("input[type=checkbox]").on("click", function() {
@@ -207,7 +205,7 @@
                         var attr_name = $(this).data("name");
 
                         if($(this).is(":checked")){
-                            $("#attr-name-"+attr_id).addClass("border-primary text-primary");
+                            $("#attr-name-"+attr_id).addClass(" text-primary");
 
                             $("#confirm-attrs").click(function(){
                                 var input_attrs_item = '<div id="input-attrs-item-'+ attr_id +'" class="col-md-12 d-flex flex-wrap input_attrs_items"><div class="col-md-6"><input class="form-control text-center" type="text" value="'+ attr_name +'" disabled></div><div class="form-group col-md-6"><input id="qty-attr-'+ attr_id +'" class="form-control text-center qty-attr" name="qty_attr[]" placeholder="Nhập số lượng phân loại" type="number" min="0" required></div></div>';
@@ -244,7 +242,7 @@
                             });
                         }
                         else if($(this).is(":not(:checked)")){
-                            $("#attr-name-"+attr_id).removeClass("border-primary text-primary");
+                            $("#attr-name-"+attr_id).removeClass(" text-primary");
                             
                             $("#confirm-attrs").click(function(){
                                 $('#input-attrs-item-' +attr_id).remove();

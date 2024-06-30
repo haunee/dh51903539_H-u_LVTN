@@ -102,6 +102,7 @@ class AttributeController extends Controller
             }
         }
 
-        return $output; // Return output
+        //text phân loại
+        return $output; 
     }
 }

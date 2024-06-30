@@ -8,6 +8,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\HomeController;
+use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 
 
@@ -54,9 +55,9 @@ Route::post('/submit-reset-password', [CustomerController::class, 'submit_reset_
 //PRODUCT
 Route::get('/store', [ProductController::class, 'show_all_product']);
 
+Route::get('/search',[ProductController::class, 'search'])->name('search');
 
-
-
+Route::get('/shop-single/{idProduct}',[ProductController::class,'show_product_details']);
 
 
 

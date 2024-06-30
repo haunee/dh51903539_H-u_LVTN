@@ -197,32 +197,32 @@ class AdminController extends Controller
 
     //gửi mail
     public function submit_send_mail(Request $request)
-{
-    $request->validate([
-        'email' => 'required|email|exists:admin,email',
-    ]);
+    {
+        $request->validate([
+            'email' => 'required|email|exists:admin,email',
+        ]);
 
-    $admin = Admin::where('email', $request->email)->first();
-    $resetCode = rand(100000, 999999);
+        $admin = Admin::where('email', $request->email)->first();
+        $resetCode = rand(100000, 999999);
 
-    // Lưu mã xác nhận vào cơ sở dữ liệu
-    $admin->code = $resetCode;
-    $admin->save();
+        // Lưu mã xác nhận vào cơ sở dữ liệu
+        $admin->code = $resetCode;
+        $admin->save();
 
-    try {
-        Mail::to($admin->email)->send(new VerifyAdminPass($admin, $resetCode));
-        Session::flash('message', 'Mã xác nhận đã được gửi đến email của bạn.');
-        Session::flash('section', 'send-code');
-    } catch (\Exception $e) {
-        // Ghi lỗi vào file log
-        Log::error('Error sending email: ' . $e->getMessage());
-        Session::flash('error', 'Có lỗi xảy ra khi gửi email. Vui lòng thử lại sau.');
-        Session::flash('section', 'send-code');
+        try {
+            Mail::to($admin->email)->send(new VerifyAdminPass($admin, $resetCode));
+            Session::flash('message', 'Mã xác nhận đã được gửi đến email của bạn.');
+            Session::flash('section', 'send-code');
+        } catch (\Exception $e) {
+            // Ghi lỗi vào file log
+            Log::error('Error sending email: ' . $e->getMessage());
+            Session::flash('error', 'Có lỗi xảy ra khi gửi email. Vui lòng thử lại sau.');
+            Session::flash('section', 'send-code');
+        }
+
+        return redirect()->back();
     }
 
-    return redirect()->back();
-}
-    
 
 
     //trang nhập mã xác thực
@@ -247,7 +247,7 @@ class AdminController extends Controller
 
 
 
-    
+
     //chuyển trang quản lí người dùng
     public function manage_customers()
     {

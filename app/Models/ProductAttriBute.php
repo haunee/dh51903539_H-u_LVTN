@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+//QUẢN LÝ PHÂN LOẠI CỦA 1 SẢN PHẨM
 class ProductAttriBute extends Model
 {
     public $timestamp = false;
