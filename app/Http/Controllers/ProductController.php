@@ -13,6 +13,7 @@ use App\Models\ProductAttriBute;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Session;
+use App\Models\Viewer;
 
 class ProductController extends Controller
 {
@@ -229,7 +230,8 @@ class ProductController extends Controller
 
 
 
-    //SHOP
+    //==================SHOP===================//
+
     // public function show_all_product(Request $request)
     // {
     //     $list_category = Category::all();
@@ -506,4 +508,66 @@ class ProductController extends Controller
 
         return $query_brand->count();
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public function show_product_details($idProduct) {
+        $list_category = Category::get();
+        $list_brand = Brand::get();
+    
+        $this_pro = Product::where('idProduct', $idProduct)->first();
+    
+        $viewer = new Viewer();
+    
+        if (Session::get('idCustomer') == '') $idCustomer = session()->getId();
+        else $idCustomer = (string)Session::get('idCustomer');
+    
+        $viewer->idCustomer = $idCustomer;
+        $viewer->idProduct = $this_pro->idProduct;
+    
+        if (Viewer::where('idCustomer', $idCustomer)->where('idProduct', $this_pro->idProduct)->count() == 0) {
+            if (Viewer::where('idCustomer', $idCustomer)->count() >= 3) {
+                $idView = Viewer::where('idCustomer', $idCustomer)->orderBy('idView', 'asc')->take(1)->delete();
+                $viewer->save();
+            } else $viewer->save();
+        }
+    
+        $idBrand = $this_pro->idBrand;
+        $idCategory = $this_pro->idCategory;
+       
+    
+        $list_pd_attr = ProductAttriBute::join('attributevalue', 'attributevalue.idAttriValue', '=', 'product_attribute.idAttriValue')
+            ->join('attribute', 'attribute.idAttribute', '=', 'attributevalue.idAttribute')
+            ->where('product_attribute.idProduct', $this_pro->idProduct)->get();
+    
+        $name_attribute = ProductAttriBute::join('attributevalue', 'attributevalue.idAttriValue', '=', 'product_attribute.idAttriValue')
+            ->join('attribute', 'attribute.idAttribute', '=', 'attributevalue.idAttribute')
+            ->where('product_attribute.idProduct', $this_pro->idProduct)->first();
+    
+        $product = Product::join('productimage', 'productimage.idProduct', '=', 'product.idProduct')->where('product.idProduct', $this_pro->idProduct)->first();
+    
+        $list_related_products = Product::join('productimage', 'productimage.idProduct', '=', 'product.idProduct')
+            ->where('product.idBrand', $idBrand)
+            ->orWhere('product.idCategory', $idCategory)
+            ->whereNotIn('product.idProduct', [$this_pro->idProduct])
+            ->select('ImageName', 'product.*')
+            ->get();
+    
+        return view("shop.product.shop-single")->with(compact('list_category', 'list_brand', 'product', 'list_pd_attr', 'name_attribute', 'list_related_products'));
+    }
+    
+
+
+    
 }

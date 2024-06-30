@@ -116,8 +116,7 @@
                                                         href="{{ URL::to('/shop-single/' . $product->idProduct) }}">{{ $product->ProductName }}</a>
                                                 </h4>
                                                 <div class="price-box">
-                                                    <span
-                                                        class="current-price">{{ number_format($product->Price, 0, ',', '.') }}đ</span>
+                                                    <span class="current-price">{{ number_format($product->Price, 0, ',', '.') }}đ</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -278,10 +277,4 @@
         </div>
         <!-- Shop End -->
     </div>
-
-
-
-
-
-    
 @endsection
