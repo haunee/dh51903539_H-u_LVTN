@@ -129,10 +129,7 @@
                                         </a>
                                         <div class="action-links">
                                             <ul>
-                                                <li><a class="add-to-compare" data-idcat="{{ $product->idCategory }}"
-                                                        id="{{ $product->idProduct }}" data-tooltip="tooltip"
-                                                        data-placement="left" title="So sánh"><i
-                                                            class="icon-sliders"></i></a></li>
+                                               
                                                 <li><a class="add-to-wishlist" data-id="{{ $product->idProduct }}"
                                                         data-tooltip="tooltip" data-placement="left"
                                                         title="Thêm vào danh sách yêu thích"><i class="icon-heart"></i></a>
@@ -200,10 +197,7 @@
                                         @endif
                                         <div class="action-links">
                                             <ul>
-                                                <li><a class="add-to-compare" data-idcat="{{ $product->idCategory }}"
-                                                        id="{{ $product->idProduct }}" data-tooltip="tooltip"
-                                                        data-placement="left" title="So sánh"><i
-                                                            class="icon-sliders"></i></a></li>
+                                               
                                                 <li><a class="add-to-wishlist" data-id="{{ $product->idProduct }}"
                                                         data-tooltip="tooltip" data-placement="left"
                                                         title="Thêm vào danh sách yêu thích"><i

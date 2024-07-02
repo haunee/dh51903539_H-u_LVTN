@@ -5438,7 +5438,7 @@ blockquote p {
   background-color: #fff;
   border: 1px solid rgba(249, 140, 140, 0.1) !important;
   font-weight: 500;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 24px;
   color: #222222;
   padding: 15px;
@@ -5464,7 +5464,7 @@ blockquote p {
   text-align: center;
   vertical-align: middle;
   padding: 15px;
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 500;
   color: #222222;
 }
@@ -5489,7 +5489,7 @@ blockquote p {
 }
 
 .cart-table .table tbody tr td.product span {
-  font-size: 13px;
+  font-size: 18px;
   font-weight: 300;
   color: #222222;
   display: block;

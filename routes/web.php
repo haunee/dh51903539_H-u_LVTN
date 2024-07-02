@@ -10,8 +10,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\HomeController;
 use App\Models\Product;
 use Illuminate\Support\Facades\Route;
-
-
+use App\Http\Controllers\CartController;
 
 //PAGE
 
@@ -57,10 +56,7 @@ Route::get('/store', [ProductController::class, 'show_all_product']);
 
 Route::get('/shop-single/{idProduct}',[ProductController::class,'show_product_details']);
 
-
-
 Route::get('/search',[ProductController::class, 'search'])->name('search');
-
 
 Route::post('/search-suggestions',[ProductController::class, 'search_suggestions']);
 
@@ -68,9 +64,29 @@ Route::post('/search-suggestions',[ProductController::class, 'search_suggestions
 
 
 
+//CART
+Route::get('/cart', [CartController::class, 'show_cart']);
 
-//ADMIN
+Route::post('/add-to-cart',[CartController::class, 'add_to_cart'])->name('add_to_cart');
 
+Route::delete('/delete-pd-cart/{idCart}',[CartController::class, 'delete_pd_cart'])->name('delete_pd_cart');
+
+Route::post('/update-qty-cart',[CartController::class, 'update_qty_cart'])->name('update_qty_cart');
+
+Route::get('/empty-cart', [CartController::class, 'empty_cart']);
+
+
+
+
+
+
+
+
+
+
+
+
+//=================ADMIN==============//
 
 //ACCOUNT
 
