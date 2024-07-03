@@ -14,12 +14,30 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Session;
 use App\Models\Viewer;
+use App\Models\WishList;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
-    //ADMIN
+    // Kiểm tra đăng nhập
+    public function checkLogin()
+    {
+        $idCustomer = Session::get('idCustomer');
+        if ($idCustomer == false) return Redirect::to('/login')->send();
+    }
 
 
+
+
+
+
+
+
+
+
+    //===================ADMIN====================//
 
     public function add_product()
     {
@@ -232,33 +250,17 @@ class ProductController extends Controller
 
     //==================SHOP===================//
 
-    // public function show_all_product(Request $request)
-    // {
-    //     $list_category = Category::all();
-    //     $list_brand = Brand::all();
-
-    //     $query = Product::query();
-    //     $query->join('brand', 'brand.idBrand', '=', 'product.idBrand')
-    //         ->join('category', 'category.idCategory', '=', 'product.idCategory')
-    //         ->join('productimage', 'productimage.idProduct', '=', 'product.idProduct')
-    //         ->select('product.*', 'BrandName', 'CategoryName', 'ImageName');
-
-    //     $query->orderBy('created_at', 'desc');
-
-    //     $count_pd = $query->count();
-    //     $list_pd = $query->paginate(15);
-
-    //     return view("shop.product.shop-all-product")->with(compact('list_category', 'list_brand', 'list_pd', 'count_pd'));
-    // }
-
-
-
-
     public function show_all_product()
     {
+
+        $idCustomer = session('idCustomer');
+        // Lấy danh sách các sản phẩm yêu thích của người dùng
+        $wishlistProducts = WishList::where('idCustomer', $idCustomer)->pluck('idProduct')->toArray();
+
         $sub30days = Carbon::now()->subDays(30)->toDateString();
         $list_category = Category::get();
         $list_brand = Brand::get();
+
         $list_pd_query = Product::join('brand', 'brand.idBrand', '=', 'product.idBrand')
             ->join('category', 'category.idCategory', '=', 'product.idCategory')
             ->join('productimage', 'productimage.idProduct', '=', 'product.idProduct')
@@ -294,8 +296,62 @@ class ProductController extends Controller
         $count_pd = $list_pd_query->count();
         $list_pd = $list_pd_query->paginate(15);
 
-        return view("shop.product.shop-all-product")->with(compact('list_category', 'list_brand', 'list_pd', 'count_pd'));
+        return view("shop.product.shop-all-product")->with(compact('list_category', 'list_brand', 'list_pd', 'count_pd', 'wishlistProducts'));
     }
+
+
+
+
+
+    public function show_product_details($idProduct)
+    {
+        $list_category = Category::get();
+        $list_brand = Brand::get();
+
+        $this_pro = Product::where('idProduct', $idProduct)->first();
+
+        $viewer = new Viewer();
+
+        if (Session::get('idCustomer') == '') $idCustomer = session()->getId();
+        else $idCustomer = (string)Session::get('idCustomer');
+
+        $viewer->idCustomer = $idCustomer;
+        $viewer->idProduct = $this_pro->idProduct;
+
+        if (Viewer::where('idCustomer', $idCustomer)->where('idProduct', $this_pro->idProduct)->count() == 0) {
+            if (Viewer::where('idCustomer', $idCustomer)->count() >= 3) {
+                $idView = Viewer::where('idCustomer', $idCustomer)->orderBy('idView', 'asc')->take(1)->delete();
+                $viewer->save();
+            } else $viewer->save();
+        }
+
+        $idBrand = $this_pro->idBrand;
+        $idCategory = $this_pro->idCategory;
+
+
+        $list_pd_attr = ProductAttriBute::join('attributevalue', 'attributevalue.idAttriValue', '=', 'product_attribute.idAttriValue')
+            ->join('attribute', 'attribute.idAttribute', '=', 'attributevalue.idAttribute')
+            ->where('product_attribute.idProduct', $this_pro->idProduct)->get();
+
+        $name_attribute = ProductAttriBute::join('attributevalue', 'attributevalue.idAttriValue', '=', 'product_attribute.idAttriValue')
+            ->join('attribute', 'attribute.idAttribute', '=', 'attributevalue.idAttribute')
+            ->where('product_attribute.idProduct', $this_pro->idProduct)->first();
+
+        $product = Product::join('productimage', 'productimage.idProduct', '=', 'product.idProduct')->where('product.idProduct', $this_pro->idProduct)->first();
+
+        $list_related_products = Product::join('productimage', 'productimage.idProduct', '=', 'product.idProduct')
+            ->where('product.idBrand', $idBrand)
+            ->orWhere('product.idCategory', $idCategory)
+            ->whereNotIn('product.idProduct', [$this_pro->idProduct])
+            ->select('ImageName', 'product.*')
+            ->get();
+
+        return view("shop.product.shop-single")->with(compact('list_category', 'list_brand', 'product', 'list_pd_attr', 'name_attribute', 'list_related_products'));
+    }
+
+
+
+
 
 
 
@@ -379,8 +435,6 @@ class ProductController extends Controller
 
         return view("shop.search")->with(compact('list_category', 'list_brand', 'list_pd', 'count_pd', 'keyword', 'top_bestsellers_pd'));
     }
-
-
 
 
 
@@ -486,15 +540,6 @@ class ProductController extends Controller
         return $query_cat->count();
     }
 
-
-
-
-
-
-
-
-
-
     // Đếm số sản phẩm theo thương hiệu thuộc từ khóa tìm kiếm
     public static function count_brand_search($idBrand)
     {
@@ -515,59 +560,55 @@ class ProductController extends Controller
 
 
 
-
-
-
-
-
-
-
-    public function show_product_details($idProduct) {
+    // Chuyển đến trang danh sách yêu thích
+    public function wishlist()
+    {
+        $this->checkLogin();
         $list_category = Category::get();
         $list_brand = Brand::get();
-    
-        $this_pro = Product::where('idProduct', $idProduct)->first();
-    
-        $viewer = new Viewer();
-    
-        if (Session::get('idCustomer') == '') $idCustomer = session()->getId();
-        else $idCustomer = (string)Session::get('idCustomer');
-    
-        $viewer->idCustomer = $idCustomer;
-        $viewer->idProduct = $this_pro->idProduct;
-    
-        if (Viewer::where('idCustomer', $idCustomer)->where('idProduct', $this_pro->idProduct)->count() == 0) {
-            if (Viewer::where('idCustomer', $idCustomer)->count() >= 3) {
-                $idView = Viewer::where('idCustomer', $idCustomer)->orderBy('idView', 'asc')->take(1)->delete();
-                $viewer->save();
-            } else $viewer->save();
-        }
-    
-        $idBrand = $this_pro->idBrand;
-        $idCategory = $this_pro->idCategory;
-       
-    
-        $list_pd_attr = ProductAttriBute::join('attributevalue', 'attributevalue.idAttriValue', '=', 'product_attribute.idAttriValue')
-            ->join('attribute', 'attribute.idAttribute', '=', 'attributevalue.idAttribute')
-            ->where('product_attribute.idProduct', $this_pro->idProduct)->get();
-    
-        $name_attribute = ProductAttriBute::join('attributevalue', 'attributevalue.idAttriValue', '=', 'product_attribute.idAttriValue')
-            ->join('attribute', 'attribute.idAttribute', '=', 'attributevalue.idAttribute')
-            ->where('product_attribute.idProduct', $this_pro->idProduct)->first();
-    
-        $product = Product::join('productimage', 'productimage.idProduct', '=', 'product.idProduct')->where('product.idProduct', $this_pro->idProduct)->first();
-    
-        $list_related_products = Product::join('productimage', 'productimage.idProduct', '=', 'product.idProduct')
-            ->where('product.idBrand', $idBrand)
-            ->orWhere('product.idCategory', $idCategory)
-            ->whereNotIn('product.idProduct', [$this_pro->idProduct])
-            ->select('ImageName', 'product.*')
-            ->get();
-    
-        return view("shop.product.shop-single")->with(compact('list_category', 'list_brand', 'product', 'list_pd_attr', 'name_attribute', 'list_related_products'));
+
+        $wishlist = WishList::join('product', 'product.idProduct', '=', 'wishlist.idProduct')
+            ->join('productimage', 'productimage.idProduct', 'wishlist.idProduct')
+            ->where('idCustomer', Session::get('idCustomer'))->get();
+
+        return view("shop.product.wishlist")->with(compact('list_category', 'list_brand', 'wishlist'));
     }
-    
 
 
-    
+    // Thêm vào danh sách yêu thích
+    public function add_to_wishlist(Request $request)
+    {
+        $this->checkLogin();
+        $data = $request->all();
+
+        $idCustomer = Session::get('idCustomer');
+
+        if (!$idCustomer) {
+            return response()->json(['error' => 'User not logged in'], 500);
+        }
+
+        $select_product = WishList::where('idProduct', $data['idProduct'])
+            ->where('idCustomer', $idCustomer)->get();
+
+        if ($select_product->count() == 0) {
+            try {
+                $wishlist = new WishList();
+                $wishlist->idCustomer = $idCustomer;
+                $wishlist->idProduct = $data['idProduct'];
+                $wishlist->save();
+            } catch (\Exception $e) {
+                return response()->json(['error' => 'Failed to add to wishlist'], 500);
+            }
+
+            return response()->json(['success' => 'Product added to wishlist']);
+        } else {
+            return response()->json(['already_in_wishlist' => 'Product already in wishlist']);
+        }
+    }
+
+    public function delete_wish($idWish)
+    {
+        $this->checkLogin();
+        WishList::destroy($idWish);
+    }
 }

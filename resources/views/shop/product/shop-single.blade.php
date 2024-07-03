@@ -125,9 +125,9 @@
                                 <div class="action">
                                     <button type="button" class="btn btn-primary add-to-cart">Thêm vào giỏ hàng</button>
                                 </div>
-                                {{-- <div class="action">
+                                <div class="action">
                                 <a class="add-to-wishlist" data-id="{{$product->idProduct}}" data-tooltip="tooltip" data-placement="right" title="Thêm vào yêu thích"><i class="fa fa-heart"></i></a>
-                                </div> --}}
+                                </div>
                             </div>
                             <div class="text-primary alert-add-to-cart"></div>
 

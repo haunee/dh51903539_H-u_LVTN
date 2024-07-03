@@ -6,31 +6,37 @@
         <div class="swiper-container slider-active">
             <div class="swiper-wrapper">
                 <!--Single Slider Start-->
-                <div class="single-slider swiper-slide animation-style-01" style="background-image: url('/page/images/KIDOLBanner.png');">
+                <div class="single-slider swiper-slide animation-style-01"
+                    style="background-image: url('/page/images/KIDOLBanner.png');">
                     <div class="container">
                         <div class="slider-content">
-                            <h5 class="sub-title">Nhập: <span class="text-primary">SALE100K</span> <br> Giảm 100K cho mọi đơn hàng</h5>
+                            <h5 class="sub-title">Nhập: <span class="text-primary">SALE100K</span> <br> Giảm 100K cho mọi đơn
+                                hàng</h5>
                             <h2 class="main-title">Ngày đặc biệt!</h2>
                             <p>Nhập: <span class="text-primary">SALE10</span> để được giảm 10%, số lượng có hạn!</p>
-    
+
                             <ul class="slider-btn">
-                                <li><a href="{{URL::to('/store')}}" class="btn btn-round btn-primary">Bắt đầu mua sắm</a></li>
+                                <li><a href="{{ URL::to('/store') }}" class="btn btn-round btn-primary">Bắt đầu mua sắm</a>
+                                </li>
                             </ul>
                         </div>
                     </div>
                 </div>
                 <!--Single Slider End-->
-    
+
                 <!--Single Slider Start-->
-                <div class="single-slider swiper-slide animation-style-01" style="background-image: url('/page/images/KIDOLBanner2.png');">
+                <div class="single-slider swiper-slide animation-style-01"
+                    style="background-image: url('/page/images/KIDOLBanner2.png');">
                     <div class="container" style="text-align:right;">
                         <div class="slider-content">
-                            <h5 class="sub-title sub-title-right">Nhập: <span class="text-info">SALE100K</span> <br> Giảm 100K cho mọi đơn hàng</h5>
+                            <h5 class="sub-title sub-title-right">Nhập: <span class="text-info">SALE100K</span> <br> Giảm
+                                100K cho mọi đơn hàng</h5>
                             <h2 class="main-title">Ngày đặc biệt!</h2>
                             <p>Nhập: <span class="text-info">SALE10</span> để được giảm 10%, số lượng có hạn!</p>
-    
+
                             <ul class="slider-btn">
-                                <li><a href="{{URL::to('/store')}}" class="btn btn-round btn-primary">Bắt đầu mua sắm</a></li>
+                                <li><a href="{{ URL::to('/store') }}" class="btn btn-round btn-primary">Bắt đầu mua sắm</a>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -38,14 +44,14 @@
                 <!--Single Slider End-->
             </div>
             <!--Swiper Wrapper End-->
-    
+
             <!-- Add Arrows -->
             <div class="swiper-next"><i class="fa fa-angle-right"></i></div>
             <div class="swiper-prev"><i class="fa fa-angle-left"></i></div>
-    
+
             <!-- Add Pagination -->
             <div class="swiper-pagination"></div>
-    
+
         </div>
         <!--Swiper Container End-->
     </div>
@@ -127,18 +133,29 @@
                                             <img src="{{ asset('/storage/kidadmin/images/product/' . $image) }}"
                                                 alt="{{ $product->ProductName }}">
                                         </a>
+
+                                        <?php
+                                        $isInWishlist = in_array($product->idProduct, $wishlistProducts);
+                                        ?>
+
+
+
                                         <div class="action-links">
                                             <ul>
-                                               
-                                                <li><a class="add-to-wishlist" data-id="{{ $product->idProduct }}"
-                                                        data-tooltip="tooltip" data-placement="left"
-                                                        title="Thêm vào danh sách yêu thích"><i class="icon-heart"></i></a>
+                                                <li>
+                                                    <a class="add-to-wishlist {{ $isInWishlist ? 'in-wishlist' : '' }}" 
+                                           data-id="{{ $product->idProduct }}" data-tooltip="tooltip" 
+                                           data-placement="left" title="Thêm vào danh sách yêu thích">
+                                            <i class="icon-heart"></i>
+                                        </a>
                                                 </li>
+
                                                 <li><a class="quick-view-pd" data-id="{{ $product->idProduct }}"
                                                         data-tooltip="tooltip" data-placement="left" title="Xem nhanh"><i
                                                             class="icon-eye"></i></a></li>
                                             </ul>
                                         </div>
+
                                     </div>
                                     <div class="product-content text-center">
                                         <h4 class="product-name"><a
@@ -195,13 +212,23 @@
                                                     alt="No image available">
                                             </a>
                                         @endif
+
+
+                                        <?php
+                                        $isInWishlist = in_array($product->idProduct, $wishlistProducts);
+                                        ?>
+
                                         <div class="action-links">
                                             <ul>
-                                               
-                                                <li><a class="add-to-wishlist" data-id="{{ $product->idProduct }}"
-                                                        data-tooltip="tooltip" data-placement="left"
-                                                        title="Thêm vào danh sách yêu thích"><i
-                                                            class="icon-heart"></i></a></li>
+
+                                                <li>
+                                                    <a class="add-to-wishlist {{ $isInWishlist ? 'in-wishlist' : '' }}" 
+                                                    data-id="{{ $product->idProduct }}" data-tooltip="tooltip" 
+                                                    data-placement="left" title="Thêm vào danh sách yêu thích">
+                                                     <i class="icon-heart"></i>
+                                                 </a>
+
+                                                </li>
                                                 <li><a class="quick-view-pd" data-id="{{ $product->idProduct }}"
                                                         data-tooltip="tooltip" data-placement="left" title="Xem nhanh"><i
                                                             class="icon-eye"></i></a></li>

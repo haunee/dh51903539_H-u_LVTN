@@ -32,14 +32,11 @@ class CustomerController extends Controller
     // Chuyển đến trang hồ sơ khách hàng
     public function show_account_info()
     {
-        // Kiểm tra đăng nhập
         $this->checkLogin();
-
-        // Lấy thông tin khách hàng từ cơ sở dữ liệu
+        $list_category = Category::get();
+        $list_brand = Brand::get();
         $customer = Customer::find(Session::get('idCustomer'));
-
-        // Truyền dữ liệu khách hàng tới view
-        return view('shop.account.profile', compact('customer'));
+        return view('shop.account.profile', compact('customer','list_category','list_brand'));
     }
 
     public function logout()
@@ -60,15 +57,18 @@ class CustomerController extends Controller
     //xác thực lưu tạm thời vào csdl 
     public function verify(Request $request)
     {
+        $list_category = Category::get();
+        $list_brand = Brand::get();
         // lưu trữ token tạm thời
         $token = $request->input('token');
         session(['verification_token' => $token]);
-        return view("shop.mail.verify");
+        return view("shop.mail.verify")->with(compact('list_category','list_brand'));
     }
 
     //trang nhập mã xác thực
     public function verifyToken(Request $request)
     {
+        
         $token = $request->input('token');
         $customer = Customer::where('verification_token', $token)->first();
 
@@ -234,7 +234,9 @@ class CustomerController extends Controller
     //ĐỔI MẬT KHẨU
     public function change_password()
     {
-        return view("shop.account.change_password");
+        $list_category = Category::get();
+        $list_brand = Brand::get();
+        return view("shop.account.change_password")->with(compact('list_category','list_brand'));
     }
 
 
@@ -274,7 +276,10 @@ class CustomerController extends Controller
     //XÁC HỰC QUÊN MẬT KHẨU
     public function forgot_password()
     {
-        return view("shop.account.forgot_password");
+        
+        $list_category = Category::get();
+        $list_brand = Brand::get();
+        return view("shop.account.forgot_password")->with(compact('list_category','list_brand'));
     }
 
     //submit xác thực email

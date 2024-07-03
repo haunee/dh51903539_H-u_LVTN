@@ -217,26 +217,26 @@ class CartController extends Controller
 
     // Cập nhật số lượng mua trong giỏ hàng
     public function update_qty_cart(Request $request)
-{
-    try {
-        $this->checkLogin();
+    {
+        try {
+            $this->checkLogin();
 
-        $data = $request->all();
+            $data = $request->all();
 
-        $cart = Cart::find($data['idCart']);
-        if ($cart) {
-            $cart->QuantityBuy = $data['QuantityBuy'];
-            $cart->Total = $cart->Price * $data['QuantityBuy'];
-            $cart->save();
+            $cart = Cart::find($data['idCart']);
+            if ($cart) {
+                $cart->QuantityBuy = $data['QuantityBuy'];
+                $cart->Total = $cart->Price * $data['QuantityBuy'];
+                $cart->save();
 
-            return response()->json(['success' => 'Cập nhật giỏ hàng thành công']);
-        } else {
-            return response()->json(['error' => 'Không tìm thấy sản phẩm trong giỏ hàng'], 404);
+                return response()->json(['success' => 'Cập nhật giỏ hàng thành công']);
+            } else {
+                return response()->json(['error' => 'Không tìm thấy sản phẩm trong giỏ hàng'], 404);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Lỗi xảy ra trong quá trình cập nhật giỏ hàng'], 500);
         }
-    } catch (\Exception $e) {
-        return response()->json(['error' => 'Lỗi xảy ra trong quá trình cập nhật giỏ hàng'], 500);
     }
-}
 
 
 
@@ -254,10 +254,11 @@ class CartController extends Controller
     }
 
 
-     // Chuyển đến trang giỏ hàng trống
-     public function empty_cart(){
+    // Chuyển đến trang giỏ hàng trống
+    public function empty_cart()
+    {
         $list_category = Category::get();
         $list_brand = Brand::get();
-        return view("shop.cart.empty-cart")->with(compact('list_category','list_brand'));
+        return view("shop.cart.empty-cart")->with(compact('list_category', 'list_brand'));
     }
 }

@@ -9,13 +9,19 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use App\Models\Category;
 use App\Models\Brand;
 use App\Models\Viewer;
+use App\Models\WishList;
 class HomeController extends Controller
 {
     public function index() {
         $list_category = Category::get();
         $list_brand = Brand::get();
+
         $recommend_pds_arrays = [];
-    
+        $idCustomer = session('idCustomer');
+        // Lấy danh sách các sản phẩm yêu thích của người dùng
+        $wishlistProducts = WishList::where('idCustomer', $idCustomer)->pluck('idProduct')->toArray();
+
+
         $newestProducts = Product::join('productimage', 'productimage.idProduct', '=', 'product.idProduct')
             ->select('product.*', 'productimage.ImageName')
             ->orderBy('product.created_at', 'desc')
@@ -90,7 +96,7 @@ class HomeController extends Controller
             }
         }
     
-        return view('shop.home')->with(compact('list_category', 'newestProducts', 'list_brand', 'list_bestsellers_pd', 'recommend_pds'));
+        return view('shop.home')->with(compact('list_category', 'newestProducts', 'list_brand', 'list_bestsellers_pd', 'recommend_pds','wishlistProducts'));
     }
     
     

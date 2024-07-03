@@ -56,6 +56,16 @@
           box-sizing: border-box;
 }
 
+
+.in-wishlist .icon-heart {
+  color: red;
+}
+
+
+
+
+
+
 :root {
   --primary-color: #f379a7;
 }
@@ -132,6 +142,7 @@ h5, .h5 {
 h6, .h6 {
   font-size: 14px;
 }
+
 
 p:last-child {
   margin-bottom: 0;
@@ -5637,14 +5648,14 @@ blockquote p {
 }
 
 .cart-totals .cart-total-table .value {
-  font-size: 14px;
+  font-size: 18px;
   font: 400px;
   color: #000000;
   text-transform: capitalize;
 }
 
 .cart-totals .cart-total-table .price {
-  font-size: 14px;
+  font-size: 18px;
   font: 400px;
   color: #000000;
 }
@@ -6801,7 +6812,7 @@ blockquote p {
 }
 
 .page-banner-content .title {
-  font-size: 42px;
+  font-size: 50px;
   font-family: 'Coiny', cursive;
   font-weight: normal;
   line-height: 50px;
@@ -6821,7 +6832,7 @@ blockquote p {
 
 .page-banner-content .breadcrumb .breadcrumb-item {
   color: #222222;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .page-banner-content .breadcrumb .breadcrumb-item + .breadcrumb-item::before {

@@ -60,6 +60,10 @@ Route::get('/search',[ProductController::class, 'search'])->name('search');
 
 Route::post('/search-suggestions',[ProductController::class, 'search_suggestions']);
 
+//Danh sách yeu thích
+Route::get('/wishlist', [ProductController::class,'wishlist']);
+Route::post('/add-to-wishlist',[ProductController::class,'add_to_wishlist']);
+Route::delete('/delete-wish/{idWish}', [ProductController::class, 'delete_wish']);
 
 
 
@@ -74,6 +78,10 @@ Route::delete('/delete-pd-cart/{idCart}',[CartController::class, 'delete_pd_cart
 Route::post('/update-qty-cart',[CartController::class, 'update_qty_cart'])->name('update_qty_cart');
 
 Route::get('/empty-cart', [CartController::class, 'empty_cart']);
+
+
+
+
 
 
 

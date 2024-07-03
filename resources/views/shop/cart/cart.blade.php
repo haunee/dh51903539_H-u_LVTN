@@ -93,7 +93,7 @@
                     <div class="cart-btn-left">
                         <a href="{{ URL::to('/store') }}" class="btn btn-primary">Tiếp tục mua sắm</a>
                     </div>
-        
+
                 </div>
 
                 <div class="row">
@@ -130,32 +130,32 @@
 
 
 
-<!-- Modal xác nhận xóa sản phẩm -->
-<div class="modal fade modal-DeleteProduct" id="deleteProductModal" tabindex="-1" role="dialog" aria-labelledby="deleteProductModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="deleteProductModalLabel">Xác Nhận Xóa</h5>
-                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body text-center p-3 h4">
-                <div class="mb-3">
-                    <i class="fa fa-exclamation-triangle text-danger" style="font-size:50px;"></i>
+    <!-- Modal xác nhận xóa sản phẩm -->
+    <div class="modal fade modal-DeleteProduct" id="deleteProductModal" tabindex="-1" role="dialog"
+        aria-labelledby="deleteProductModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteProductModalLabel">Xác Nhận Xóa</h5>
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
                 </div>
-                Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng không?
-            </div>
-            <div class="modal-footer justify-content-center">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-                <button type="button" class="btn btn-danger" id="confirmDelete">Xóa</button>
+                <div class="modal-body text-center p-3 h4">
+                    <div class="mb-3">
+                        <i class="fa fa-exclamation-triangle text-danger" style="font-size:50px;"></i>
+                    </div>
+                    Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng không?
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-danger" id="confirmDelete">Xóa</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 
 
     <script>
-
         $(document).ready(function() {
             // Cập nhật số lượng khi click "+"
             $('.add-qty').on('click', function() {
@@ -323,8 +323,14 @@
                             "_token": token
                         },
                         success: function(response) {
-                            // Reload or update the cart view
-                            location.reload();
+                            // Kiểm tra xem giỏ hàng có sản phẩm nào không
+                            if ($('.delete-pd-cart').length ===
+                                1) { // Chỉ còn 1 sản phẩm sẽ bị xóa
+                                window.location.href = '/empty-cart';
+                            } else {
+                                // Reload or update the cart view
+                                location.reload();
+                            }
                         },
                         error: function(xhr) {
                             console.error(xhr.responseText);
@@ -338,9 +344,6 @@
 
 
 
-
-
-            
         });
     </script>
 @endsection

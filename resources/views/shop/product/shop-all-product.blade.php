@@ -90,16 +90,21 @@
                                                         alt="{{ $product->ProductName }}">
                                                 </a>
 
-
+                                                <?php
+                                                $isInWishlist = in_array($product->idProduct, $wishlistProducts);
+                                                ?>
 
                                                 <div class="action-links">
                                                     <ul>
 
-                                                 
-                                                        <li><a class="add-to-wishlist" data-id="{{ $product->idProduct }}"
-                                                                data-tooltip="tooltip" data-placement="left"
-                                                                title="Thêm vào danh sách yêu thích"><i
-                                                                    class="icon-heart"></i></a></li>
+
+                                                        <li>
+                                                            <a class="add-to-wishlist {{ $isInWishlist ? 'in-wishlist' : '' }}" 
+                                                            data-id="{{ $product->idProduct }}" data-tooltip="tooltip" 
+                                                            data-placement="left" title="Thêm vào danh sách yêu thích">
+                                                             <i class="icon-heart"></i>
+                                                         </a>
+                                                        </li>
                                                         <li><a class="quick-view-pd" data-id="{{ $product->idProduct }}"
                                                                 data-tooltip="tooltip" data-placement="left"
                                                                 title="Xem nhanh"><i class="icon-eye"></i></a></li>
@@ -112,7 +117,8 @@
                                                         href="{{ URL::to('/shop-single/' . $product->idProduct) }}">{{ $product->ProductName }}</a>
                                                 </h4>
                                                 <div class="price-box">
-                                                    <span class="current-price">{{ number_format($product->Price, 0, ',', '.') }}đ</span>
+                                                    <span
+                                                        class="current-price">{{ number_format($product->Price, 0, ',', '.') }}đ</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -156,8 +162,8 @@
                                             </li>
                                             <li><a class="add-to-compare" data-idcat="{{ $product->idCategory }}"
                                                     id="{{ $product->idProduct }}" data-tooltip="tooltip"
-                                                    data-placement="left" title="So sánh"><i
-                                                        class="icon-sliders"></i></a></li>
+                                                    data-placement="left" title="So sánh"><i class="icon-sliders"></i></a>
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>

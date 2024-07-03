@@ -152,6 +152,7 @@
                                             @endif
                                             <ul class="dropdown-menu">
                                                 <li><a href="{{ URL::to('/profile') }}">Tài khoản của tôi</a></li>
+                                                <li><a href="{{ URL::to('/wishlist') }}">Sản phẩm yêu thích</a></li>
                                                 <li><a href="{{ URL::to('/logout') }}">Đăng xuất</a></li>
                                             </ul>
                                             <input type="hidden" id="idCustomer"
@@ -206,11 +207,11 @@
                                                                         class="amount">{{ number_format($cart->Price, 0, ',', '.') }}đ</span>
                                                                 </div>
                                                             </div>
-                                                          
+
                                                         </div>
                                                     @endforeach
                                                 </li>
-                                            
+
                                                 <li class="product-btn">
                                                     <a href="{{ URL::to('/cart') }}"
                                                         class="btn btn-dark btn-block">Xem giỏ hàng</a>
@@ -253,8 +254,8 @@
                         <!--Footer Widget Start-->
                         <div class="col-lg-4 col-md-6">
                             <div class="footer-widget">
-                                <a class="footer-logo" href="#"><img
-                                        src="{{ asset('/page/images/logo/logo.png') }}" alt=""></a>
+                                {{-- <a class="footer-logo" href="#"><img
+                                        src="{{ asset('/page/images/logo/logo2.png') }}" alt=""></a> --}}
                                 <div class="footer-widget-text">
                                     <p>A perfect blend of creativity, energy, communication, happiness and love. Let us
                                         arrange a smile for you. </p>
@@ -341,7 +342,36 @@
         </div>
         <!--Footer Section End-->
 
+
+        <!-- Modal Add To WishList -->
+        <div class="modal fade bd-example-modal-sm modal-AddToWishList" tabindex="-1" role="dialog"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalCenterTitle">Thông báo</h5>
+                    </div>
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"
+                        aria-hidden="true"></button>
+                    <div class="modal-body text-center p-3 h4">
+                        <div class="mb-3">
+                            <i class="fa fa-check-circle text-primary" style="font-size:50px;"></i>
+                        </div>Đã thêm sản phẩm vào danh sách yêu thích
+                    </div>
+                    <div class="modal-footer justify-content-center">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tiếp tục mua
+                            sắm</button>
+                        <a href="{{ URL::to('/wishlist') }}" type="button" class="btn btn-primary">Xem danh
+                            sách</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal Add To WishList -->
+
     </div>
+
+
 
     <!-- JS
     ============================================ -->
@@ -355,6 +385,7 @@
     <script src="{{ asset('/page/js/plugins/jquery.elevateZoom.min.js') }}"></script>
     <script src="{{ asset('/page/js/plugins/select2.min.js') }}"></script>
     <script src="{{ asset('/page/js/plugins/ajax-contact.js') }}"></script>
+
 
 
     <script src="{{ asset('/page/js/main.js') }}"></script>
@@ -510,6 +541,84 @@
                         else window.location.href = url + '?show=all' + min_price_filter + max_price_filter;
                     }
                 }
+            });
+
+
+
+            // Add to WishList
+            // $('.add-to-wishlist').on('click', function() {
+            //     var idProduct = $(this).data('id');
+            //     var _token = $('input[name="_token"]').val();
+
+            //     if ($('#idCustomer').val() == "") {
+            //         window.location.href = '../login';
+            //     } else {
+            //         $.ajax({
+            //             url: '{{ url('/add-to-wishlist') }}',
+            //             method: 'POST',
+            //             data: {
+            //                 idProduct: idProduct,
+            //                 _token: _token
+            //             },
+            //             success: function(data) {
+            //                 $('.modal-AddToWishList').modal('show');
+            //             }
+            //         });
+            //     }
+            // });
+
+
+            // $('.add-to-wishlist').on('click', function() {
+            //     var idProduct = $(this).data('id');
+            //     var _token = $('input[name="_token"]').val();
+
+            //     if ($('#idCustomer').val() == "") {
+            //         window.location.href = '../login';
+            //     } else {
+            //         $.ajax({
+            //             url: '{{ url('/add-to-wishlist') }}',
+            //             method: 'POST',
+            //             data: {
+            //                 idProduct: idProduct,
+            //                 _token: _token
+            //             },
+            //             success: function(data) {
+            //                 $('.modal-AddToWishList').modal('show');
+            //             },
+            //             error: function(xhr, status, error) {
+            //                 console.log(xhr.responseText);
+            //             }
+            //         });
+            //     }
+            // });
+
+
+
+
+            $('.add-to-wishlist').on('click', function(e) {
+                e.preventDefault();
+                var productId = $(this).data('id');
+                var $this = $(this);
+
+                $.ajax({
+                    url: '{{ url('/add-to-wishlist') }}',
+                    method: 'POST',
+                    data: {
+                        idProduct: productId,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            $this.addClass('in-wishlist');
+                        } else if (response.already_in_wishlist) {
+                            alert('Sản phẩm đã có trong danh sách yêu thích.');
+                            $this.addClass('in-wishlist');
+                        }
+                    },
+                    error: function() {
+                        alert('Đã có lỗi xảy ra.');
+                    }
+                });
             });
 
         });
