@@ -236,7 +236,7 @@
                             </ul>
                         </div>
 
-                        {{-- <div class="sidebar-categories">
+                       <div class="sidebar-categories">
                             <h3 class="widget-title">Theo giá</h3>
                             <div class="d-flex justify-content-between">
                                 <input class="input-filter-price min" type="number" min="0" maxlength="13"
@@ -255,7 +255,7 @@
                             </div>
                             <div class="alert-filter-price text-primary mt-2 d-none">Vui lòng điền khoảng giá phù hợp</div>
                             <button type="button" class="btn-filter-price btn btn-primary">Áp dụng</button>
-                        </div> --}}
+                        </div> 
                         <!--Sidebar Categories End-->
 
 

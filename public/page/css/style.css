@@ -5048,13 +5048,19 @@ blockquote p {
   height: 42px;
   line-height: 42px;
   border-radius: 50%;
-  background-color: #f379a7;
+  background-color: #3E444A;
   color: #ffffff;
   text-align: center;
   -webkit-transition: all 0.3s linear;
   -o-transition: all 0.3s linear;
   transition: all 0.3s linear;
 }
+
+.shop-single-content .product-action .action a.in-wishlist {
+  background-color: #3E444A;
+ 
+}
+
 
 .shop-single-content .product-action .action a:hover {
   border-color: #3E444A;

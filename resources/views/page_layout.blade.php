@@ -542,15 +542,40 @@
                     }
                 }
             });
-
-
-
          
 
 
 
+            $('.add-to-wishlist').on('click', function(e) {
+                e.preventDefault();
+                var productId = $(this).data('id');
+                var $this = $(this);
 
-         
+                $.ajax({
+                    url: '{{ url('/add-to-wishlist') }}',
+                    method: 'POST',
+                    data: {
+                        idProduct: productId,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            // Cập nhật trạng thái nút
+                            $this.addClass('in-wishlist').removeClass('not-in-wishlist');
+                        } else if (response.removed) {
+                            // Cập nhật trạng thái nút nếu sản phẩm bị xóa khỏi danh sách yêu thích
+                            $this.addClass('not-in-wishlist').removeClass('in-wishlist');
+                        } else if (response.already_in_wishlist) {
+                            // Thông báo nếu sản phẩm đã có trong danh sách yêu thích
+                            alert('Sản phẩm đã có trong danh sách yêu thích.');
+                            $this.addClass('in-wishlist').removeClass('not-in-wishlist');
+                        }
+                    },
+                    error: function() {
+                        alert('Đã có lỗi xảy ra.');
+                    }
+                });
+            });
 
 
         });

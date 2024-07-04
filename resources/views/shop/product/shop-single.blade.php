@@ -127,9 +127,14 @@
                                 </div>
 
                                 <div class="action">
-                                    
-                                    <a class="add-to-wishlist" data-id="{{$product->idProduct}}" data-tooltip="tooltip" data-placement="right" title="Thêm vào yêu thích"><i class="fa fa-heart"></i></a>
-                                
+                                    <?php
+                                        $isInWishlist = in_array($product->idProduct, $wishlistProducts);
+                                        ?>
+                                    <a class="add-to-wishlist {{ $isInWishlist ? 'in-wishlist' : 'not-in-wishlist' }}"
+                                    data-id="{{ $product->idProduct }}" data-tooltip="tooltip"
+                                    data-placement="left" title="Thêm vào danh sách yêu thích">
+                                    <i class="fa fa-heart"></i>
+                                    </a>                                
                                 </div>
 
                                
