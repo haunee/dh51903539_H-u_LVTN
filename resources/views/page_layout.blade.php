@@ -545,81 +545,13 @@
 
 
 
-            // Add to WishList
-            // $('.add-to-wishlist').on('click', function() {
-            //     var idProduct = $(this).data('id');
-            //     var _token = $('input[name="_token"]').val();
-
-            //     if ($('#idCustomer').val() == "") {
-            //         window.location.href = '../login';
-            //     } else {
-            //         $.ajax({
-            //             url: '{{ url('/add-to-wishlist') }}',
-            //             method: 'POST',
-            //             data: {
-            //                 idProduct: idProduct,
-            //                 _token: _token
-            //             },
-            //             success: function(data) {
-            //                 $('.modal-AddToWishList').modal('show');
-            //             }
-            //         });
-            //     }
-            // });
-
-
-            // $('.add-to-wishlist').on('click', function() {
-            //     var idProduct = $(this).data('id');
-            //     var _token = $('input[name="_token"]').val();
-
-            //     if ($('#idCustomer').val() == "") {
-            //         window.location.href = '../login';
-            //     } else {
-            //         $.ajax({
-            //             url: '{{ url('/add-to-wishlist') }}',
-            //             method: 'POST',
-            //             data: {
-            //                 idProduct: idProduct,
-            //                 _token: _token
-            //             },
-            //             success: function(data) {
-            //                 $('.modal-AddToWishList').modal('show');
-            //             },
-            //             error: function(xhr, status, error) {
-            //                 console.log(xhr.responseText);
-            //             }
-            //         });
-            //     }
-            // });
+         
 
 
 
 
-            $('.add-to-wishlist').on('click', function(e) {
-                e.preventDefault();
-                var productId = $(this).data('id');
-                var $this = $(this);
+         
 
-                $.ajax({
-                    url: '{{ url('/add-to-wishlist') }}',
-                    method: 'POST',
-                    data: {
-                        idProduct: productId,
-                        _token: '{{ csrf_token() }}'
-                    },
-                    success: function(response) {
-                        if (response.success) {
-                            $this.addClass('in-wishlist');
-                        } else if (response.already_in_wishlist) {
-                            alert('Sản phẩm đã có trong danh sách yêu thích.');
-                            $this.addClass('in-wishlist');
-                        }
-                    },
-                    error: function() {
-                        alert('Đã có lỗi xảy ra.');
-                    }
-                });
-            });
 
         });
     </script>

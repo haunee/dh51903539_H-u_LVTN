@@ -248,7 +248,7 @@ class ProductController extends Controller
 
 
 
-    //==================SHOP===================//
+    //===============================SHOP===============================//
 
     public function show_all_product()
     {
@@ -305,6 +305,7 @@ class ProductController extends Controller
 
     public function show_product_details($idProduct)
     {
+        
         $list_category = Category::get();
         $list_brand = Brand::get();
 
@@ -351,7 +352,56 @@ class ProductController extends Controller
 
 
 
-
+    // public function show_product_details($idProduct)
+    // {
+    //     $list_category = Category::get();
+    //     $list_brand = Brand::get();
+    
+    //     $this_pro = Product::where('idProduct', $idProduct)->first();
+    
+    //     $viewer = new Viewer();
+    
+    //     $idCustomer = Session::get('idCustomer', session()->getId());
+    
+    //     $viewer->idCustomer = $idCustomer;
+    //     $viewer->idProduct = $this_pro->idProduct;
+    
+    //     if (Viewer::where('idCustomer', $idCustomer)->where('idProduct', $this_pro->idProduct)->count() == 0) {
+    //         if (Viewer::where('idCustomer', $idCustomer)->count() >= 3) {
+    //             Viewer::where('idCustomer', $idCustomer)->orderBy('idView', 'asc')->take(1)->delete();
+    //         }
+    //         $viewer->save();
+    //     }
+    
+    //     $idBrand = $this_pro->idBrand;
+    //     $idCategory = $this_pro->idCategory;
+    
+    //     $list_pd_attr = ProductAttriBute::join('attributevalue', 'attributevalue.idAttriValue', '=', 'product_attribute.idAttriValue')
+    //         ->join('attribute', 'attribute.idAttribute', '=', 'attributevalue.idAttribute')
+    //         ->where('product_attribute.idProduct', $this_pro->idProduct)->get();
+    
+    //     $name_attribute = ProductAttriBute::join('attributevalue', 'attributevalue.idAttriValue', '=', 'product_attribute.idAttriValue')
+    //         ->join('attribute', 'attribute.idAttribute', '=', 'attributevalue.idAttribute')
+    //         ->where('product_attribute.idProduct', $this_pro->idProduct)->first();
+    
+    //     $product = Product::join('productimage', 'productimage.idProduct', '=', 'product.idProduct')
+    //         ->where('product.idProduct', $this_pro->idProduct)->first();
+    
+    //     $list_related_products = Product::join('productimage', 'productimage.idProduct', '=', 'product.idProduct')
+    //         ->where(function($query) use ($idBrand, $idCategory, $this_pro) {
+    //             $query->where('product.idBrand', $idBrand)
+    //                   ->orWhere('product.idCategory', $idCategory);
+    //         })
+    //         ->where('product.idProduct', '!=', $this_pro->idProduct)
+    //         ->select('ImageName', 'product.*')
+    //         ->get();
+    
+    //     // Lấy danh sách các sản phẩm yêu thích của người dùng
+    //     $wishlistProducts = WishList::where('idCustomer', $idCustomer)->pluck('idProduct')->toArray();
+    
+    //     return view("shop.product.shop-single")->with(compact('list_category', 'list_brand', 'product', 'list_pd_attr', 'name_attribute', 'list_related_products', 'wishlistProducts'));
+    // }
+    
 
 
 

@@ -61,7 +61,7 @@
                         <div class="text-primary">Đã Bán: {{ $product->Sold }} sản phẩm</div>
                         <div class="text-primary">Còn Lại: {{ $product->QuantityTotal }} sản phẩm</div>
                         {{-- <div class="text-primary">Lượt Yêu Thích: {{$count_wish}} </div> --}}
-                        <div class="product-rating">
+                        {{-- <div class="product-rating">
                             <ul class="rating-star">
                                 <li class="rating-on"><i class="fa fa-star-o"></i></li>
                                 <li class="rating-on"><i class="fa fa-star-o"></i></li>
@@ -70,7 +70,7 @@
                                 <li class="rating-on"><i class="fa fa-star-o"></i></li>
                             </ul>
                             <span>No reviews</span>
-                        </div>
+                        </div> --}}
                         <div class="thumb-price">
                             <span class="current-price">{{ number_format(round($product->Price, -3), 0, ',', '.') }}đ</span>
                         </div>
@@ -125,9 +125,15 @@
                                 <div class="action">
                                     <button type="button" class="btn btn-primary add-to-cart">Thêm vào giỏ hàng</button>
                                 </div>
+
                                 <div class="action">
-                                <a class="add-to-wishlist" data-id="{{$product->idProduct}}" data-tooltip="tooltip" data-placement="right" title="Thêm vào yêu thích"><i class="fa fa-heart"></i></a>
+                                    
+                                    <a class="add-to-wishlist" data-id="{{$product->idProduct}}" data-tooltip="tooltip" data-placement="right" title="Thêm vào yêu thích"><i class="fa fa-heart"></i></a>
+                                
                                 </div>
+
+                               
+                              
                             </div>
                             <div class="text-primary alert-add-to-cart"></div>
 
@@ -185,253 +191,228 @@
 
 
 
-            <!--Shop Single info Start-->
-            <div class="shop-single-info">
-                <div class="shop-info-tab">
-                    <ul class="nav justify-content-center" role="tablist">
-                        <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#tab1"
-                                role="tab">Mô tả/Chi tiết</a></li>
-                        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab2" role="tab">Nhận
-                                xét</a></li>
-                    </ul>
-                </div>
-
-                <div class="tab-content">
-                    <div class="tab-pane fade show active" id="tab1" role="tabpanel">
-                        <div class="description">
-                            <p>{!! $product->DesProduct !!}</p>
-                        </div>
+                <!--Shop Single info Start-->
+                <div class="shop-single-info">
+                    <div class="shop-info-tab">
+                        <ul class="nav justify-content-center" role="tablist">
+                            <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#tab1"
+                                    role="tab">Mô tả/Chi tiết</a></li>
+                            {{-- <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab2" role="tab">Nhận
+                                xét</a></li> --}}
+                        </ul>
                     </div>
-                    <div class="tab-pane fade" id="tab2" role="tabpanel">
-                        <div class="reviews">
-                            <h3 class="review-title">Customer Reviews</h3>
 
-                            <ul class="reviews-items">
-                                <li>
-                                    <div class="single-review">
-                                        <h6 class="name">Rosie Silva</h6>
-                                        <div class="rating-date">
-                                            <ul class="rating">
-                                                <li class="rating-on"><i class="fa fa-star"></i></li>
-                                                <li class="rating-on"><i class="fa fa-star"></i></li>
-                                                <li class="rating-on"><i class="fa fa-star"></i></li>
-                                                <li class="rating-on"><i class="fa fa-star"></i></li>
-                                                <li><i class="fa fa-star"></i></li>
-                                            </ul>
-                                            <span class="date">13 ngày trước</span>
-                                        </div>
-                                        <p>Áo tốt, giá cả hợp lý. Shop gói hàng rất cẩn thận, mình rất hài lòng.</p>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="single-review">
-                                        <h6 class="name">James Turner</h6>
-                                        <div class="rating-date">
-                                            <ul class="rating">
-                                                <li class="rating-on"><i class="fa fa-star"></i></li>
-                                                <li class="rating-on"><i class="fa fa-star"></i></li>
-                                                <li class="rating-on"><i class="fa fa-star"></i></li>
-                                                <li class="rating-on"><i class="fa fa-star"></i></li>
-                                                <li class="rating-on"><i class="fa fa-star"></i></li>
-                                            </ul>
-                                            <span class="date">7 ngày trước</span>
-                                        </div>
-                                        <p>Áo đẹp, mình mua cho con trai, bé rất thích.</p>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="single-review">
-                                        <h6 class="name">Maria Garcia</h6>
-                                        <div class="rating-date">
-                                            <ul class="rating">
-                                                <li class="rating-on"><i class="fa fa-star"></i></li>
-                                                <li class="rating-on"><i class="fa fa-star"></i></li>
-                                                <li class="rating-on"><i class="fa fa-star"></i></li>
-                                                <li class="rating-on"><i class="fa fa-star"></i></li>
-                                                <li><i class="fa fa-star"></i></li>
-                                            </ul>
-                                            <span class="date">4 ngày trước</span>
-                                        </div>
-                                        <p>Sản phẩm rất tốt, màu sắc như hình, mình rất hài lòng.</p>
-                                    </div>
-                                </li>
-                            </ul>
-
-                            <div class="review-form">
-                                <h3 class="review-title">Thêm nhận xét</h3>
-                                <form action="#">
-                                    <div class="rating-form d-flex align-items-center">
-                                        <span class="rating-title mr-3">Đánh giá của bạn:</span>
-                                        <ul class="rating">
-                                            <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                            <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                            <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                            <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                            <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="row mt-3">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="name">Họ và tên</label>
-                                                <input type="text" id="name" class="form-control" required>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="email">Email</label>
-                                                <input type="email" id="email" class="form-control" required>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label for="review">Nhận xét của bạn</label>
-                                                <textarea id="review" class="form-control" rows="4" required></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <button type="submit" class="btn btn-primary">Gửi nhận xét</button>
-                                        </div>
-                                    </div>
-                                </form>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab1" role="tabpanel">
+                            <div class="description">
+                                <p>{!! $product->DesProduct !!}</p>
                             </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab2" role="tabpanel">
+                            <div class="reviews">
+                                <h3 class="review-title">Customer Reviews</h3>
 
+                                <ul class="reviews-items">
+                                    <li>
+                                        <div class="single-review">
+                                            <h6 class="name">Rosie Silva</h6>
+                                            <div class="rating-date">
+                                                <ul class="rating">
+                                                    <li class="rating-on"><i class="fa fa-star"></i></li>
+                                                    <li class="rating-on"><i class="fa fa-star"></i></li>
+                                                    <li class="rating-on"><i class="fa fa-star"></i></li>
+                                                    <li class="rating-on"><i class="fa fa-star"></i></li>
+                                                    <li><i class="fa fa-star"></i></li>
+                                                </ul>
+                                                <span class="date">13 ngày trước</span>
+                                            </div>
+                                            <p>Áo tốt, giá cả hợp lý. Shop gói hàng rất cẩn thận, mình rất hài lòng.</p>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="single-review">
+                                            <h6 class="name">James Turner</h6>
+                                            <div class="rating-date">
+                                                <ul class="rating">
+                                                    <li class="rating-on"><i class="fa fa-star"></i></li>
+                                                    <li class="rating-on"><i class="fa fa-star"></i></li>
+                                                    <li class="rating-on"><i class="fa fa-star"></i></li>
+                                                    <li class="rating-on"><i class="fa fa-star"></i></li>
+                                                    <li class="rating-on"><i class="fa fa-star"></i></li>
+                                                </ul>
+                                                <span class="date">7 ngày trước</span>
+                                            </div>
+                                            <p>Áo đẹp, mình mua cho con trai, bé rất thích.</p>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="single-review">
+                                            <h6 class="name">Maria Garcia</h6>
+                                            <div class="rating-date">
+                                                <ul class="rating">
+                                                    <li class="rating-on"><i class="fa fa-star"></i></li>
+                                                    <li class="rating-on"><i class="fa fa-star"></i></li>
+                                                    <li class="rating-on"><i class="fa fa-star"></i></li>
+                                                    <li class="rating-on"><i class="fa fa-star"></i></li>
+                                                    <li><i class="fa fa-star"></i></li>
+                                                </ul>
+                                                <span class="date">4 ngày trước</span>
+                                            </div>
+                                            <p>Sản phẩm rất tốt, màu sắc như hình, mình rất hài lòng.</p>
+                                        </div>
+                                    </li>
+                                </ul>
+
+                                <div class="review-form">
+                                    <h3 class="review-title">Thêm nhận xét</h3>
+                                    <form action="#">
+                                        <div class="rating-form d-flex align-items-center">
+                                            <span class="rating-title mr-3">Đánh giá của bạn:</span>
+                                            <ul class="rating">
+                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="row mt-3">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="name">Họ và tên</label>
+                                                    <input type="text" id="name" class="form-control" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="email">Email</label>
+                                                    <input type="email" id="email" class="form-control" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="review">Nhận xét của bạn</label>
+                                                    <textarea id="review" class="form-control" rows="4" required></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <button type="submit" class="btn btn-primary">Gửi nhận xét</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                            </div>
                         </div>
                     </div>
                 </div>
+                <!--Shop Single info End-->
             </div>
-            <!--Shop Single info End-->
         </div>
-    </div>
-    <!--Shop Single End-->
+        <!--Shop Single End-->
 
 
 
-    <!-- Validate QuantityBuy & Add To Cart & Buy Now -->
-    <script>
-        $(document).ready(function() {
-            var idCustomer = '<?php echo Session::get('idCustomer'); ?>';
-            var $Quantity = parseInt($('.qty-of-attr').val());
-            $("input:radio[name=material]:first").attr('checked', true);
-            $('#idProAttr').val($("input:radio[name=material]:first").val());
+        <!-- Validate QuantityBuy & Add To Cart & Buy Now -->
+        <script>
+            $(document).ready(function() {
+                var idCustomer = '<?php echo Session::get('idCustomer'); ?>';
+                var $Quantity = parseInt($('.qty-of-attr').val());
+                $("input:radio[name=material]:first").attr('checked', true);
+                $('#idProAttr').val($("input:radio[name=material]:first").val());
 
-            var AttributeProduct = $('#AttributeName').val() + ': ' + $('.AttriValName').data("name");
-            $('#AttributeProduct').val(AttributeProduct);
-
-            $("input:radio[name=material]").on('click', function() {
-                $(".qty-buy").val("1");
-                $('.alert-qty').html("");
-                $('.alert-add-to-cart').html("");
-                $('.alert-buy-now').html("");
-                $idAttribute = $(this).attr("id");
-                $AttriValName = $(this).data("name");
-                $Quantity = $(this).data("qty");
-                $('.qty-of-attr-label').html("Còn Lại: " + $Quantity);
-                $('.qty-of-attr').val($Quantity);
-
-                AttributeProduct = $('#AttributeName').val() + ': ' + $AttrValName;
+                var AttributeProduct = $('#AttributeName').val() + ': ' + $('.AttriValName').data("name");
                 $('#AttributeProduct').val(AttributeProduct);
 
-                $('#idProAttr').val($("#" + $idAttribute).val());
-            });
+                $("input:radio[name=material]").on('click', function() {
+                    $(".qty-buy").val("1");
+                    $('.alert-qty').html("");
+                    $('.alert-add-to-cart').html("");
+                    $('.alert-buy-now').html("");
+                    $idAttribute = $(this).attr("id");
+                    $AttriValName = $(this).data("name");
+                    $Quantity = $(this).data("qty");
+                    $('.qty-of-attr-label').html("Còn Lại: " + $Quantity);
+                    $('.qty-of-attr').val($Quantity);
 
-            $('.add-qty').on('click', function() {
-                var $input = $(this).prev();
-                var currentValue = parseInt($input.val());
-                if (currentValue >= $Quantity) {
-                    $('.alert-qty').html("Vượt quá số lượng sản phẩm hiện có!");
-                } else {
-                    $input.val(currentValue + 1);
-                }
-            });
+                    AttributeProduct = $('#AttributeName').val() + ': ' + $AttrValName;
+                    $('#AttributeProduct').val(AttributeProduct);
 
-            $('.sub-qty').on('click', function() {
-                var $input = $(this).next();
-                var currentValue = parseInt($input.val());
-                (currentValue == 1) ? currentValue: $input.val(currentValue - 1);
-            });
+                    $('#idProAttr').val($("#" + $idAttribute).val());
+                });
 
-            $('.buy-now').on('click', function(e) {
-                if ($(".qty-buy").val() > $Quantity) {
-                    $('.alert-buy-now').html("Vượt quá số lượng sản phẩm hiện có!");
-                    e.preventDefault();
-                }
-            });
+                $('.add-qty').on('click', function() {
+                    var $input = $(this).prev();
+                    var currentValue = parseInt($input.val());
+                    if (currentValue >= $Quantity) {
+                        $('.alert-qty').html("Vượt quá số lượng sản phẩm hiện có!");
+                    } else {
+                        $input.val(currentValue + 1);
+                    }
+                });
 
-            $('.add-to-cart').on('click', function() {
-                if (idCustomer == "") {
-                    window.location.href = '../login';
-                } else if ($(".qty-buy").val() > $Quantity) {
-                    $('.alert-add-to-cart').html("Vượt quá số lượng sản phẩm hiện có!");
-                } else {
-                    var idProduct = $('#idProduct').val();
-                    var AttributeProduct = $('#AttributeProduct').val();
-                    var QuantityBuy = $('.qty-buy').val();
-                    var Price = $('input[name="Price"]').val(); // Lấy giá trị từ trường ẩn
-                    var _token = $('input[name="_token"]').val();
-                    var qty_of_attr = $('.qty-of-attr').val();
-                    var idProAttr = $('#idProAttr').val();
+                $('.sub-qty').on('click', function() {
+                    var $input = $(this).next();
+                    var currentValue = parseInt($input.val());
+                    (currentValue == 1) ? currentValue: $input.val(currentValue - 1);
+                });
 
-                    $.ajax({
-                        url: '{{ url('/add-to-cart') }}',
-                        method: 'POST',
-                        data: {
-                            idProduct: idProduct,
-                            idProAttr: idProAttr,
-                            AttributeProduct: AttributeProduct,
-                            QuantityBuy: QuantityBuy,
-                            Price: Price,
-                            qty_of_attr: qty_of_attr,
-                            _token: _token
-                        },
-                        success: function(data) {
-                            // Hiển thị modal nếu có dữ liệu trả về
-                            if (data) {
-                                $('#modal-AddToCart').html(data);
-                                $('.modal-AddToCart').modal('show');
-                            } else {
-                                $('.alert-add-to-cart').html(
-                                "Có lỗi xảy ra. Vui lòng thử lại.");
+                $('.buy-now').on('click', function(e) {
+                    if ($(".qty-buy").val() > $Quantity) {
+                        $('.alert-buy-now').html("Vượt quá số lượng sản phẩm hiện có!");
+                        e.preventDefault();
+                    }
+                });
+
+                $('.add-to-cart').on('click', function() {
+                    if (idCustomer == "") {
+                        window.location.href = '../login';
+                    } else if ($(".qty-buy").val() > $Quantity) {
+                        $('.alert-add-to-cart').html("Vượt quá số lượng sản phẩm hiện có!");
+                    } else {
+                        var idProduct = $('#idProduct').val();
+                        var AttributeProduct = $('#AttributeProduct').val();
+                        var QuantityBuy = $('.qty-buy').val();
+                        var Price = $('input[name="Price"]').val(); // Lấy giá trị từ trường ẩn
+                        var _token = $('input[name="_token"]').val();
+                        var qty_of_attr = $('.qty-of-attr').val();
+                        var idProAttr = $('#idProAttr').val();
+
+                        $.ajax({
+                            url: '{{ url('/add-to-cart') }}',
+                            method: 'POST',
+                            data: {
+                                idProduct: idProduct,
+                                idProAttr: idProAttr,
+                                AttributeProduct: AttributeProduct,
+                                QuantityBuy: QuantityBuy,
+                                Price: Price,
+                                qty_of_attr: qty_of_attr,
+                                _token: _token
+                            },
+                            success: function(data) {
+                                // Hiển thị modal nếu có dữ liệu trả về
+                                if (data) {
+                                    $('#modal-AddToCart').html(data);
+                                    $('.modal-AddToCart').modal('show');
+                                } else {
+                                    $('.alert-add-to-cart').html(
+                                        "Có lỗi xảy ra. Vui lòng thử lại.");
+                                }
+                            },
+                            error: function() {
+                                $('.alert-add-to-cart').html("Có lỗi xảy ra. Vui lòng thử lại.");
                             }
-                        },
-                        error: function() {
-                            $('.alert-add-to-cart').html("Có lỗi xảy ra. Vui lòng thử lại.");
-                        }
-                    });
-                }
+                        });
+                    }
+                });
+
+
+
+               
+
+
+
             });
-
-            
-        // $('.add-to-cart').on('click',function(){
-        //     if(idCustomer == "")
-        //     {
-        //         window.location.href='../login';
-        //     }else if($(".qty-buy").val() > $Quantity)
-        //     {
-        //         $('.alert-add-to-cart').html("Vượt quá số lượng sản phẩm hiện có!");
-        //     }else
-        //     {
-        //         var idProduct = $('#idProduct').val();
-        //         var AttributeProduct = $('#AttributeProduct').val();
-        //         var QuantityBuy = $('.qty-buy').val();
-        //         var Price = $('Price').val();
-        //         var _token = $('input[name="_token"]').val();
-        //         var qty_of_attr = $('.qty-of-attr').val();
-        //         var idProAttr = $('#idProAttr').val();
-
-        //         $.ajax({
-        //             url: '{{url("/add-to-cart")}}',
-        //             method: 'POST',
-        //             data: {idProduct:idProduct,idProAttr:idProAttr,AttributeProduct:AttributeProduct,QuantityBuy:QuantityBuy,Price:Price,qty_of_attr:qty_of_attr, _token:_token},
-        //             success:function(data){
-        //                 $('#modal-AddToCart').html(data);
-        //                 $('.modal-AddToCart').modal('show');
-        //             }
-        //         });
-        //     }        
-        // });
-
-
-        });
-    </script>
-@endsection
+        </script>
+    @endsection

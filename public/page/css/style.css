@@ -57,11 +57,12 @@
 }
 
 
-.in-wishlist .icon-heart {
-  color: red;
+
+
+/* Màu sắc khi sản phẩm đã có trong danh sách yêu thích */
+.add-to-wishlist.in-wishlist .fa-heart {
+  color:  #f379a7; /* Hoặc màu bạn muốn sử dụng */
 }
-
-
 
 
 

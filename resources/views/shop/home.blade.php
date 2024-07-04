@@ -109,75 +109,6 @@
     </div>
 
 
-    <!-- Recommend Product Start -->
-    <div class="new-product-area section-padding-2">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-6 col-md-9 col-sm-11">
-                    <div class="section-title text-center">
-                        <h2 class="title">Gợi Ý Cho Bạn</h2>
-                        <p>A perfect blend of creativity, energy, communication, happiness and love. Let us arrange a smile
-                            for you.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="product-wrapper">
-                <div class="swiper-container product-active">
-                    <div class="swiper-wrapper">
-                        @foreach ($recommend_pds as $product)
-                            <div class="swiper-slide">
-                                <div class="single-product">
-                                    <div class="product-image">
-                                        <?php $image = json_decode($product->ImageName)[0]; ?>
-                                        <a href="{{ URL::to('/shop-single/' . $product->idProduct) }}">
-                                            <img src="{{ asset('/storage/kidadmin/images/product/' . $image) }}"
-                                                alt="{{ $product->ProductName }}">
-                                        </a>
-
-                                        <?php
-                                        $isInWishlist = in_array($product->idProduct, $wishlistProducts);
-                                        ?>
-
-
-
-                                        <div class="action-links">
-                                            <ul>
-                                                <li>
-                                                    <a class="add-to-wishlist {{ $isInWishlist ? 'in-wishlist' : '' }}" 
-                                           data-id="{{ $product->idProduct }}" data-tooltip="tooltip" 
-                                           data-placement="left" title="Thêm vào danh sách yêu thích">
-                                            <i class="icon-heart"></i>
-                                        </a>
-                                                </li>
-
-                                                <li><a class="quick-view-pd" data-id="{{ $product->idProduct }}"
-                                                        data-tooltip="tooltip" data-placement="left" title="Xem nhanh"><i
-                                                            class="icon-eye"></i></a></li>
-                                            </ul>
-                                        </div>
-
-                                    </div>
-                                    <div class="product-content text-center">
-                                        <h4 class="product-name"><a
-                                                href="{{ URL::to('/shop-single/' . $product->idProduct) }}">{{ $product->ProductName }}</a>
-                                        </h4>
-                                        <div class="price-box">
-                                            <span
-                                                class="current-price">{{ number_format($product->Price, 0, ',', '.') }}đ</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                    <!-- Add Arrows -->
-                    <div class="swiper-next"><i class="fa fa-angle-right"></i></div>
-                    <div class="swiper-prev"><i class="fa fa-angle-left"></i></div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Recommend Product End -->
 
 
 
@@ -222,11 +153,11 @@
                                             <ul>
 
                                                 <li>
-                                                    <a class="add-to-wishlist {{ $isInWishlist ? 'in-wishlist' : '' }}" 
-                                                    data-id="{{ $product->idProduct }}" data-tooltip="tooltip" 
-                                                    data-placement="left" title="Thêm vào danh sách yêu thích">
-                                                     <i class="icon-heart"></i>
-                                                 </a>
+                                                    <a class="add-to-wishlist {{ $isInWishlist ? 'in-wishlist' : 'not-in-wishlist' }}"
+                                                        data-id="{{ $product->idProduct }}" data-tooltip="tooltip"
+                                                        data-placement="left" title="Thêm vào danh sách yêu thích">
+                                                        <i class="fa fa-heart"></i>
+                                                    </a>
 
                                                 </li>
                                                 <li><a class="quick-view-pd" data-id="{{ $product->idProduct }}"
@@ -258,6 +189,78 @@
         </div>
     </div>
     <!--New Product End-->
+
+    <!-- Recommend Product Start -->
+    <div class="new-product-area section-padding-2">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6 col-md-9 col-sm-11">
+                    <div class="section-title text-center">
+                        <h2 class="title">Gợi Ý Cho Bạn</h2>
+                        <p>A perfect blend of creativity, energy, communication, happiness and love. Let us arrange a smile
+                            for you.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="product-wrapper">
+                <div class="swiper-container product-active">
+                    <div class="swiper-wrapper">
+                        @foreach ($recommend_pds as $product)
+                            <div class="swiper-slide">
+                                <div class="single-product">
+                                    <div class="product-image">
+                                        <?php $image = json_decode($product->ImageName)[0]; ?>
+                                        <a href="{{ URL::to('/shop-single/' . $product->idProduct) }}">
+                                            <img src="{{ asset('/storage/kidadmin/images/product/' . $image) }}"
+                                                alt="{{ $product->ProductName }}">
+                                        </a>
+
+                                        <?php
+                                        $isInWishlist = in_array($product->idProduct, $wishlistProducts);
+                                        ?>
+
+                                        <div class="action-links">
+                                            <ul>
+                                                <li>
+                                                    <a class="add-to-wishlist {{ $isInWishlist ? 'in-wishlist' : 'not-in-wishlist' }}"
+                                                    data-id="{{ $product->idProduct }}" data-tooltip="tooltip"
+                                                    data-placement="left" title="Thêm vào danh sách yêu thích">
+                                                    <i class="fa fa-heart"></i>
+                                                    </a>
+                                                </li>
+                                                <li><a class="quick-view-pd" data-id="{{ $product->idProduct }}"
+                                                        data-tooltip="tooltip" data-placement="left" title="Xem nhanh"><i
+                                                            class="icon-eye"></i></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="product-content text-center">
+                                        <h4 class="product-name"><a
+                                                href="{{ URL::to('/shop-single/' . $product->idProduct) }}">{{ $product->ProductName }}</a>
+                                        </h4>
+                                        <div class="price-box">
+                                            <span
+                                                class="current-price">{{ number_format($product->Price, 0, ',', '.') }}đ</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                    <!-- Add Arrows -->
+                    <div class="swiper-next"><i class="fa fa-angle-right"></i></div>
+                    <div class="swiper-prev"><i class="fa fa-angle-left"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Recommend Product End -->
+
+
+
+
+
+
     <!--New Product Start-->
     {{-- <div class="section-title text-center">
         <h2 class="title">Sản Phẩm Mới Nhất</h2>

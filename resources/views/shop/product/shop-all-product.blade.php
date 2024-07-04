@@ -38,18 +38,18 @@
                                         if (isset($_GET['sort_by'])) {
                                             if ($_GET['sort_by'] == 'new') {
                                                 echo 'Mới Nhất';
-                                            } elseif ($_GET['sort_by'] == 'old') {
-                                                echo 'Cũ Nhất';
-                                            } elseif ($_GET['sort_by'] == 'bestsellers') {
-                                                echo 'Bán Chạy';
-                                            } elseif ($_GET['sort_by'] == 'featured') {
-                                                echo 'Nổi Bật';
-                                            } elseif ($_GET['sort_by'] == 'sale') {
-                                                echo 'Đang SALE';
+                                            // } elseif ($_GET['sort_by'] == 'old') {
+                                            //     echo 'Cũ Nhất';
+                                            // } elseif ($_GET['sort_by'] == 'bestsellers') {
+                                            //     echo 'Bán Chạy';
+                                            // } elseif ($_GET['sort_by'] == 'featured') {
+                                            //     echo 'Nổi Bật';
+                                            // } elseif ($_GET['sort_by'] == 'sale') {
+                                            //     echo 'Đang SALE';
                                             } elseif ($_GET['sort_by'] == 'price_desc') {
-                                                echo 'Giá, Cao đến Thấp';
+                                                echo 'Giá Cao - Thấp';
                                             } elseif ($_GET['sort_by'] == 'price_asc') {
-                                                echo 'Giá, Thấp đến Cao';
+                                                echo 'Giá Thấp - Cao';
                                             }
                                         } else {
                                             echo 'Mới Nhất';
@@ -57,14 +57,9 @@
                                         ?>
                                     </span><i class="select-input__icon fa fa-angle-down"></i>
                                     <ul class="select-input__list">
-                                        <li class="select-input__item" data-sort="&sort_by=new">Mới Nhất</li>
-                                        <li class="select-input__item" data-sort="&sort_by=old">Cũ Nhất</li>
-                                        <li class="select-input__item" data-sort="&sort_by=bestsellers">Bán Chạy</li>
-                                        <li class="select-input__item" data-sort="&sort_by=featured">Nổi Bật</li>
-                                        <li class="select-input__item" data-sort="&sort_by=sale">Đang SALE</li>
-                                        <li class="select-input__item" data-sort="&sort_by=price_desc">Giá, Cao đến Thấp
-                                        </li>
-                                        <li class="select-input__item" data-sort="&sort_by=price_asc">Giá, Thấp đến Cao</li>
+                                        <li class="select-input__item" data-sort="&sort_by=new">Mới Nhất</li> 
+                                        <li class="select-input__item" data-sort="&sort_by=price_desc">Giá Cao - Thấp </li>
+                                        <li class="select-input__item" data-sort="&sort_by=price_asc">Giá Thấp - Cao</li>
                                     </ul>
                                 </div>
                             </div>
@@ -99,11 +94,11 @@
 
 
                                                         <li>
-                                                            <a class="add-to-wishlist {{ $isInWishlist ? 'in-wishlist' : '' }}" 
-                                                            data-id="{{ $product->idProduct }}" data-tooltip="tooltip" 
-                                                            data-placement="left" title="Thêm vào danh sách yêu thích">
-                                                             <i class="icon-heart"></i>
-                                                         </a>
+                                                            <a class="add-to-wishlist {{ $isInWishlist ? 'in-wishlist' : 'not-in-wishlist' }}"
+                                                                data-id="{{ $product->idProduct }}" data-tooltip="tooltip"
+                                                                data-placement="left" title="Thêm vào danh sách yêu thích">
+                                                                <i class="fa fa-heart"></i>
+                                                            </a>
                                                         </li>
                                                         <li><a class="quick-view-pd" data-id="{{ $product->idProduct }}"
                                                                 data-tooltip="tooltip" data-placement="left"
@@ -241,7 +236,7 @@
                             </ul>
                         </div>
 
-                        <div class="sidebar-categories">
+                        {{-- <div class="sidebar-categories">
                             <h3 class="widget-title">Theo giá</h3>
                             <div class="d-flex justify-content-between">
                                 <input class="input-filter-price min" type="number" min="0" maxlength="13"
@@ -260,7 +255,7 @@
                             </div>
                             <div class="alert-filter-price text-primary mt-2 d-none">Vui lòng điền khoảng giá phù hợp</div>
                             <button type="button" class="btn-filter-price btn btn-primary">Áp dụng</button>
-                        </div>
+                        </div> --}}
                         <!--Sidebar Categories End-->
 
 
