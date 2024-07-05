@@ -16,8 +16,7 @@ use Illuminate\Support\Facades\Session;
 use App\Models\Viewer;
 use App\Models\WishList;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Auth;
+
 
 class ProductController extends Controller
 {
@@ -351,7 +350,7 @@ class ProductController extends Controller
             ->select('ImageName', 'product.*')
             ->get();
 
-        return view("shop.product.shop-single")->with(compact('list_category', 'list_brand', 'product', 'list_pd_attr', 'name_attribute', 'list_related_products','wishlistProducts'));
+        return view("shop.product.shop-single")->with(compact('list_category', 'list_brand', 'product', 'list_pd_attr', 'name_attribute', 'list_related_products', 'wishlistProducts'));
     }
 
 
@@ -363,35 +362,27 @@ class ProductController extends Controller
     // Tìm kiếm sản phẩm
     public function search()
     {
-        $keyword = $_GET['keyword'];
+        $idCustomer = session('idCustomer');
+        // Lấy danh sách các sản phẩm yêu thích của người dùng
+        $wishlistProducts = WishList::where('idCustomer', $idCustomer)->pluck('idProduct')->toArray();
+    
+        $keyword = $_GET['keyword'] ?? ''; // Sử dụng toán tử null coalescing để đảm bảo có giá trị mặc định
         $sub30days = Carbon::now()->subDays(30)->toDateString();
-
+    
         $list_category = Category::get();
         $list_brand = Brand::get();
-
-        // Tìm kiếm sản phẩm
+    
+        // Tạo một đối tượng query cho tìm kiếm sản phẩm
         $list_pd_query = Product::join('productimage', 'productimage.idProduct', '=', 'product.idProduct')
             ->join('brand', 'brand.idBrand', '=', 'product.idBrand')
             ->join('category', 'category.idCategory', '=', 'product.idCategory')
             ->where('ProductName', 'like', '%' . $keyword . '%')
             ->select('product.idProduct', 'product.ProductName', 'product.Price', 'product.created_at', 'productimage.ImageName', 'brand.BrandName', 'category.CategoryName');
-
-        // Nếu không tìm thấy kết quả, thực hiện tìm kiếm theo thương hiệu và danh mục
-        if ($list_pd_query->count() < 1) {
-            $list_pd_query = Product::join('productimage', 'productimage.idProduct', '=', 'product.idProduct')
-                ->join('brand', 'brand.idBrand', '=', 'product.idBrand')
-                ->join('category', 'category.idCategory', '=', 'product.idCategory')
-                ->select('product.idProduct', 'product.ProductName', 'product.Price', 'product.created_at', 'productimage.ImageName', 'brand.BrandName', 'category.CategoryName')
-                ->where(function ($query) use ($keyword) {
-                    $query->orWhere('BrandName', 'like', '%' . $keyword . '%')
-                        ->orWhere('CategoryName', 'like', '%' . $keyword . '%');
-                });
-        }
-
+    
         // Bộ lọc theo thương hiệu và danh mục
         if (isset($_GET['brand'])) $brand_arr = explode(",", $_GET['brand']);
         if (isset($_GET['category'])) $category_arr = explode(",", $_GET['category']);
-
+    
         if (isset($_GET['category']) && isset($_GET['brand'])) {
             $list_pd_query->whereIn('product.idCategory', $category_arr)
                 ->whereIn('product.idBrand', $brand_arr);
@@ -400,7 +391,7 @@ class ProductController extends Controller
         } elseif (isset($_GET['category'])) {
             $list_pd_query->whereIn('product.idCategory', $category_arr);
         }
-
+    
         // Bộ lọc theo giá
         if (isset($_GET['priceMin']) && isset($_GET['priceMax'])) {
             $list_pd_query->whereBetween('Price', [$_GET['priceMin'], $_GET['priceMax']]);
@@ -409,7 +400,7 @@ class ProductController extends Controller
         } elseif (isset($_GET['priceMax'])) {
             $list_pd_query->where('Price', '<=', $_GET['priceMax']);
         }
-
+    
         // Sắp xếp
         if (isset($_GET['sort_by'])) {
             switch ($_GET['sort_by']) {
@@ -429,17 +420,33 @@ class ProductController extends Controller
                     break;
             }
         }
-
-        $count_pd = $list_pd_query->count();
+    
+        // Phân trang
         $list_pd = $list_pd_query->paginate(15);
-
+    
+        // Kiểm tra số lượng sản phẩm tìm thấy
+        $count_pd = $list_pd->total(); // Sử dụng total() để lấy số lượng tổng sản phẩm
+    
+        // Nếu không tìm thấy sản phẩm nào
+        if ($count_pd < 1) {
+            // Hiển thị thông báo không tìm thấy sản phẩm
+            session()->flash('message', 'Không tìm thấy sản phẩm nào.');
+        }
+    
         $top_bestsellers_pd = Product::join('productimage', 'productimage.idProduct', '=', 'product.idProduct')
             ->orderBy('product.created_at', 'DESC')
             ->limit(3)
             ->get();
-
-        return view("shop.search")->with(compact('list_category', 'list_brand', 'list_pd', 'count_pd', 'keyword', 'top_bestsellers_pd'));
+    
+        return view("shop.search")->with(compact('list_category', 'list_brand', 'list_pd', 'count_pd', 'keyword', 'top_bestsellers_pd', 'wishlistProducts'));
     }
+    
+    
+
+    
+
+
+
 
 
 
@@ -468,32 +475,18 @@ class ProductController extends Controller
             ->join('brand', 'brand.idBrand', '=', 'product.idBrand')
             ->join('category', 'category.idCategory', '=', 'product.idCategory')
             ->where('ProductName', 'like', '%' . $value . '%') // Tìm kiếm cơ bản với LIKE
-            ->select('product.idProduct','ImageName', 'ProductName');
-
- 
-        // Nếu không tìm thấy sản phẩm, tìm kiếm theo thương hiệu và danh mục
-        if ($pds->count() < 1) {
-            $pds = Product::join('productimage', 'productimage.idProduct', '=', 'product.idProduct')
-                ->join('brand', 'brand.idBrand', '=', 'product.idBrand')
-                ->join('category', 'category.idCategory', '=', 'product.idCategory')
-                ->select('ImageName', 'ProductName', 'BrandName', 'CategoryName')
-                ->where(function ($query) use ($value) {
-                    $query->orWhere('BrandName', 'like', '%' . $value . '%')
-                        ->orWhere('CategoryName', 'like', '%' . $value . '%');
-                });
-        }
-
-        // Lấy kết quả sản phẩm
-        $get_pd = $pds->limit(3)->get();
+            ->select('product.idProduct', 'product.ProductName', 'productimage.ImageName')
+            ->limit(3) // Đảm bảo giới hạn số lượng kết quả trả về
+            ->get();
 
         // Tạo HTML cho danh mục
         if ($get_cat->count() > 0) {
             $output .= '<h5 class="p-1">Danh mục</h5>';
             foreach ($get_cat as $cat) {
                 $output .= '
-            <li class="search-product-item">
-                <a class="search-product-text one-line" href="/search?keyword=' . urlencode($cat->CategoryName) . '">' . $cat->CategoryName . '</a>
-            </li>';
+                    <li class="search-product-item">
+                        <a class="search-product-text one-line" href="/search?keyword=' . urlencode($cat->CategoryName) . '">' . $cat->CategoryName . '</a>
+                    </li>';
             }
         }
 
@@ -502,33 +495,32 @@ class ProductController extends Controller
             $output .= '<h5 class="p-1">Thương hiệu</h5>';
             foreach ($get_brand as $brand) {
                 $output .= '
-            <li class="search-product-item">
-                <a class="search-product-text one-line" href="/search?keyword=' . urlencode($brand->BrandName) . '">' . $brand->BrandName . '</a>
-            </li>';
+                    <li class="search-product-item">
+                        <a class="search-product-text one-line" href="/search?keyword=' . urlencode($brand->BrandName) . '">' . $brand->BrandName . '</a>
+                    </li>';
             }
         }
 
         // Tạo HTML cho sản phẩm
-        if ($get_pd->count() > 0) {
+        if ($pds->count() > 0) {
             $output .= '<h5 class="p-1">Sản phẩm</h5>';
-            foreach ($get_pd as $pd) {
+            foreach ($pds as $pd) {
                 $image = json_decode($pd->ImageName)[0];
                 $output .= '
-            <li class="search-product-item d-flex align-items-center">
-                <a class="search-product-text" href="/shop-single/' . $pd->idProduct . '">
-                    <div class="d-flex align-items-center">
-                        <img width="50" height="50" src="/storage/kidadmin/images/product/' . $image . '" alt="">
-                        <span class="two-line ml-2">' . $pd->ProductName . '</span>
-                    </div>
-                </a>
-            </li>';
+                    <li class="search-product-item d-flex align-items-center">
+                        <a class="search-product-text" href="/shop-single/' . $pd->idProduct . '">
+                            <div class="d-flex align-items-center">
+                                <img width="50" height="50" src="/storage/kidadmin/images/product/' . $image . '" alt="">
+                                <span class="two-line ml-2">' . $pd->ProductName . '</span>
+                            </div>
+                        </a>
+                    </li>';
             }
         }
 
         // Trả về kết quả HTML
         echo $output;
     }
-
 
 
 

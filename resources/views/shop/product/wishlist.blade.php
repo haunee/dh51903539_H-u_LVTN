@@ -80,7 +80,7 @@
                 }
             });
 
-            // Xử lý sự kiện click trên nút xóa
+
             // Xử lý sự kiện click trên nút xóa
             $('.delete-wish').click(function(e) {
                 e.preventDefault(); // Ngăn chặn hành vi mặc định của liên kết
