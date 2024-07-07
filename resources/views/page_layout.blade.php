@@ -153,6 +153,7 @@
                                             <ul class="dropdown-menu">
                                                 <li><a href="{{ URL::to('/profile') }}">Tài khoản của tôi</a></li>
                                                 <li><a href="{{ URL::to('/wishlist') }}">Sản phẩm yêu thích</a></li>
+                                                <li><a href="{{URL::to('/ordered')}}">Đơn mua</a></li>
                                                 <li><a href="{{ URL::to('/logout') }}">Đăng xuất</a></li>
                                             </ul>
                                             <input type="hidden" id="idCustomer"
@@ -543,6 +544,7 @@
                 }
             });
          
+
 
 
 

@@ -49,7 +49,7 @@
                                             href="{{ URL::to('/shop-single/' . $pd_cart->idProduct) }}">{{ $pd_cart->ProductName }}</a>
                                         <span>Mã sản phẩm: {{ $pd_cart->idProduct }}</span>
                                         <span>{{ $pd_cart->AttributeProduct }}</span>
-                                        <span class="text-primary">Còn Lại: {{ $pd_cart->Quantity }}</span>
+                                        
                                         <?php $replace = [' ', ':']; ?>
                                         <input type="hidden" class="Quantity" id="<?php echo 'Quantity-' . $pd_cart->idProduct . '-' . str_replace($replace, '', $pd_cart->AttributeProduct); ?>"
                                             value="{{ $pd_cart->Quantity }}">
@@ -62,15 +62,19 @@
                                             <button type="button" class="sub-qty"
                                                 id="sub-qty-{{ $pd_cart->idProduct }}-{{ $pd_cart->AttributeProduct }}"><i
                                                     class="ti-minus"></i></button>
+
                                             <input type="number" class="QuantityBuy"
                                                 id="QuantityBuy-{{ $pd_cart->idProduct }}"
                                                 value="{{ $pd_cart->QuantityBuy }}" min="1"
                                                 oninput="validity.valid||(value='1');" />
+
                                             <button type="button" class="add-qty"
                                                 id="{{ $pd_cart->idProduct }}-{{ $pd_cart->AttributeProduct }}"><i
                                                     class="ti-plus"></i></button>
+
                                             <div class="alert-qty-input"><span class="message-qty-input">Mua tối đa
                                                     {{ $pd_cart->Quantity }} sản phẩm!</span></div>
+                                                    
                                             <input type="hidden" value="{{ $pd_cart->idCart }}">
                                             <input type="hidden" value="{{ $pd_cart->Price }}">
                                             <input type="hidden" value="{{ $pd_cart->Quantity }}">
@@ -308,7 +312,7 @@
 
 
 
-            //xóa 1 sản phẩm
+            //xóa sản phẩm
             $(document).on('click', '.delete-pd-cart', function(e) {
                 e.preventDefault();
 
@@ -324,8 +328,7 @@
                         },
                         success: function(response) {
                             // Kiểm tra xem giỏ hàng có sản phẩm nào không
-                            if ($('.delete-pd-cart').length ===
-                                1) { // Chỉ còn 1 sản phẩm sẽ bị xóa
+                            if ($('.delete-pd-cart').length === 1) { // Chỉ còn 1 sản phẩm sẽ bị xóa
                                 window.location.href = '/empty-cart';
                             } else {
                                 // Reload or update the cart view

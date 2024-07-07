@@ -343,15 +343,16 @@ class ProductController extends Controller
 
         $product = Product::join('productimage', 'productimage.idProduct', '=', 'product.idProduct')->where('product.idProduct', $this_pro->idProduct)->first();
 
-        $list_related_products = Product::join('productimage', 'productimage.idProduct', '=', 'product.idProduct')
-            ->where('product.idBrand', $idBrand)
-            ->orWhere('product.idCategory', $idCategory)
-            ->whereNotIn('product.idProduct', [$this_pro->idProduct])
-            ->select('ImageName', 'product.*')
-            ->get();
+        // $list_related_products = Product::join('productimage', 'productimage.idProduct', '=', 'product.idProduct')
+        //     ->where('product.idBrand', $idBrand)
+        //     ->orWhere('product.idCategory', $idCategory)
+        //     ->whereNotIn('product.idProduct', [$this_pro->idProduct])
+        //     ->select('ImageName', 'product.*')
+        //     ->get();
 
-        return view("shop.product.shop-single")->with(compact('list_category', 'list_brand', 'product', 'list_pd_attr', 'name_attribute', 'list_related_products', 'wishlistProducts'));
+        return view("shop.product.shop-single")->with(compact('list_category', 'list_brand', 'product', 'list_pd_attr', 'name_attribute', 'wishlistProducts'));
     }
+
 
 
 
@@ -367,7 +368,7 @@ class ProductController extends Controller
         $wishlistProducts = WishList::where('idCustomer', $idCustomer)->pluck('idProduct')->toArray();
     
         $keyword = $_GET['keyword'] ?? ''; // Sử dụng toán tử null coalescing để đảm bảo có giá trị mặc định
-        $sub30days = Carbon::now()->subDays(30)->toDateString();
+       // $sub30days = Carbon::now()->subDays(30)->toDateString();
     
         $list_category = Category::get();
         $list_brand = Brand::get();
