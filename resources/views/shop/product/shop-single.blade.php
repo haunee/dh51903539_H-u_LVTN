@@ -60,17 +60,7 @@
                         <span class="product-sku">Mã sản phẩm: <span>{{ $product->idProduct }}</span></span>
                         <div class="text-primary">Đã Bán: {{ $product->Sold }} sản phẩm</div>
                         <div class="text-primary">Còn Lại: {{ $product->QuantityTotal }} sản phẩm</div>
-                        {{-- <div class="text-primary">Lượt Yêu Thích: {{$count_wish}} </div> --}}
-                        {{-- <div class="product-rating">
-                            <ul class="rating-star">
-                                <li class="rating-on"><i class="fa fa-star-o"></i></li>
-                                <li class="rating-on"><i class="fa fa-star-o"></i></li>
-                                <li class="rating-on"><i class="fa fa-star-o"></i></li>
-                                <li class="rating-on"><i class="fa fa-star-o"></i></li>
-                                <li class="rating-on"><i class="fa fa-star-o"></i></li>
-                            </ul>
-                            <span>No reviews</span>
-                        </div> --}}
+                     
                         <div class="thumb-price">
                             <span class="current-price">{{ number_format(round($product->Price, -3), 0, ',', '.') }}đ</span>
                         </div>
@@ -143,12 +133,11 @@
                             <div class="text-primary alert-add-to-cart"></div>
 
                             <div class="dynamic-checkout-button">
-
                                 <div class="checkout-btn">
-                                    <input type="submit" formaction="{{ URL::to('/buy-now') }}"
-                                        class="btn btn-primary buy-now" value="Mua ngay" />
+                                    <input type="submit" formaction="{{ url('/payment') }}" class="btn btn-primary buy-now" value="Mua ngay" />
                                 </div>
                             </div>
+                            
                             <div class="text-primary alert-buy-now"></div>
                             <?php
                             $error = Session::get('error');

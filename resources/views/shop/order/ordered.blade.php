@@ -126,7 +126,7 @@
                                                         data-original-title="Xem chi tiết"><i class="fa fa-eye"></i></a>
                                                     @if ($bill->Status == 0)
                                                         <meta name="csrf-token" content="{{ csrf_token() }}">
-                                                        <a class="view-hover h3 ml-2 delete-bill-btn"
+                                                        <a class="view-hover h3 ml-2 delete-order-btn"
                                                             data-id="{{ $bill->idBill }}">
                                                             <i class="fa fa-trash"></i>
                                                         </a>
@@ -149,7 +149,7 @@
         $(document).ready(function() {
             var APP_URL = '{{ url('/') }}';
 
-            $(".delete-bill-btn").on("click", function(e) {
+            $(".delete-order-btn").on("click", function(e) {
                 e.preventDefault();
 
                 var idBill = $(this).data("id");
@@ -159,7 +159,7 @@
                     var _token = $('meta[name="csrf-token"]').attr('content');
 
                     $.ajax({
-                        url: APP_URL + '/delete-bill/' + idBill,
+                        url: APP_URL + '/delete-order/' + idBill,
                         method: 'POST',
                         data: {
                             _token: _token

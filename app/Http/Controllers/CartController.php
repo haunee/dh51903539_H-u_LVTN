@@ -19,6 +19,12 @@ use Illuminate\Support\Facades\Log;
 class CartController extends Controller
 {
 
+
+
+
+
+
+
     // Kiểm tra đăng nhập
     public function checkLogin()
     {
@@ -96,116 +102,6 @@ class CartController extends Controller
     }
 
 
-    // public function add_to_cart(Request $request){
-    //     $this->checkLogin();
-
-    //     $data = $request->all();
-    //     $cart = new Cart();
-
-    //     $cart->idProduct = $data['idProduct'];
-    //     $cart->QuantityBuy = $data['QuantityBuy'];
-    //     $cart->Price = $data['Price'];
-    //     $cart->Total = $data['Price']*$data['QuantityBuy'];
-    //     $cart->idCustomer = Session::get('idCustomer');
-    //     $cart->AttributeProduct = $data['AttributeProduct'];
-    //     $cart->idProAttr = $data['idProAttr'];
-    //     $qty_of_attr = $data['qty_of_attr'];
-
-    //     $output = '<div class="modal fade modal-AddToCart" id="successAddToCart" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true"><div class="modal-dialog modal-dialog-centered" role="document"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="exampleModalCenterTitle">Thông báo</h5></div><button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" aria-hidden="true"></span></button><div class="modal-body text-center p-3 h4"><div class="mb-3"><i class="fa fa-check-circle text-primary" style="font-size:50px;"></i></div>Đã thêm sản phẩm vào giỏ hàng</div><div class="modal-footer justify-content-center"><button type="button" class="btn btn-secondary" data-dismiss="modal">Tiếp tục mua sắm</button><a href="../cart" type="button" class="btn btn-primary">Đi đến giỏ hàng</a></div></div></div></div>';
-
-    //     $find_pd = Cart::where('idProduct',$data['idProduct'])->where('idCustomer',Session::get('idCustomer'))
-    //         ->where('AttributeProduct',$data['AttributeProduct'])->first();
-
-    //     if($find_pd){
-    //         $QuantityBuy = $data['QuantityBuy'] + $find_pd->QuantityBuy;
-    //         if($QuantityBuy > $qty_of_attr){
-    //             $output = '<div id="errorAddToCart" class="modal fade bd-example-modal-sm modal-AddToCart" tabindex="-1" role="dialog"  aria-hidden="true"><div class="modal-dialog modal-dialog-centered modal-sm"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Thông báo</h5></div><button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"></span></button><div class="modal-body"><p>Vượt quá số lượng sản phẩm hiện có!</p></div><div class="modal-footer justify-content-center"><button type="button" class="btn btn-secondary" data-dismiss="modal">OK</button></div></div></div></div>';
-    //             echo $output;
-    //         }else{
-    //             $Total = $QuantityBuy * $data['Price'];
-
-    //             Cart::where('idProduct',$data['idProduct'])->where('idCustomer',Session::get('idCustomer'))
-    //                 ->where('AttributeProduct',$data['AttributeProduct'])->update(['QuantityBuy' => $QuantityBuy, 'Total' => $Total]);
-
-    //             echo $output;
-    //         }
-    //     }else{
-    //         $cart->save();
-    //         echo $output;
-    //     }
-    // }
-
-
-
-
-    // Chuyển đến trang giỏ hàng
-    // public function show_cart()
-    // {
-    //     $this->checkLogin();
-    //     $this->checkCart();
-    //     $list_category = Category::get();
-    //     $list_brand = Brand::get();
-    //     $recommend_pds_arrays = [];
-    //     $checked_pro = [];
-
-    //     $list_pd_cart = Cart::join('product', 'product.idProduct', '=', 'cart.idProduct')
-    //         ->join('productimage', 'productimage.idProduct', 'cart.idProduct')
-    //         ->join('product_attribute', 'product_attribute.idProAttr', '=', 'cart.idProAttr')
-    //         ->where('idCustomer', Session::get('idCustomer'))->get();
-
-    //     foreach ($list_pd_cart as $key => $pd_cart) {
-    //         $idBrand = $pd_cart->idBrand;
-    //         $idCategory = $pd_cart->idCategory;
-
-    //         // Mảng các sản phẩm đã lặp qua
-    //         $checked_pro[] = $pd_cart->idProduct;
-
-    //         // Danh sách sản phẩm gợi ý của 1 sản phẩm trong giỏ hàng
-    //         $list_recommend_pds = Product::whereNotIn('idProduct', [$pd_cart->idProduct])
-    //             ->where(function ($query) use ($idBrand, $idCategory) {
-    //                 $query->orWhere('idBrand', $idBrand)
-    //                     ->orWhere('idCategory', $idCategory);
-    //             })
-    //             ->select('idProduct')
-    //             ->get();
-
-    //         if ($list_recommend_pds->count() > 0) {
-    //             // Thêm từng sản phẩm gợi ý của 1 sản phẩm vào 1 mảng
-    //             foreach ($list_recommend_pds as $recommend_pd) {
-    //                 $recommend_pds_array[$key][] = $recommend_pd->idProduct;
-    //             }
-
-    //             // Thêm từng mảng thứ $key vào 1 mảng lớn
-    //             $recommend_pds_arrays[] = $recommend_pds_array[$key];
-    //         }
-    //     }
-
-    //     if (count($recommend_pds_arrays) > 0) {
-    //         // Hàm gộp mảng, xen kẽ các phần tử của từng mảng
-    //         $output = [];
-    //         for ($args = $recommend_pds_arrays; count($args); $args = array_filter($args)) {
-    //             // &$arg allows array_shift() to change the original.
-    //             foreach ($args as &$arg) {
-    //                 $output[] = array_shift($arg);
-    //             }
-    //         }
-
-    //         $recommend_pds_last = array_diff($output, $checked_pro); // Xóa các sản phẩm đã lặp qua
-    //         $recommend_pds_unique = array_unique($recommend_pds_last); // Lọc các phần tử trùng nhau
-    //         $recommend_pds = json_encode($recommend_pds_unique);
-    //     } else {
-    //         $featured_pds = Product::join('productimage', 'productimage.idProduct', '=', 'product.idProduct')
-    //             ->orderBy('product.created_at', 'DESC')  // Specify 'product' table
-    //             ->select('product.idProduct')
-    //             ->get();
-
-    //         $featured_pds_array = $featured_pds->pluck('idProduct')->toArray();
-
-    //         $recommend_pds = json_encode($featured_pds_array);
-    //     }
-
-    //     return view('shop.cart.cart')->with(compact('list_category', 'list_brand', 'list_pd_cart', 'recommend_pds'));
-    // }
 
 
 
@@ -377,9 +273,84 @@ class CartController extends Controller
 
 
 
-
+    //============PAGE===================//
 
     //===========BILL=======ORDER========//
+
+
+    // Hiện tất cả đơn đặt hàng
+    public function ordered()
+    {
+        $this->checkLogin();
+        $list_category = Category::get();
+        $list_brand = Brand::get();
+        $list_bill = Bill::where('bill.idCustomer', Session::get('idCustomer'))->orderBy('idBill', 'desc')->get();
+        return view("shop.order.ordered")->with(compact('list_category', 'list_brand', 'list_bill'));
+    }
+
+
+    // Hiện tất cả đơn đặt hàng đã hủy
+    public function order_cancelled()
+    {
+        $this->checkLogin();
+        $list_category = Category::get();
+        $list_brand = Brand::get();
+        $list_bill = Bill::where('idCustomer', Session::get('idCustomer'))->where('Status', 99)->get();
+        return view("shop.order.order-cancelled")->with(compact('list_category', 'list_brand', 'list_bill'));
+    }
+
+
+    // Hiện tất cả đơn đặt hàng đang giao
+    public function order_shipping()
+    {
+        $this->checkLogin();
+        $list_category = Category::get();
+        $list_brand = Brand::get();
+        $list_bill = Bill::where('bill.idCustomer', Session::get('idCustomer'))->where('Status', '1')->get();
+        return view("shop.order.order-shipping")->with(compact('list_category', 'list_brand', 'list_bill'));
+    }
+
+    // Hiện tất cả đơn đặt hàng đã giao
+    public function order_shipped()
+    {
+        $this->checkLogin();
+        $list_category = Category::get();
+        $list_brand = Brand::get();
+        $list_bill = Bill::where('bill.idCustomer', Session::get('idCustomer'))->where('Status', '2')->get();
+        return view("shop.order.order-shipped")->with(compact('list_category', 'list_brand', 'list_bill'));
+    }
+    // Hiện tất cả đơn đặt hàng đang chờ xác nhận
+    public function order_waiting()
+    {
+        $this->checkLogin();
+        $list_category = Category::get();
+        $list_brand = Brand::get();
+        $list_bill = Bill::where('bill.idCustomer', Session::get('idCustomer'))->where('Status', '0')->get();
+        return view("shop.order.order-waiting")->with(compact('list_category', 'list_brand', 'list_bill'));
+    }
+
+    // Hiện chi tiết đơn đặt hàng
+    public function ordered_info($idBill)
+    {
+        $this->checkLogin();
+        $list_category = Category::get();
+        $list_brand = Brand::get();
+
+        $address = Bill::where('idBill', $idBill)->first();
+
+        $list_bill_info = BillInfo::join('product', 'product.idProduct', '=', 'billinfo.idProduct')
+            ->join('productimage', 'productimage.idProduct', '=', 'billinfo.idProduct')
+            ->where('billinfo.idBill', $idBill)
+            ->select('product.ProductName', 'product.idProduct', 'productimage.ImageName', 'billinfo.*')->get();
+
+        return view("shop.order.ordered-info")->with(compact('list_category', 'list_brand', 'address', 'list_bill_info'));
+    }
+
+
+
+
+
+
 
     public function submit_payment(Request $request)
     {
@@ -388,10 +359,10 @@ class CartController extends Controller
 
         if ($data['checkout'] == 'vnpay') {
             $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-            $vnp_Returnurl = rtrim(getenv('APP_URL'), '/') . '/success-order'; 
+            $vnp_Returnurl = rtrim(getenv('APP_URL'), '/') . '/success-order';
 
-            $vnp_TmnCode = "CGXZLS0Z"; 
-            $vnp_HashSecret = "XNBCJFAKAZQSGTARRLGCHVZWCIOIGSHN"; 
+            $vnp_TmnCode = "CGXZLS0Z";
+            $vnp_HashSecret = "XNBCJFAKAZQSGTARRLGCHVZWCIOIGSHN";
 
             $vnp_TxnRef = base64_encode(openssl_random_pseudo_bytes(30)); //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
             $vnp_OrderInfo = $data['address_rdo'] . '_' . $data['Voucher'] . '_' . Session::get('idCustomer') . '_' . $data['idVoucher'];
@@ -559,23 +530,8 @@ class CartController extends Controller
 
 
 
-
-
-
-    // Hiện tất cả đơn đặt hàng
-    public function ordered()
-    {
-        $this->checkLogin();
-        $list_category = Category::get();
-        $list_brand = Brand::get();
-        $list_bill = Bill::where('bill.idCustomer', Session::get('idCustomer'))->orderBy('idBill', 'desc')->get();
-        return view("shop.order.ordered")->with(compact('list_category', 'list_brand', 'list_bill'));
-    }
-
-
-
-
-    public function delete_bill(Request $request, $idBill)
+    
+    public function delete_order(Request $request, $idBill)
     {
         if ($request->isMethod('post')) {
             try {
@@ -585,8 +541,6 @@ class CartController extends Controller
                 if (!$bill) {
                     return response()->json(['success' => false, 'message' => 'Đơn hàng không tồn tại.'], 404);
                 }
-
-
 
                 // Cập nhật trạng thái đơn hàng
                 $bill->update(['Status' => 99]);
@@ -604,7 +558,7 @@ class CartController extends Controller
                 return response()->json(['success' => true]);
             } catch (\Exception $e) {
                 // Log lỗi và trả về phản hồi lỗi
-                Log::error('Error deleting bill: ' . $e->getMessage());
+                Log::error('Error deleting order: ' . $e->getMessage());
                 return response()->json(['success' => false, 'message' => 'Có lỗi xảy ra. Vui lòng thử lại.'], 500);
             }
         }
@@ -617,132 +571,14 @@ class CartController extends Controller
 
 
 
-    // Hiện tất cả đơn đặt hàng đã hủy
-    public function order_cancelled()
-    {
-        $this->checkLogin();
-        $list_category = Category::get();
-        $list_brand = Brand::get();
-        $list_bill = Bill::where('bill.idCustomer', Session::get('idCustomer'))->where('Status', '99')->get();
-        return view("shop.order.order-cancelled")->with(compact('list_category', 'list_brand', 'list_bill'));
-    }
-
-    // Hiện tất cả đơn đặt hàng đang giao
-    public function order_shipping()
-    {
-        $this->checkLogin();
-        $list_category = Category::get();
-        $list_brand = Brand::get();
-        $list_bill = Bill::where('bill.idCustomer', Session::get('idCustomer'))->where('Status', '1')->get();
-        return view("shop.order.order-shipping")->with(compact('list_category', 'list_brand', 'list_bill'));
-    }
-
-    // Hiện tất cả đơn đặt hàng đã giao
-    public function order_shipped()
-    {
-        $this->checkLogin();
-        $list_category = Category::get();
-        $list_brand = Brand::get();
-        $list_bill = Bill::where('bill.idCustomer', Session::get('idCustomer'))->where('Status', '2')->get();
-        return view("shop.order.order-shipped")->with(compact('list_category', 'list_brand', 'list_bill'));
-    }
-    // Hiện tất cả đơn đặt hàng đang chờ xác nhận
-    public function order_waiting()
-    {
-        $this->checkLogin();
-        $list_category = Category::get();
-        $list_brand = Brand::get();
-        $list_bill = Bill::where('bill.idCustomer', Session::get('idCustomer'))->where('Status', '0')->get();
-        return view("shop.order.order-waiting")->with(compact('list_category', 'list_brand', 'list_bill'));
-    }
-
-    // Hiện chi tiết đơn đặt hàng
-    public function ordered_info($idBill)
-    {
-        $this->checkLogin();
-        $list_category = Category::get();
-        $list_brand = Brand::get();
-
-        $address = Bill::where('idBill', $idBill)->first();
-
-        $list_bill_info = BillInfo::join('product', 'product.idProduct', '=', 'billinfo.idProduct')
-            ->join('productimage', 'productimage.idProduct', '=', 'billinfo.idProduct')
-            ->where('billinfo.idBill', $idBill)
-            ->select('product.ProductName', 'product.idProduct', 'productimage.ImageName', 'billinfo.*')->get();
-
-        return view("shop.order.ordered-info")->with(compact('list_category', 'list_brand', 'address', 'list_bill_info'));
-    }
-
-
-
-    // Mua ngay
-    public function buy_now(Request $request)
-    {
-        $this->checkLogin();
-
-        $data = $request->all();
-        $cart = new Cart();
-
-        $cart->idProduct = $data['idProduct'];
-        $cart->QuantityBuy = $data['qty_buy'];
-        $cart->Price = $data['Price'];
-        $cart->Total = $data['Price'] * $data['qty_buy'];
-        $cart->idCustomer = Session::get('idCustomer');
-        $cart->AttributeProduct = $data['AttributeProduct'];
-        $cart->idProAttr = $data['idProAttr'];
-        $qty_of_attr = $data['qty_of_attr'];
-
-        $find_pd = Cart::where('idProduct', $data['idProduct'])->where('idCustomer', Session::get('idCustomer'))
-            ->where('AttributeProduct', $data['AttributeProduct'])->first();
-
-        if ($find_pd) {
-            $QuantityBuy = $data['qty_buy'] + $find_pd->QuantityBuy;
-            if ($QuantityBuy > $qty_of_attr) {
-                return redirect()->back()->with('error', 'Vượt quá số lượng sản phẩm hiện có!');
-            } else {
-                $Total = $QuantityBuy * $data['Price'];
-
-                Cart::where('idProduct', $data['idProduct'])->where('idCustomer', Session::get('idCustomer'))
-                    ->where('AttributeProduct', $data['AttributeProduct'])->update(['QuantityBuy' => $QuantityBuy, 'Total' => $Total]);
-
-                return Redirect::to('cart')->send();
-            }
-        } else {
-            $cart->save();
-            return Redirect::to('cart')->send();
-        }
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
 
     //=========================ADMIN=======================//
+
+    //===========BILL=======ORDER========//
+
     // Kiểm tra đăng nhập
     public function checkLogin_Admin()
     {
@@ -757,29 +593,6 @@ class CartController extends Controller
         $list_bill = Bill::join('customer', 'bill.idCustomer', '=', 'customer.idCustomer')->whereNotIn('Status', [99])
             ->select('customer.username', 'customer.PhoneNumber as CusPhone', 'bill.*')->get();
         return view("admin.order.list-bill")->with(compact('list_bill'));
-    }
-
-
-    // Xác nhận đơn hàng
-    public function confirm_bill(Request $request, $idBill)
-    {
-        if ($request->Status == 2) {
-            Bill::find($idBill)->update(['ReceiveDate' => now(), 'Status' => $request->Status]);
-
-            $BillInfo = BillInfo::where('idBill', $idBill)->get();
-            foreach ($BillInfo as $key => $bi) {
-                DB::update('update product set Sold = Sold + ? where idProduct = ?', [$bi->QuantityBuy, $bi->idProduct]);
-            }
-        } else {
-            Bill::find($idBill)->update(['Status' => $request->Status]);
-            $BillHistory = new BillHistory();
-            $BillHistory->idBill = $idBill;
-            $BillHistory->AdminName = Session::get('AdminName');
-            $BillHistory->Status = $request->Status;
-            $BillHistory->save();
-        }
-
-        return redirect()->back();
     }
 
 
@@ -840,7 +653,6 @@ class CartController extends Controller
             ->select('bill.*', 'customer.username', 'customer.PhoneNumber as CusPhone', 'billhistory.AdminName', 'billhistory.created_at AS TimeConfirm')->get();
         return view("admin.order.cancelled-bill")->with(compact('list_bill'));
     }
-
     // Hiện tất cả đơn đặt hàng đã xác nhận
     public function confirmed_bill()
     {
@@ -850,5 +662,57 @@ class CartController extends Controller
             ->join('billhistory', 'billhistory.idBill', '=', 'bill.idBill')->where('billhistory.Status', '1')
             ->select('bill.*', 'customer.username', 'customer.PhoneNumber as CusPhone', 'billhistory.AdminName', 'billhistory.created_at AS TimeConfirm')->get();
         return view("admin.order.confirmed-bill")->with(compact('list_bill'));
+    }
+
+
+
+
+
+    // Xác nhận đơn hàng
+    public function confirm_bill(Request $request, $idBill)
+    {
+        // Tìm và cập nhật đơn hàng
+        $bill = Bill::find($idBill);
+
+        if (!$bill) {
+            return redirect()->back()->with('error', 'Đơn hàng không tồn tại.');
+        }
+
+        if ($request->Status == 2) {
+            // Cập nhật ngày nhận và trạng thái đơn hàng
+            $bill->update(['ReceiveDate' => now(), 'Status' => $request->Status]);
+
+            // Không cần cập nhật cột Sold vì bảng product không có cột này
+            // Nếu bạn cần thực hiện các cập nhật khác, hãy thêm mã ở đây
+        } else {
+            // Chỉ cập nhật trạng thái đơn hàng
+            $bill->update(['Status' => $request->Status]);
+        }
+
+        // Lưu lịch sử đơn hàng
+        $BillHistory = new BillHistory();
+        $BillHistory->idBill = $idBill;
+        $BillHistory->AdminName = Session::get('AdminName');
+        $BillHistory->Status = $request->Status;
+        $BillHistory->save();
+
+        return redirect()->back()->with('success', 'Đơn hàng đã được cập nhật.');
+    }
+
+    public function delete_bill($idBill)
+    {
+        $BillHistory = new BillHistory();
+        $BillHistory->idBill = $idBill;
+        $BillHistory->AdminName = Session::get('AdminName');
+        $BillHistory->Status = 99;
+        $BillHistory->save();
+        Bill::find($idBill)->update(['Status' => '99']);
+        $Bill = Bill::find($idBill);
+
+        $BillInfo = BillInfo::where('idBill', $idBill)->get();
+        foreach ($BillInfo as $key => $bi) {
+            DB::update('update product_attribute set Quantity = Quantity + ? where idProAttr = ?', [$bi->QuantityBuy, $bi->idProAttr]);
+            DB::update('update product set QuantityTotal = QuantityTotal + ? where idProduct = ?', [$bi->QuantityBuy, $bi->idProduct]);
+        }
     }
 }

@@ -79,7 +79,7 @@ Route::delete('/delete-wish/{idWish}', [ProductController::class, 'delete_wish']
 //CART
 Route::get('/cart', [CartController::class, 'show_cart']);
 
-Route::post('/buy-now', [CartController::class, 'buy_now']);
+Route::post('/delete-order/{idBill}',[CartController::class, 'delete_order']);
 
 Route::post('/add-to-cart',[CartController::class, 'add_to_cart'])->name('add_to_cart');
 
@@ -95,7 +95,7 @@ Route::get('/empty-cart', [CartController::class, 'empty_cart']);
 
 //ORDER
 Route::get('/payment', [CartController::class, 'payment']);
-
+Route::post('/payment', [CartController::class, 'payment']);
 Route::get('/success-order', [CartController::class, 'success_order']);
 
 Route::get('/ordered', [CartController::class, 'ordered']);
@@ -117,13 +117,11 @@ Route::post('/fetch-address',[CartController::class, 'fetch_address']);
 
 Route::post('/edit-address/{idAddress}',[CartController::class, 'edit_address']);
 
-
 Route::delete('/delete-address/{idAddress}',[CartController::class, 'delete_address']);
-
 
 Route::post('/submit-payment',[CartController::class, 'submit_payment']);
 
-Route::post('/delete-bill/{idBill}',[CartController::class, 'delete_bill']);
+
 
 
 
@@ -270,7 +268,7 @@ Route::get('/cancelled-bill', [CartController::class, 'cancelled_bill']);
 Route::get('/confirmed-bill', [CartController::class, 'confirmed_bill']);
 
 
-
+Route::post('/delete-bill/{idBill}',[CartController::class, 'delete_bill']);
 
 Route::post('/confirm-bill/{idBill}', [CartController::class, 'confirm_bill']);
 

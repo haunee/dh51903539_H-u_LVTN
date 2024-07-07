@@ -307,7 +307,7 @@ use Carbon\Carbon;
                                     <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
                                     <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                                 </svg>
-                                <span class="ml-4">Quản Lý Người Dùng</span>
+                                <span class="ml-4">Danh Sách Tài Khoản</span>
                                 <svg class="svg-icon iq-arrow-right arrow-active" width="20" height="20"
                                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                                     stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -319,7 +319,7 @@ use Carbon\Carbon;
                             <ul id="manage-people" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
                                 <li class="{{ Request::is('manage-customers') ? 'active' : '' }}">
                                     <a href="{{ URL::to('/manage-customers') }}">
-                                        <i class="las la-minus"></i><span>Danh Sách Tài Khoản User</span>
+                                        <i class="las la-minus"></i><span>Tài Khoản User</span>
                                     </a>
                                 </li>
 
