@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Session;
 ?>
 
 @php
-use Carbon\Carbon;
+    use Carbon\Carbon;
 @endphp
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
@@ -15,7 +15,27 @@ use Carbon\Carbon;
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>KidAngel dashboard</title>
+    
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{{ asset('/kidadmin/images/favicon.ico') }}" />
+    <link rel="stylesheet" href="{{ asset('/kidadmin/css/backend-plugin.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('/kidadmin/css/backend.css?v=1.0.0') }}">
+    <link rel="stylesheet" href="{{ asset('/kidadmin/vendor/@fortawesome/fontawesome-free/css/all.min.css') }}">
+    <link rel="stylesheet" href="{{asset('/kidadmin/vendor/line-awesome/dist/line-awesome/css/line-awesome.min.css')}}">
+    <link rel="stylesheet"
+        href="{{ asset('/kidadmin/vendor/line-awesome/dist/line-awesome/css/line-awesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('/kidadmin/vendor/remixicon/fonts/remixicon.css') }}">
 
+
+
+
+
+
+    {{-- <!-- Morris Chart CSS -->
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
@@ -27,7 +47,10 @@ use Carbon\Carbon;
     <link rel="stylesheet" href="{{ asset('/kidadmin/vendor/@fortawesome/fontawesome-free/css/all.min.css') }}">
     <link rel="stylesheet"
         href="{{ asset('/kidadmin/vendor/line-awesome/dist/line-awesome/css/line-awesome.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('/kidadmin/vendor/remixicon/fonts/remixicon.css') }}">
+    <link rel="stylesheet" href="{{ asset('/kidadmin/vendor/remixicon/fonts/remixicon.css') }}"> --}}
+
+
+
 </head>
 
 <body class="  ">
@@ -57,6 +80,25 @@ use Carbon\Carbon;
             <div class="data-scrollbar" data-scroll="1">
                 <nav class="iq-sidebar-menu">
                     <ul id="iq-sidebar-toggle" class="iq-menu">
+
+                        <li class="{{ Request::is('dashboard') ? 'active' : '' }}">
+                            <a href="{{ URL::to('/dashboard') }}" class="svg-icon">
+                                <svg class="svg-icon" id="p-dash1" width="20" height="20"
+                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path
+                                        d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
+                                    </path>
+                                    <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                                    <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                                </svg>
+                                <span class="ml-4">Thống Kê Doanh Thu</span>
+                            </a>
+                        </li>
+
+
+
                         <li class=" ">
                             <a href="#myaccount" class="collapsed" data-toggle="collapse" aria-expanded="false">
                                 <svg class="svg-icon" id="p-dash8" width="20" height="20"
@@ -331,14 +373,6 @@ use Carbon\Carbon;
 
 
 
-
-
-
-
-
-
-
-
                     </ul>
                 </nav>
 
@@ -408,11 +442,33 @@ use Carbon\Carbon;
 
 
 
+
+    <!-- Table Treeview JavaScript -->
+    <script src="{{ asset('/kidadmin/js/table-treeview.js') }}"></script>
+
+
+    <!-- Chart Custom JavaScript -->
+    <script async src="{{ asset('/kidadmin/js/chart-custom.js') }}"></script>
+
     <!-- Backend Bundle JavaScript -->
     <script src="{{ asset('/kidadmin/js/backend-bundle.min.js') }}"></script>
+
+
     <!-- app JavaScript -->
     <script src="{{ asset('/kidadmin/js/app.js') }}"></script>
 
+    <script src="{{ asset('/kidadmin/js/ckeditor/ckeditor.js') }}"></script>
+
+    <link rel="stylesheet" type="text/css" href="{{asset('/kidadmin/datetimepicker-master/jquery.datetimepicker.css')}}">
+    <script src="{{asset('/kidadmin/datetimepicker-master/jquery.js')}}"></script>
+    <script src="{{asset('/kidadmin/datetimepicker-master/build/jquery.datetimepicker.full.min.js')}}"></script>
+
+
+<!-- Chart Custom JavaScript -->
+<script src="{{asset('/kidadmin/js/customizer.js')}}"></script>
+
+
+<script src="{{asset('/kidadmin/js/form-validate.js')}}"></script>
 </body>
 
 </html>

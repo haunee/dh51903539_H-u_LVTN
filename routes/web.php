@@ -272,4 +272,6 @@ Route::post('/delete-bill/{idBill}',[CartController::class, 'delete_bill']);
 
 Route::post('/confirm-bill/{idBill}', [CartController::class, 'confirm_bill']);
 
-
+//DASHBOARD
+Route::get('/dashboard', [AdminController::class, 'show_dashboard']);
+Route::post('/chart-7days',[AdminController::class, 'chart_7days']);

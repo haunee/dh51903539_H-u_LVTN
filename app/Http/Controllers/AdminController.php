@@ -12,9 +12,20 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use App\Models\Customer;
+use App\Models\Product;
+use App\Models\Bill;
+use App\Models\BillInfo;
+use Illuminate\Support\Carbon;
 
 class AdminController extends Controller
 {
+
+    // Kiểm tra đăng nhập
+    public function checkLogin()
+    {
+        $idAdmin = Session::get('idAdmin');
+        if ($idAdmin == false) return Redirect::to('admin')->send();
+    }
 
 
     //login
@@ -246,8 +257,6 @@ class AdminController extends Controller
 
 
 
-
-
     //chuyển trang quản lí người dùng
     public function manage_customers()
     {
@@ -255,5 +264,69 @@ class AdminController extends Controller
         $list_customer = Customer::get();
         $count_customer = Customer::count();
         return view("admin.manage-user.manage-customers")->with(compact('list_customer', 'count_customer'));
+    }
+
+
+
+
+
+
+    //DASHBOARD
+    // Chuyển đến trang thống kê
+    public function show_dashboard()
+    {
+        $this->checkLogin();
+
+        $start_this_month = Carbon::now()->startOfMonth()->toDateString();
+
+        $total_revenue = Bill::whereNotIn('Status', [99])->sum('TotalBill');
+        $total_sell = BillInfo::join('bill', 'bill.idBill', '=', 'billinfo.idBill')->whereNotIn('Status', [99])->sum('QuantityBuy');
+
+        $list_topProduct = Product::join('productimage', 'productimage.idProduct', '=', 'product.idProduct')
+            ->join('billinfo', 'billinfo.idProduct', '=', 'product.idProduct')
+            ->join('bill', 'bill.idBill', '=', 'billinfo.idBill')->whereNotIn('Status', [99])
+            ->whereBetween('bill.created_at', [$start_this_month, now()])
+            ->select('ProductName', 'ImageName')
+            ->selectRaw('sum(QuantityBuy) as Sold')
+            ->groupBy('ProductName', 'ImageName')->orderBy('Sold', 'DESC')->take(6)->get();
+
+        $list_topProduct_AllTime = Product::join('productimage', 'productimage.idProduct', '=', 'product.idProduct')
+            ->join('billinfo', 'billinfo.idProduct', '=', 'product.idProduct')
+            ->join('bill', 'bill.idBill', '=', 'billinfo.idBill')->whereNotIn('Status', [99])
+            ->select('ProductName', 'ImageName')
+            ->selectRaw('sum(QuantityBuy) as Sold')
+            ->groupBy('ProductName', 'ImageName')->orderBy('Sold', 'DESC')->take(5)->get();
+
+        return view("admin.dashboard")->with(compact('total_revenue', 'total_sell', 'list_topProduct', 'list_topProduct_AllTime'));
+    }
+
+
+
+
+    // Thống kê doanh thu 7 ngày qua
+    public function chart_7days()
+    {
+
+        $sub7days = Carbon::now()->subDays(7)->toDateString();
+
+        $get_statistic = Bill::whereNotIn('bill.Status', [99])->whereBetween('created_at', [$sub7days, now()])
+            ->selectRaw('sum(TotalBill) as Sale, count(idBill) as QtyBill, date(created_at) as Date')
+            ->groupBy('Date')->get();
+        $total_sold = BillInfo::join('bill', 'bill.idBill', '=', 'billinfo.idBill')->whereNotIn('bill.Status', [99])
+            ->whereBetween('bill.created_at', [$sub7days, now()])->selectRaw('sum(QuantityBuy) as TotalSold, date(bill.created_at) as Date')
+            ->groupBy('Date')->get();
+
+        if ($get_statistic->count() > 0) {
+            foreach ($get_statistic as $key => $statistic) {
+                $chart_data[] = array(
+                    'Date' => $statistic->Date,
+                    'Sale' => $statistic->Sale,
+                    'TotalSold' => $total_sold[$key]->TotalSold,
+                    'QtyBill' => $statistic->QtyBill
+                );
+            }
+        } else $chart_data[] = array();
+
+        echo $data = json_encode($chart_data);
     }
 }
