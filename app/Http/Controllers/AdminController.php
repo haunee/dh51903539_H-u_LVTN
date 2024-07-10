@@ -273,6 +273,32 @@ class AdminController extends Controller
 
     //DASHBOARD
     // Chuyển đến trang thống kê
+    // public function show_dashboard()
+    // {
+    //     $this->checkLogin();
+
+    //     $start_this_month = Carbon::now()->startOfMonth()->toDateString();
+
+    //     $total_revenue = Bill::whereNotIn('Status', [99])->sum('TotalBill');
+    //     $total_sell = BillInfo::join('bill', 'bill.idBill', '=', 'billinfo.idBill')->whereNotIn('Status', [99])->sum('QuantityBuy');
+
+    //     $list_topProduct = Product::join('productimage', 'productimage.idProduct', '=', 'product.idProduct')
+    //         ->join('billinfo', 'billinfo.idProduct', '=', 'product.idProduct')
+    //         ->join('bill', 'bill.idBill', '=', 'billinfo.idBill')->whereNotIn('Status', [99])
+    //         ->whereBetween('bill.created_at', [$start_this_month, now()])
+    //         ->select('ProductName', 'ImageName')
+    //         ->selectRaw('sum(QuantityBuy) as Sold')
+    //         ->groupBy('ProductName', 'ImageName')->orderBy('Sold', 'DESC')->take(6)->get();
+
+    //     $list_topProduct_AllTime = Product::join('productimage', 'productimage.idProduct', '=', 'product.idProduct')
+    //         ->join('billinfo', 'billinfo.idProduct', '=', 'product.idProduct')
+    //         ->join('bill', 'bill.idBill', '=', 'billinfo.idBill')->whereNotIn('Status', [99])
+    //         ->select('ProductName', 'ImageName')
+    //         ->selectRaw('sum(QuantityBuy) as Sold')
+    //         ->groupBy('ProductName', 'ImageName')->orderBy('Sold', 'DESC')->take(5)->get();
+
+    //     return view("admin.dashboard")->with(compact('total_revenue', 'total_sell', 'list_topProduct', 'list_topProduct_AllTime'));
+    // }
     public function show_dashboard()
     {
         $this->checkLogin();
@@ -292,13 +318,18 @@ class AdminController extends Controller
 
         $list_topProduct_AllTime = Product::join('productimage', 'productimage.idProduct', '=', 'product.idProduct')
             ->join('billinfo', 'billinfo.idProduct', '=', 'product.idProduct')
-            ->join('bill', 'bill.idBill', '=', 'billinfo.idBill')->whereNotIn('Status', [99])
-            ->select('ProductName', 'ImageName')
-            ->selectRaw('sum(QuantityBuy) as Sold')
-            ->groupBy('ProductName', 'ImageName')->orderBy('Sold', 'DESC')->take(5)->get();
+            ->join('bill', 'bill.idBill', '=', 'billinfo.idBill')
+            ->whereNotIn('bill.Status', [99])
+            ->select('product.ProductName', 'productimage.ImageName', 'product.Price')
+            ->selectRaw('sum(billinfo.QuantityBuy) as Sold')
+            ->groupBy('product.ProductName', 'productimage.ImageName', 'product.Price')
+            ->orderBy('Sold', 'DESC')
+            ->take(5)
+            ->get();
 
         return view("admin.dashboard")->with(compact('total_revenue', 'total_sell', 'list_topProduct', 'list_topProduct_AllTime'));
     }
+
 
 
 

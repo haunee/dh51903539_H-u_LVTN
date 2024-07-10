@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Session;
 use App\Models\Viewer;
 use App\Models\WishList;
 use Illuminate\Support\Facades\Redirect;
-
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -256,14 +256,21 @@ class ProductController extends Controller
         // Lấy danh sách các sản phẩm yêu thích của người dùng
         $wishlistProducts = WishList::where('idCustomer', $idCustomer)->pluck('idProduct')->toArray();
 
-        $sub30days = Carbon::now()->subDays(30)->toDateString();
+        // $sub30days = Carbon::now()->subDays(30)->toDateString();
         $list_category = Category::get();
         $list_brand = Brand::get();
 
+        // $list_pd_query = Product::join('brand', 'brand.idBrand', '=', 'product.idBrand')
+        //     ->join('category', 'category.idCategory', '=', 'product.idCategory')
+        //     ->join('productimage', 'productimage.idProduct', '=', 'product.idProduct')
+        //     ->select('ImageName', 'product.*', 'BrandName', 'CategoryName');
         $list_pd_query = Product::join('brand', 'brand.idBrand', '=', 'product.idBrand')
-            ->join('category', 'category.idCategory', '=', 'product.idCategory')
-            ->join('productimage', 'productimage.idProduct', '=', 'product.idProduct')
-            ->select('ImageName', 'product.*', 'BrandName', 'CategoryName');
+        ->join('category', 'category.idCategory', '=', 'product.idCategory')
+        ->join('productimage', 'productimage.idProduct', '=', 'product.idProduct')
+        ->select('product.*', 'ImageName', 'BrandName', 'CategoryName')
+        ->withCount(['billinfo as Sold' => function ($query) {
+            $query->select(DB::raw('COALESCE(SUM(QuantityBuy), 0)'));
+        }]);
 
         if (isset($_GET['brand'])) $brand_arr = explode(",", $_GET['brand']);
         if (isset($_GET['category'])) $category_arr = explode(",", $_GET['category']);
@@ -286,8 +293,7 @@ class ProductController extends Controller
 
         if (isset($_GET['sort_by'])) {
             if ($_GET['sort_by'] == 'new') $list_pd_query->orderBy('created_at', 'desc');
-            else if ($_GET['sort_by'] == 'old') $list_pd_query->orderBy('created_at', 'asc');
-            else if ($_GET['sort_by'] == 'featured') $list_pd_query->whereBetween('product.created_at', [$sub30days, now()]);
+            else if($_GET['sort_by'] == 'bestsellers') $list_pd_query->orderBy('Sold','desc');
             else if ($_GET['sort_by'] == 'price_desc') $list_pd_query->orderBy('Price', 'desc');
             else if ($_GET['sort_by'] == 'price_asc') $list_pd_query->orderBy('Price', 'asc');
         } else $list_pd_query->orderBy('created_at', 'desc');

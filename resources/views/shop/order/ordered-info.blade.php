@@ -128,32 +128,7 @@
                         </div>
                         @endif
                     </div>
-                    <!-- <div class="container__address-content">
-                        <div class="container__address-content-hd">
-                            <i class="container__address-content-hd-icon fa fa-money"></i>
-                            <div>Phương thức thanh toán</div>
-                        </div>
-                        <ul class="shipping-list checkout-payment">
-                            <li class="cus-radio">
-                                <input type="radio" name="checkout" value="cash" onclick="removeDiv()" id="cash" checked>
-                                <label for="cash">
-                                    <span>Thanh toán khi nhận hàng</span>
-                                </label>
-                            </li>
-                            <li class="cus-radio payment-radio">
-                                <input type="radio" name="checkout" onclick="showMomoModal()" value="momo" id="momo" >
-                                <label for="momo">
-                                    <span>Momo</span>
-                                </label>
-                            </li>
-                            <li class="cus-radio payment-radio">
-                                <input type="radio" name="checkout" onclick="showZaloModal()" value="zalo" id="zalo" >
-                                <label for="zalo">
-                                    <span>Zalo Pay</span>
-                                </label>
-                            </li>
-                        </ul>                   
-                    </div> -->
+                    
                 </div>
             </div>
         </div>

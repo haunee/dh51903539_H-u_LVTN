@@ -553,7 +553,7 @@ class CartController extends Controller
                 }
 
                 // Xóa thông tin chi tiết đơn hàng
-                BillInfo::where('idBill', $idBill)->delete();
+                // BillInfo::where('idBill', $idBill)->delete();
 
                 return response()->json(['success' => true]);
             } catch (\Exception $e) {

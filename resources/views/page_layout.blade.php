@@ -110,10 +110,9 @@
                                                     <a class="mega-title">Danh Mục Khác</a>
 
                                                     <ul class="mega-item">
-                                                        <li><a>Sản phẩm mới</a></li>
-                                                        <li><a>Sản phẩm bán chạy</a></li>
-                                                        <li><a>Sản phẩm nổi bật</a></li>
-                                                        <li><a>Sản phẩm đang SALE</a></li>
+                                                        <li><a href="{{URL::to('/store?show=all&sort_by=new')}}">Sản phẩm mới</a></li>
+                                                        <li><a href="{{URL::to('/store?show=all&sort_by=bestsellers')}}">Sản phẩm bán chạy</a></li>
+                                                       
                                                     </ul>
                                                 </li>
 
@@ -153,7 +152,7 @@
                                             <ul class="dropdown-menu">
                                                 <li><a href="{{ URL::to('/profile') }}">Tài khoản của tôi</a></li>
                                                 <li><a href="{{ URL::to('/wishlist') }}">Sản phẩm yêu thích</a></li>
-                                                <li><a href="{{URL::to('/ordered')}}">Đơn mua</a></li>
+                                                <li><a href="{{URL::to('/ordered')}}">Đơn hàng</a></li>
                                                 <li><a href="{{ URL::to('/logout') }}">Đăng xuất</a></li>
                                             </ul>
                                             <input type="hidden" id="idCustomer"

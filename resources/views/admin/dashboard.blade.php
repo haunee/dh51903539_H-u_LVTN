@@ -145,6 +145,7 @@
                             <div class="style-text text-left">
                                 <h5 class="mb-2 limit-2-lines">{{$topProduct_AllTime->ProductName}}</h5>
                                 <span class="mb-2">Tổng đã bán: {{number_format($topProduct_AllTime->Sold,0,',','.')}}</span>
+                                <p class="mb-0">Giá: {{number_format($topProduct_AllTime->Price,0,',','.')}}đ</p>
                                 <p class="mb-0">Tổng doanh thu: {{number_format($topProduct_AllTime->Sold * $topProduct_AllTime->Price,0,',','.')}}đ</p>
                             </div>
                         </div>
@@ -152,6 +153,7 @@
                     @endforeach
                 </div>
             </div>   
+            
         </div>
     </div>
 </div>

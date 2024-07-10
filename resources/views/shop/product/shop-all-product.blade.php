@@ -40,8 +40,8 @@
                                                 echo 'Mới Nhất';
                                             // } elseif ($_GET['sort_by'] == 'old') {
                                             //     echo 'Cũ Nhất';
-                                            // } elseif ($_GET['sort_by'] == 'bestsellers') {
-                                            //     echo 'Bán Chạy';
+                                            } elseif ($_GET['sort_by'] == 'bestsellers') {
+                                                echo 'Bán Chạy';
                                             // } elseif ($_GET['sort_by'] == 'featured') {
                                             //     echo 'Nổi Bật';
                                             // } elseif ($_GET['sort_by'] == 'sale') {
@@ -58,6 +58,7 @@
                                     </span><i class="select-input__icon fa fa-angle-down"></i>
                                     <ul class="select-input__list">
                                         <li class="select-input__item" data-sort="&sort_by=new">Mới Nhất</li> 
+                                        <li class="select-input__item" data-sort="&sort_by=bestsellers">Bán Chạy</li>
                                         <li class="select-input__item" data-sort="&sort_by=price_desc">Giá Cao - Thấp </li>
                                         <li class="select-input__item" data-sort="&sort_by=price_asc">Giá Thấp - Cao</li>
                                     </ul>

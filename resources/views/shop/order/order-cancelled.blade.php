@@ -80,7 +80,7 @@
                                             <th class="name">Tên người nhận</th>
                                             <th class="date">Ngày đặt</th>
                                             <th class="total">Tổng tiền</th>
-                                          
+                                            <th class="action text-center">Thao tác</th>
                                         </tr>
                                     </thead>
                                     <tbody>             
@@ -91,7 +91,9 @@
                                             <td>{{$bill->created_at}}</td>         
 
                                             <td>{{number_format($bill->TotalBill,0,',','.')}}đ</td>
-                                            
+                                            <td class="d-flex justify-content-center">
+                                                <a class="view-hover h3" href="{{URL::to('/ordered-info/'.$bill->idBill)}}" data-toggle="tooltip" data-placement="top" title="" data-original-title="Xem chi tiết"><i class="fa fa-eye"></i></a>
+                                            </td>
                                         </tr>
                                         @endforeach
                                     </tbody>
