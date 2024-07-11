@@ -268,7 +268,7 @@ class ProductController extends Controller
         ->join('category', 'category.idCategory', '=', 'product.idCategory')
         ->join('productimage', 'productimage.idProduct', '=', 'product.idProduct')
         ->select('product.*', 'ImageName', 'BrandName', 'CategoryName')
-        ->withCount(['billinfo as Sold' => function ($query) {
+        ->withCount(['orderdetail as Sold' => function ($query) {
             $query->select(DB::raw('COALESCE(SUM(QuantityBuy), 0)'));
         }]);
 

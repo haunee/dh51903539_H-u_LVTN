@@ -11,10 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('billhistory', function (Blueprint $table) {
-            $table->integer('idBill');
-            $table->string('AdminName',50);
-            $table->tinyInteger('Status');
+        Schema::create('orderdetail', function (Blueprint $table) {
+            $table->integer('idOrder');
+            $table->integer('idProduct');
+            $table->string('AttributeProduct', 50);
+            $table->integer('Price');
+            $table->integer('QuantityBuy');
+            $table->integer('idProAttr'); // Thêm cột idProAttr
             $table->timestamps();
         });
     }

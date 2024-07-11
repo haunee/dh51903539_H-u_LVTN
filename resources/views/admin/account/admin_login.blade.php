@@ -74,6 +74,9 @@
                                  </form>
                               </div>
                            </div>
+                           <div class="col-lg-5 content-right">
+                              <img src="/kidadmin/images/01.png" class="img-fluid image-right" alt="">
+                           </div>
                         </div>
                      </div>
                   </div>

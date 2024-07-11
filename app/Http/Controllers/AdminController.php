@@ -13,8 +13,8 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use App\Models\Customer;
 use App\Models\Product;
-use App\Models\Bill;
-use App\Models\BillInfo;
+use App\Models\Order;
+use App\Models\OrderDetail;
 use Illuminate\Support\Carbon;
 
 class AdminController extends Controller
@@ -81,12 +81,8 @@ class AdminController extends Controller
 
 
 
-        return redirect()->route('admin.profile'); // Chuyển hướng đến trang profile của admin
+        return redirect()->route('admin.dashboard'); 
     }
-
-
-
-
 
 
 
@@ -273,55 +269,29 @@ class AdminController extends Controller
 
     //DASHBOARD
     // Chuyển đến trang thống kê
-    // public function show_dashboard()
-    // {
-    //     $this->checkLogin();
-
-    //     $start_this_month = Carbon::now()->startOfMonth()->toDateString();
-
-    //     $total_revenue = Bill::whereNotIn('Status', [99])->sum('TotalBill');
-    //     $total_sell = BillInfo::join('bill', 'bill.idBill', '=', 'billinfo.idBill')->whereNotIn('Status', [99])->sum('QuantityBuy');
-
-    //     $list_topProduct = Product::join('productimage', 'productimage.idProduct', '=', 'product.idProduct')
-    //         ->join('billinfo', 'billinfo.idProduct', '=', 'product.idProduct')
-    //         ->join('bill', 'bill.idBill', '=', 'billinfo.idBill')->whereNotIn('Status', [99])
-    //         ->whereBetween('bill.created_at', [$start_this_month, now()])
-    //         ->select('ProductName', 'ImageName')
-    //         ->selectRaw('sum(QuantityBuy) as Sold')
-    //         ->groupBy('ProductName', 'ImageName')->orderBy('Sold', 'DESC')->take(6)->get();
-
-    //     $list_topProduct_AllTime = Product::join('productimage', 'productimage.idProduct', '=', 'product.idProduct')
-    //         ->join('billinfo', 'billinfo.idProduct', '=', 'product.idProduct')
-    //         ->join('bill', 'bill.idBill', '=', 'billinfo.idBill')->whereNotIn('Status', [99])
-    //         ->select('ProductName', 'ImageName')
-    //         ->selectRaw('sum(QuantityBuy) as Sold')
-    //         ->groupBy('ProductName', 'ImageName')->orderBy('Sold', 'DESC')->take(5)->get();
-
-    //     return view("admin.dashboard")->with(compact('total_revenue', 'total_sell', 'list_topProduct', 'list_topProduct_AllTime'));
-    // }
     public function show_dashboard()
     {
         $this->checkLogin();
 
         $start_this_month = Carbon::now()->startOfMonth()->toDateString();
 
-        $total_revenue = Bill::whereNotIn('Status', [99])->sum('TotalBill');
-        $total_sell = BillInfo::join('bill', 'bill.idBill', '=', 'billinfo.idBill')->whereNotIn('Status', [99])->sum('QuantityBuy');
+        $total_revenue = Order::whereNotIn('Status', [99])->sum('TotalBill');
+        $total_sell = OrderDetail::join('order', 'order.idOrder', '=', 'orderdetail.idOrder')->whereNotIn('Status', [99])->sum('QuantityBuy');
 
         $list_topProduct = Product::join('productimage', 'productimage.idProduct', '=', 'product.idProduct')
-            ->join('billinfo', 'billinfo.idProduct', '=', 'product.idProduct')
-            ->join('bill', 'bill.idBill', '=', 'billinfo.idBill')->whereNotIn('Status', [99])
-            ->whereBetween('bill.created_at', [$start_this_month, now()])
+            ->join('orderdetail', 'orderdetail.idProduct', '=', 'product.idProduct')
+            ->join('order', 'order.idOrder', '=', 'orderdetail.idOrder')->whereNotIn('Status', [99])
+            ->whereBetween('order.created_at', [$start_this_month, now()])
             ->select('ProductName', 'ImageName')
             ->selectRaw('sum(QuantityBuy) as Sold')
             ->groupBy('ProductName', 'ImageName')->orderBy('Sold', 'DESC')->take(6)->get();
 
         $list_topProduct_AllTime = Product::join('productimage', 'productimage.idProduct', '=', 'product.idProduct')
-            ->join('billinfo', 'billinfo.idProduct', '=', 'product.idProduct')
-            ->join('bill', 'bill.idBill', '=', 'billinfo.idBill')
-            ->whereNotIn('bill.Status', [99])
+            ->join('orderdetail', 'orderdetail.idProduct', '=', 'product.idProduct')
+            ->join('order', 'order.idOrder', '=', 'orderdetail.idOrder')
+            ->whereNotIn('order.Status', [99])
             ->select('product.ProductName', 'productimage.ImageName', 'product.Price')
-            ->selectRaw('sum(billinfo.QuantityBuy) as Sold')
+            ->selectRaw('sum(orderdetail.QuantityBuy) as Sold')
             ->groupBy('product.ProductName', 'productimage.ImageName', 'product.Price')
             ->orderBy('Sold', 'DESC')
             ->take(5)
@@ -340,11 +310,11 @@ class AdminController extends Controller
 
         $sub7days = Carbon::now()->subDays(7)->toDateString();
 
-        $get_statistic = Bill::whereNotIn('bill.Status', [99])->whereBetween('created_at', [$sub7days, now()])
-            ->selectRaw('sum(TotalBill) as Sale, count(idBill) as QtyBill, date(created_at) as Date')
+        $get_statistic = Order::whereNotIn('order.Status', [99])->whereBetween('created_at', [$sub7days, now()])
+            ->selectRaw('sum(TotalBill) as Sale, count(idOrder) as QtyBill, date(created_at) as Date')
             ->groupBy('Date')->get();
-        $total_sold = BillInfo::join('bill', 'bill.idBill', '=', 'billinfo.idBill')->whereNotIn('bill.Status', [99])
-            ->whereBetween('bill.created_at', [$sub7days, now()])->selectRaw('sum(QuantityBuy) as TotalSold, date(bill.created_at) as Date')
+        $total_sold = OrderDetail::join('order', 'order.idOrder', '=', 'orderdetail.idOrder')->whereNotIn('order.Status', [99])
+            ->whereBetween('order.created_at', [$sub7days, now()])->selectRaw('sum(QuantityBuy) as TotalSold, date(order.created_at) as Date')
             ->groupBy('Date')->get();
 
         if ($get_statistic->count() > 0) {
@@ -360,4 +330,51 @@ class AdminController extends Controller
 
         echo $data = json_encode($chart_data);
     }
+     // Thống kê doanh thu theo ngày, tháng, năm
+     public function statistic_by_date_order(Request $request)
+     {
+         $data = $request->all();
+ 
+         $sub7days = Carbon::now()->subDays(7)->toDateString();
+         $sub30days = Carbon::now()->subDays(30)->toDateString();
+         $sub365days = Carbon::now()->subDays(365)->toDateString();
+ 
+         if ($data['Days'] == 'lastweek') {
+             $get_statistic = Order::whereNotIn('order.Status', [99])->whereBetween('created_at', [$sub7days, now()])
+                 ->selectRaw('sum(TotalBill) as Sale, count(idOrder) as QtyBill, date(created_at) as Date')
+                 ->groupBy('Date')->get();
+             $total_sold = OrderDetail::join('order', 'order.idOrder', '=', 'orderdetail.idOrder')->whereNotIn('order.Status', [99])
+                 ->whereBetween('order.created_at', [$sub7days, now()])->selectRaw('sum(QuantityBuy) as TotalSold, date(order.created_at) as Date')
+                 ->groupBy('Date')->get();
+         } else if ($data['Days'] == 'lastmonth') {
+             $get_statistic = Order::whereNotIn('order.Status', [99])->whereBetween('created_at', [$sub30days, now()])
+                 ->selectRaw('sum(TotalBill) as Sale, count(idOrder) as QtyBill, date(created_at) as Date')
+                 ->groupBy('Date')->get();
+             $total_sold = OrderDetail::join('order', 'order.idOrder', '=', 'orderdetail.idOrder')->whereNotIn('order.Status', [99])
+                 ->whereBetween('order.created_at', [$sub30days, now()])->selectRaw('sum(QuantityBuy) as TotalSold, date(order.created_at) as Date')
+                 ->groupBy('Date')->get();
+         } else if ($data['Days'] == 'lastyear') {
+             $get_statistic = Order::whereNotIn('order.Status', [99])->whereBetween('created_at', [$sub365days, now()])
+                 ->selectRaw('sum(TotalBill) as Sale, count(idOrder) as QtyBill, date(created_at) as Date')
+                 ->groupBy('Date')->get();
+             $total_sold = OrderDetail::join('order', 'order.idOrder', '=', 'orderdetail.idOrder')->whereNotIn('order.Status', [99])
+                 ->whereBetween('order.created_at', [$sub365days, now()])->selectRaw('sum(QuantityBuy) as TotalSold, date(order.created_at) as Date')
+                 ->groupBy('Date')->get();
+         }
+ 
+         if ($get_statistic->count() > 0) {
+             foreach ($get_statistic as $key => $statistic) {
+                 $chart_data[] = array(
+                     'Date' => $statistic->Date,
+                     'Sale' => $statistic->Sale,
+                     'TotalSold' => $total_sold[$key]->TotalSold,
+                     'QtyBill' => $statistic->QtyBill
+                 );
+             }
+         } else $chart_data[] = array();
+ 
+         echo $data = json_encode($chart_data);
+     }
+
+
 }

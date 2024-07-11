@@ -79,7 +79,7 @@ Route::delete('/delete-wish/{idWish}', [ProductController::class, 'delete_wish']
 //CART
 Route::get('/cart', [CartController::class, 'show_cart']);
 
-Route::post('/delete-order/{idBill}',[CartController::class, 'delete_order']);
+Route::post('/delete-order/{idOrder}',[CartController::class, 'delete_order']);
 
 Route::post('/add-to-cart',[CartController::class, 'add_to_cart'])->name('add_to_cart');
 
@@ -108,7 +108,7 @@ Route::get('/order-shipped', [CartController::class, 'order_shipped']);
 
 Route::get('/order-waiting', [CartController::class, 'order_waiting']);
 
-Route::get('/ordered-info/{idBill}', [CartController::class, 'ordered_info']);
+Route::get('/ordered-info/{idOrder}', [CartController::class, 'ordered_info']);
 
 //địa chỉ
 Route::post('/insert-address',[CartController::class, 'insert_address']);
@@ -252,26 +252,27 @@ Route::post('/submit-edit-product/{idProduct}', [ProductController::class, 'subm
 
 
 //ORDER BILL
-Route::get('/list-bill', [CartController::class, 'list_bill']);
+Route::get('/list-order', [CartController::class, 'list_order']);
 
-Route::get('/bill-info/{idBill}', [CartController::class, 'bill_info']);
+Route::get('/order-info/{idOrder}', [CartController::class, 'order_info']);
 
-Route::get('/waiting-bill', [CartController::class, 'waiting_bill']);
+Route::get('/waiting-order', [CartController::class, 'waiting_order']);
 
-Route::get('/shipping-bill', [CartController::class, 'shipping_bill']);
+Route::get('/shipping-order', [CartController::class, 'shipping_order']);
 
-Route::get('/shipped-bill', [CartController::class, 'shipped_bill']);
-
-
-Route::get('/cancelled-bill', [CartController::class, 'cancelled_bill']);
-
-Route::get('/confirmed-bill', [CartController::class, 'confirmed_bill']);
+Route::get('/shipped-order', [CartController::class, 'shipped_order']);
 
 
-Route::post('/delete-bill/{idBill}',[CartController::class, 'delete_bill']);
+Route::get('/cancelled-order', [CartController::class, 'cancelled_order']);
 
-Route::post('/confirm-bill/{idBill}', [CartController::class, 'confirm_bill']);
+Route::get('/confirmed-order', [CartController::class, 'confirmed_order']);
+
+
+Route::post('/delete-bill/{idOrder}',[CartController::class, 'delete_bill']);
+
+Route::post('/confirm-bill/{idOrder}', [CartController::class, 'confirm_order']);
 
 //DASHBOARD
-Route::get('/dashboard', [AdminController::class, 'show_dashboard']);
+Route::get('/dashboard', [AdminController::class, 'show_dashboard'])->name('admin.dashboard');
 Route::post('/chart-7days',[AdminController::class, 'chart_7days']);
+Route::post('/statistic-by-date-order',[AdminController::class, 'statistic_by_date_order']);

@@ -92,8 +92,6 @@
 
                                                 <div class="action-links">
                                                     <ul>
-
-
                                                         <li>
                                                             <a class="add-to-wishlist {{ $isInWishlist ? 'in-wishlist' : 'not-in-wishlist' }}"
                                                                 data-id="{{ $product->idProduct }}" data-tooltip="tooltip"
@@ -101,10 +99,6 @@
                                                                 <i class="fa fa-heart"></i>
                                                             </a>
                                                         </li>
-                                                        
-                                                        <li><a class="quick-view-pd" data-id="{{ $product->idProduct }}"
-                                                                data-tooltip="tooltip" data-placement="left"
-                                                                title="Xem nhanh"><i class="icon-eye"></i></a></li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -140,7 +134,7 @@
                                             </ul>
                                         </div>
                                     </div>
-                                    <div class="product-content">
+                                    {{-- <div class="product-content">
 
                                         <h4 class="product-name"><a
                                                 href="{{ URL::to('/shop-single/' . $product->idProduct) }}">{{ $product->ProductName }}</a>
@@ -157,12 +151,9 @@
                                                     data-tooltip="tooltip" data-placement="left"
                                                     title="Thêm vào danh sách yêu thích"><i class="icon-heart"></i></a>
                                             </li>
-                                            <li><a class="add-to-compare" data-idcat="{{ $product->idCategory }}"
-                                                    id="{{ $product->idProduct }}" data-tooltip="tooltip"
-                                                    data-placement="left" title="So sánh"><i class="icon-sliders"></i></a>
-                                            </li>
+                                           
                                         </ul>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             @endforeach
                         </div>

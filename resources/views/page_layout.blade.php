@@ -116,6 +116,12 @@
                                                     </ul>
                                                 </li>
 
+                                                <li class="mega-dropdown">
+                                                    <a class="menu-banner" href="#">
+                                                        <img src="{{asset('/page/images/logo9.jpg')}}" alt="">
+                                                    </a>
+                                                </li>
+
                                             </ul>
                                         </li>
 

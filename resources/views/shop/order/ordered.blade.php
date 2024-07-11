@@ -25,7 +25,7 @@
                 <div class="col-xl-3 col-md-4">
                     <div class="my-account-menu mt-30">
                         <ul class="nav account-menu-list flex-column">
-                            <li><a href="{{ URL::to('/account') }}"><i class="fa fa-user"></i> Hồ Sơ</a></li>
+                            <li><a href="{{ URL::to('/profile') }}"><i class="fa fa-user"></i> Hồ Sơ</a></li>
                             <li><a href="{{ URL::to('/change-password') }}"><i class="fa fa-key"></i> Đổi Mật Khẩu</a></li>
                             <li><a class="active"><i class="fa fa-shopping-cart"></i> Đơn Đặt Hàng</a></li>
                         </ul>
@@ -46,45 +46,45 @@
                                         style="position:relative;">
                                         <i class="fa fa-envelope" style="font-size:24px;"></i>
                                         <div>Tất cả</div>
-                                        @if (App\Models\Bill::where('idCustomer', Session::get('idCustomer'))->count() > 0)
+                                        @if (App\Models\Order::where('idCustomer', Session::get('idCustomer'))->count() > 0)
                                             <span
-                                                class="qty-ordered">{{ App\Models\Bill::where('idCustomer', Session::get('idCustomer'))->count() }}</span>
+                                                class="qty-ordered">{{ App\Models\Order::where('idCustomer', Session::get('idCustomer'))->count() }}</span>
                                         @endif
                                     </a>
                                     <a href="{{ URL::to('/order-waiting') }}"
                                         class="col-xl-2 col-md-2 text-center view-hover" style="position:relative;">
                                         <i class="fa fa-inbox" style="font-size:24px;"></i>
                                         <div>Chờ xác nhận</div>
-                                        @if (App\Models\Bill::where('idCustomer', Session::get('idCustomer'))->where('Status', '0')->count() > 0)
+                                        @if (App\Models\Order::where('idCustomer', Session::get('idCustomer'))->where('Status', '0')->count() > 0)
                                             <span
-                                                class="qty-ordered">{{ App\Models\Bill::where('idCustomer', Session::get('idCustomer'))->where('Status', '0')->count() }}</span>
+                                                class="qty-ordered">{{ App\Models\Order::where('idCustomer', Session::get('idCustomer'))->where('Status', '0')->count() }}</span>
                                         @endif
                                     </a>
                                     <a href="{{ URL::to('/order-shipping') }}"
                                         class="col-xl-2 col-md-2 text-center view-hover" style="position:relative;">
                                         <i class="fa fa-plane" style="font-size:24px;"></i>
                                         <div>Đang giao</div>
-                                        @if (App\Models\Bill::where('idCustomer', Session::get('idCustomer'))->where('Status', '1')->count() > 0)
+                                        @if (App\Models\Order::where('idCustomer', Session::get('idCustomer'))->where('Status', '1')->count() > 0)
                                             <span
-                                                class="qty-ordered">{{ App\Models\Bill::where('idCustomer', Session::get('idCustomer'))->where('Status', '1')->count() }}</span>
+                                                class="qty-ordered">{{ App\Models\Order::where('idCustomer', Session::get('idCustomer'))->where('Status', '1')->count() }}</span>
                                         @endif
                                     </a>
                                     <a href="{{ URL::to('/order-shipped') }}"
                                         class="col-xl-2 col-md-2 text-center view-hover" style="position:relative;">
                                         <i class="fa fa-check-circle" style="font-size:24px;"></i>
                                         <div>Đã giao</div>
-                                        @if (App\Models\Bill::where('idCustomer', Session::get('idCustomer'))->where('Status', '2')->count() > 0)
+                                        @if (App\Models\Order::where('idCustomer', Session::get('idCustomer'))->where('Status', '2')->count() > 0)
                                             <span
-                                                class="qty-ordered">{{ App\Models\Bill::where('idCustomer', Session::get('idCustomer'))->where('Status', '2')->count() }}</span>
+                                                class="qty-ordered">{{ App\Models\Order::where('idCustomer', Session::get('idCustomer'))->where('Status', '2')->count() }}</span>
                                         @endif
                                     </a>
                                     <a href="{{ URL::to('/order-cancelled') }}"
                                         class="col-xl-2 col-md-2 text-center view-hover" style="position:relative;">
                                         <i class="fa fa-times" style="font-size:24px;"></i>
                                         <div>Đã hủy</div>
-                                        @if (App\Models\Bill::where('idCustomer', Session::get('idCustomer'))->where('Status', '99')->count() > 0)
+                                        @if (App\Models\Order::where('idCustomer', Session::get('idCustomer'))->where('Status', '99')->count() > 0)
                                             <span
-                                                class="qty-ordered">{{ App\Models\Bill::where('idCustomer', Session::get('idCustomer'))->where('Status', '99')->count() }}</span>
+                                                class="qty-ordered">{{ App\Models\Order::where('idCustomer', Session::get('idCustomer'))->where('Status', '99')->count() }}</span>
                                         @endif
                                     </a>
                                 </div>
@@ -101,33 +101,33 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($list_bill as $key => $bill)
+                                        @foreach ($list_order as $key => $order)
                                             <tr>
-                                                <td>{{ $bill->idBill }}</td>
-                                                <td>{{ $bill->CustomerName }}</td>
-                                                <td>{{ Carbon::parse($bill->created_at)->setTimezone('Asia/Ho_Chi_Minh')->format('d/m/Y H:i:s') }}</td>
+                                                <td>{{ $order->idOrder }}</td>
+                                                <td>{{ $order->CustomerName }}</td>
+                                                <td>{{ Carbon::parse($order->created_at)->setTimezone('Asia/Ho_Chi_Minh')->format('d/m/Y H:i:s') }}</td>
 
-                                                @if ($bill->Status == 0)
+                                                @if ($order->Status == 0)
                                                     <td>Chờ xác nhận...</td>
-                                                @elseif($bill->Status == 1)
+                                                @elseif($order->Status == 1)
                                                     <td>Đang giao</td>
-                                                @elseif($bill->Status == 2)
+                                                @elseif($order->Status == 2)
                                                     <td>Đã giao</td>
                                                 @else
                                                     <td>Đã hủy</td>
                                                 @endif
 
-                                                <td>{{ number_format($bill->TotalBill, 0, ',', '.') }}đ</td>
+                                                <td>{{ number_format($order->TotalBill, 0, ',', '.') }}đ</td>
 
                                                 <td class="d-flex justify-content-center">
                                                     <a class="view-hover h3 mr-2"
-                                                        href="{{ URL::to('/ordered-info/' . $bill->idBill) }}"
+                                                        href="{{ URL::to('/ordered-info/' . $order->idOrder) }}"
                                                         data-toggle="tooltip" data-placement="top" title=""
                                                         data-original-title="Xem chi tiết"><i class="fa fa-eye"></i></a>
-                                                    @if ($bill->Status == 0)
+                                                    @if ($order->Status == 0)
                                                         <meta name="csrf-token" content="{{ csrf_token() }}">
                                                         <a class="view-hover h3 ml-2 delete-order-btn"
-                                                            data-id="{{ $bill->idBill }}">
+                                                            data-id="{{ $order->idOrder }}">
                                                             <i class="fa fa-trash"></i>
                                                         </a>
                                                     @endif
@@ -152,14 +152,14 @@
             $(".delete-order-btn").on("click", function(e) {
                 e.preventDefault();
 
-                var idBill = $(this).data("id");
+                var idOrder = $(this).data("id");
                 var button = $(this);
 
-                if (confirm('Bạn có chắc chắn muốn hủy đơn hàng #' + idBill + ' không?')) {
+                if (confirm('Bạn có chắc chắn muốn hủy đơn hàng #' + idOrder+ ' không?')) {
                     var _token = $('meta[name="csrf-token"]').attr('content');
 
                     $.ajax({
-                        url: APP_URL + '/delete-order/' + idBill,
+                        url: APP_URL + '/delete-order/' + idOrder,
                         method: 'POST',
                         data: {
                             _token: _token

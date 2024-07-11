@@ -29,6 +29,9 @@
                         <li>
                             <a class="active"><i class="fa fa-key"></i> Đổi Mật Khẩu</a>
                         </li>
+                        <li>
+                            <a href="{{URL::to('/ordered')}}"><i class="fa fa-shopping-cart"></i> Đơn Đặt Hàng</a>
+                        </li>
                     </ul>
                 </div>
             </div>

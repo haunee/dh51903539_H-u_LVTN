@@ -10,9 +10,10 @@ use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\AddressCustomer;
-use App\Models\Bill;   //ORDER  ODERDETAIL
-use App\Models\BillInfo;
-use App\Models\BillHistory;
+  //ORDER  ODERDETAIL
+use App\Models\OrderHistory;
+use App\Models\Order;
+use App\Models\OrderDetail;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -284,8 +285,8 @@ class CartController extends Controller
         $this->checkLogin();
         $list_category = Category::get();
         $list_brand = Brand::get();
-        $list_bill = Bill::where('bill.idCustomer', Session::get('idCustomer'))->orderBy('idBill', 'desc')->get();
-        return view("shop.order.ordered")->with(compact('list_category', 'list_brand', 'list_bill'));
+        $list_order = Order::where('order.idCustomer', Session::get('idCustomer'))->orderBy('idOrder', 'desc')->get();
+        return view("shop.order.ordered")->with(compact('list_category', 'list_brand', 'list_order'));
     }
 
 
@@ -295,8 +296,8 @@ class CartController extends Controller
         $this->checkLogin();
         $list_category = Category::get();
         $list_brand = Brand::get();
-        $list_bill = Bill::where('idCustomer', Session::get('idCustomer'))->where('Status', 99)->get();
-        return view("shop.order.order-cancelled")->with(compact('list_category', 'list_brand', 'list_bill'));
+        $list_order = Order::where('idCustomer', Session::get('idCustomer'))->where('Status', 99)->get();
+        return view("shop.order.order-cancelled")->with(compact('list_category', 'list_brand', 'list_order'));
     }
 
 
@@ -306,8 +307,8 @@ class CartController extends Controller
         $this->checkLogin();
         $list_category = Category::get();
         $list_brand = Brand::get();
-        $list_bill = Bill::where('bill.idCustomer', Session::get('idCustomer'))->where('Status', '1')->get();
-        return view("shop.order.order-shipping")->with(compact('list_category', 'list_brand', 'list_bill'));
+        $list_order = Order::where('order.idCustomer', Session::get('idCustomer'))->where('Status', '1')->get();
+        return view("shop.order.order-shipping")->with(compact('list_category', 'list_brand', 'list_order'));
     }
 
     // Hiện tất cả đơn đặt hàng đã giao
@@ -316,8 +317,8 @@ class CartController extends Controller
         $this->checkLogin();
         $list_category = Category::get();
         $list_brand = Brand::get();
-        $list_bill = Bill::where('bill.idCustomer', Session::get('idCustomer'))->where('Status', '2')->get();
-        return view("shop.order.order-shipped")->with(compact('list_category', 'list_brand', 'list_bill'));
+        $list_order = Order::where('order.idCustomer', Session::get('idCustomer'))->where('Status', '2')->get();
+        return view("shop.order.order-shipped")->with(compact('list_category', 'list_brand', 'list_order'));
     }
     // Hiện tất cả đơn đặt hàng đang chờ xác nhận
     public function order_waiting()
@@ -325,25 +326,25 @@ class CartController extends Controller
         $this->checkLogin();
         $list_category = Category::get();
         $list_brand = Brand::get();
-        $list_bill = Bill::where('bill.idCustomer', Session::get('idCustomer'))->where('Status', '0')->get();
-        return view("shop.order.order-waiting")->with(compact('list_category', 'list_brand', 'list_bill'));
+        $list_order = Order::where('order.idCustomer', Session::get('idCustomer'))->where('Status', '0')->get();
+        return view("shop.order.order-waiting")->with(compact('list_category', 'list_brand', 'list_order'));
     }
 
     // Hiện chi tiết đơn đặt hàng
-    public function ordered_info($idBill)
+    public function ordered_info($idOrder)
     {
         $this->checkLogin();
         $list_category = Category::get();
         $list_brand = Brand::get();
 
-        $address = Bill::where('idBill', $idBill)->first();
+        $address = Order::where('idOrder', $idOrder)->first();
 
-        $list_bill_info = BillInfo::join('product', 'product.idProduct', '=', 'billinfo.idProduct')
-            ->join('productimage', 'productimage.idProduct', '=', 'billinfo.idProduct')
-            ->where('billinfo.idBill', $idBill)
-            ->select('product.ProductName', 'product.idProduct', 'productimage.ImageName', 'billinfo.*')->get();
+        $list_order_info = OrderDetail::join('product', 'product.idProduct', '=', 'orderdetail.idProduct')
+            ->join('productimage', 'productimage.idProduct', '=', 'orderdetail.idProduct')
+            ->where('orderdetail.idOrder', $idOrder)
+            ->select('product.ProductName', 'product.idProduct', 'productimage.ImageName', 'orderdetail.*')->get();
 
-        return view("shop.order.ordered-info")->with(compact('list_category', 'list_brand', 'address', 'list_bill_info'));
+        return view("shop.order.ordered-info")->with(compact('list_category', 'list_brand', 'address', 'list_order_info'));
     }
 
 
@@ -355,7 +356,7 @@ class CartController extends Controller
     public function submit_payment(Request $request)
     {
         $data = $request->all();
-        $Bill = new Bill();
+        $Order = new Order();
 
         if ($data['checkout'] == 'vnpay') {
             $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
@@ -427,21 +428,21 @@ class CartController extends Controller
             }
         } else if ($data['checkout'] == 'cash') {
             $get_address = AddressCustomer::find($data['address_rdo']);
-            $Bill->idCustomer = Session::get('idCustomer');
-            $Bill->TotalBill = $data['TotalBill'];
+            $Order->idCustomer = Session::get('idCustomer');
+            $Order->TotalBill = $data['TotalBill'];
 
-            $Bill->Address = $get_address->Address;
-            $Bill->PhoneNumber = $get_address->PhoneNumber;
-            $Bill->CustomerName = $get_address->CustomerName;
-            $Bill->Payment = 'cash';
+            $Order->Address = $get_address->Address;
+            $Order->PhoneNumber = $get_address->PhoneNumber;
+            $Order->CustomerName = $get_address->CustomerName;
+            $Order->Payment = 'cash';
 
-            $Bill->save();
-            $get_Bill = Bill::where('created_at', now())->where('idCustomer', Session::get('idCustomer'))->first();
+            $Order->save();
+            $get_Order = Order::where('created_at', now())->where('idCustomer', Session::get('idCustomer'))->first();
             $get_cart = Cart::where('idCustomer', Session::get('idCustomer'))->get();
 
             foreach ($get_cart as $key => $cart) {
-                $data_billinfo = array(
-                    'idBill' => $get_Bill->idBill,
+                $data_orderdetail = array(
+                    'idOrder' => $get_Order->idOrder,
                     'idProduct' => $cart->idProduct,
                     'AttributeProduct' => $cart->AttributeProduct,
                     'Price' => $cart->Price,
@@ -450,7 +451,7 @@ class CartController extends Controller
                     'created_at' => now(),
                     'updated_at' => now()
                 );
-                BillInfo::insert($data_billinfo);
+                OrderDetail::insert($data_orderdetail);
                 // DB::update(DB::RAW('update product set QuantityTotal = QuantityTotal - '.$cart->QuantityBuy.' where idProduct = '.$cart->idProduct.''));
                 // DB::update(DB::RAW('update product_attribute set Quantity = Quantity - '.$cart->QuantityBuy.' where idProAttr = '.$cart->idProAttr.''));
                 DB::update('UPDATE product SET QuantityTotal = QuantityTotal - ? WHERE idProduct = ?', [
@@ -465,8 +466,7 @@ class CartController extends Controller
                 ]);
             }
 
-            // if($get_Bill->Voucher != '') DB::update(DB::RAW('update voucher set VoucherQuantity = VoucherQuantity - 1 where idVoucher = '.$data['idVoucher'].''));
-            // Cart::where('idCustomer',Session::get('idCustomer'))->delete();
+         
             return Redirect::to('success-order')->send();
         }
     }
@@ -481,26 +481,26 @@ class CartController extends Controller
         $list_brand = Brand::get();
         if ($request->vnp_TransactionStatus && $request->vnp_TransactionStatus == '00') {
             // $test = dd($request->toArray());
-            $Bill = new Bill();
-            $BillHistory = new BillHistory();
+            $Order = new Order();
+            $OrderHistory = new OrderHistory();
             $OrderInfo = explode("_", $request->vnp_OrderInfo);
 
             $get_address = AddressCustomer::find($OrderInfo[0]);
-            $Bill->idCustomer = $OrderInfo[2];
-            $Bill->TotalBill = $request->vnp_Amount / 100;
-            $Bill->Address = $get_address->Address;
-            $Bill->PhoneNumber = $get_address->PhoneNumber;
-            $Bill->CustomerName = $get_address->CustomerName;
-            $Bill->Status = 1;
-            $Bill->Payment = 'vnpay';
+            $Order->idCustomer = $OrderInfo[2];
+            $Order->TotalBill = $request->vnp_Amount / 100;
+            $Order->Address = $get_address->Address;
+            $Order->PhoneNumber = $get_address->PhoneNumber;
+            $Order->CustomerName = $get_address->CustomerName;
+            $Order->Status = 1;
+            $Order->Payment = 'vnpay';
 
-            $Bill->save();
-            $get_Bill = Bill::where('created_at', now())->where('idCustomer', $OrderInfo[2])->first();
+            $Order->save();
+            $get_Order = Order::where('created_at', now())->where('idCustomer', $OrderInfo[2])->first();
             $get_cart = Cart::where('idCustomer', $OrderInfo[2])->get();
 
             foreach ($get_cart as $key => $cart) {
-                $data_billinfo = array(
-                    'idBill' => $get_Bill->idBill,
+                $data_orderdetail = array(
+                    'idOrder' => $get_Order->idOrder,
                     'idProduct' => $cart->idProduct,
                     'AttributeProduct' => $cart->AttributeProduct,
                     'Price' => $cart->Price,
@@ -509,19 +509,19 @@ class CartController extends Controller
                     'created_at' => now(),
                     'updated_at' => now()
                 );
-                BillInfo::insert($data_billinfo);
+                OrderDetail::insert($data_orderdetail);
                 DB::update('update product set QuantityTotal = QuantityTotal - ? where idProduct = ?', [$cart->QuantityBuy, $cart->idProduct]);
                 DB::update('update product_attribute set Quantity = Quantity - ? where idProAttr = ?', [$cart->QuantityBuy, $cart->idProAttr]);
                 // DB::update(DB::RAW('update product set QuantityTotal = QuantityTotal - ' . $cart->QuantityBuy . ' where idProduct = ' . $cart->idProduct . ''));
                 // DB::update(DB::RAW('update product_attribute set Quantity = Quantity - ' . $cart->QuantityBuy . ' where idProAttr = ' . $cart->idProAttr . ''));
             }
 
-            if ($get_Bill->Voucher != '') DB::update(DB::RAW('update voucher set VoucherQuantity = VoucherQuantity - 1 where idVoucher = ' . $OrderInfo[3] . ''));
+            if ($get_Order->Voucher != '') DB::update(DB::RAW('update voucher set VoucherQuantity = VoucherQuantity - 1 where idVoucher = ' . $OrderInfo[3] . ''));
             Cart::where('idCustomer', $OrderInfo[2])->delete();
-            $BillHistory->idBill = $get_Bill->idBill;
-            $BillHistory->AdminName = 'System';
-            $BillHistory->Status = 1;
-            $BillHistory->save();
+            $OrderHistory->idOrder = $get_Order->idOrder;
+            $OrderHistory->AdminName = 'System';
+            $OrderHistory->Status = 1;
+            $OrderHistory->save();
             return view("shop.cart.success-order")->with(compact('list_category', 'list_brand'));
         } else if ($request->vnp_TransactionStatus && $request->vnp_TransactionStatus != '00')
             return Redirect::to('cart');
@@ -531,29 +531,28 @@ class CartController extends Controller
 
 
     
-    public function delete_order(Request $request, $idBill)
+    public function delete_order(Request $request, $idOrder)
     {
         if ($request->isMethod('post')) {
             try {
                 // Tìm đơn hàng
-                $bill = Bill::find($idBill);
+                $order = Order::find($idOrder);
 
-                if (!$bill) {
+                if (!$order) {
                     return response()->json(['success' => false, 'message' => 'Đơn hàng không tồn tại.'], 404);
                 }
 
                 // Cập nhật trạng thái đơn hàng
-                $bill->update(['Status' => 99]);
+                $order->update(['Status' => 99]);
 
                 // Cập nhật số lượng sản phẩm
-                $BillInfo = BillInfo::where('idBill', $idBill)->get();
-                foreach ($BillInfo as $bi) {
+                $OrderDetail = OrderDetail::where('idOrder', $idOrder)->get();
+                foreach ($OrderDetail as $bi) {
                     DB::update('update product_attribute set Quantity = Quantity + ? where idProAttr = ?', [$bi->QuantityBuy, $bi->idProAttr]);
                     DB::update('update product set QuantityTotal = QuantityTotal + ? where idProduct = ?', [$bi->QuantityBuy, $bi->idProduct]);
                 }
 
-                // Xóa thông tin chi tiết đơn hàng
-                // BillInfo::where('idBill', $idBill)->delete();
+                
 
                 return response()->json(['success' => true]);
             } catch (\Exception $e) {
@@ -587,81 +586,81 @@ class CartController extends Controller
     }
 
     // Hiện tất cả đơn đặt hàng
-    public function list_bill()
+    public function list_order()
     {
         $this->checkLogin_Admin();
-        $list_bill = Bill::join('customer', 'bill.idCustomer', '=', 'customer.idCustomer')->whereNotIn('Status', [99])
-            ->select('customer.username', 'customer.PhoneNumber as CusPhone', 'bill.*')->get();
-        return view("admin.order.list-bill")->with(compact('list_bill'));
+        $list_order = Order::join('customer', 'order.idCustomer', '=', 'customer.idCustomer')->whereNotIn('Status', [99])
+            ->select('customer.username', 'customer.PhoneNumber as CusPhone', 'order.*')->get();
+        return view("admin.order.list-order")->with(compact('list_order'));
     }
 
 
     // Hiện chi tiết đơn đặt hàng
-    public function bill_info($idBill)
+    public function order_info($idOrder)
     {
         $this->checkLogin_Admin();
 
-        $address = Bill::where('idBill', $idBill)->first();
+        $address = Order::where('idOrder', $idOrder)->first();
 
-        $list_bill_info = BillInfo::join('product', 'product.idProduct', '=', 'billinfo.idProduct')
-            ->join('productimage', 'productimage.idProduct', '=', 'billinfo.idProduct')
-            ->where('billinfo.idBill', $idBill)
-            ->select('product.ProductName', 'product.idProduct', 'productimage.ImageName', 'billinfo.*')->get();
+        $list_order_info = OrderDetail::join('product', 'product.idProduct', '=', 'orderdetail.idProduct')
+            ->join('productimage', 'productimage.idProduct', '=', 'orderdetail.idProduct')
+            ->where('orderdetail.idOrder', $idOrder)
+            ->select('product.ProductName', 'product.idProduct', 'productimage.ImageName', 'orderdetail.*')->get();
 
-        return view("admin.order.bill-info")->with(compact('address', 'list_bill_info'));
+        return view("admin.order.order-info")->with(compact('address', 'list_order_info'));
     }
 
     // Hiện tất cả đơn đặt hàng đang chờ xác nhận
-    public function waiting_bill()
+    public function waiting_order()
     {
         $this->checkLogin_Admin();
 
-        $list_bill = Bill::join('customer', 'bill.idCustomer', '=', 'customer.idCustomer')->where('Status', '0')
-            ->select('bill.*', 'customer.username', 'customer.PhoneNumber as CusPhone')->get();
-        return view("admin.order.waiting-bill")->with(compact('list_bill'));
+        $list_order = Order::join('customer', 'order.idCustomer', '=', 'customer.idCustomer')->where('Status', '0')
+            ->select('order.*', 'customer.username', 'customer.PhoneNumber as CusPhone')->get();
+        return view("admin.order.waiting-order")->with(compact('list_order'));
     }
 
     // Hiện tất cả đơn đặt hàng đang giao
-    public function shipping_bill()
+    public function shipping_order()
     {
         $this->checkLogin_Admin();
 
-        $list_bill = Bill::join('customer', 'bill.idCustomer', '=', 'customer.idCustomer')
-            ->join('billhistory', 'billhistory.idBill', '=', 'bill.idBill')->where('bill.Status', '1')
-            ->select('bill.*', 'customer.username', 'customer.PhoneNumber as CusPhone', 'billhistory.AdminName', 'billhistory.created_at AS TimeConfirm')->get();
-        return view("admin.order.shipping-bill")->with(compact('list_bill'));
+        $list_order = Order::join('customer', 'order.idCustomer', '=', 'customer.idCustomer')
+            ->join('orderhistory', 'orderhistory.idOrder', '=', 'order.idOrder')->where('order.Status', '1')
+            ->select('order.*', 'customer.username', 'customer.PhoneNumber as CusPhone', 'orderhistory.AdminName', 'orderhistory.created_at AS TimeConfirm')->get();
+        return view("admin.order.shipping-order")->with(compact('list_order'));
     }
 
 
     // Hiện tất cả đơn đặt hàng đã giao
-    public function shipped_bill()
+    public function shipped_order()
     {
         $this->checkLogin_Admin();
 
-        $list_bill = Bill::join('customer', 'bill.idCustomer', '=', 'customer.idCustomer')->where('bill.Status', '2')
-            ->select('bill.*', 'customer.username', 'customer.PhoneNumber as CusPhone')->get();
-        return view("admin.order.shipped-bill")->with(compact('list_bill'));
+        $list_order = Order::join('customer', 'order.idCustomer', '=', 'customer.idCustomer')->where('order.Status', '2')
+            ->select('order.*', 'customer.username', 'customer.PhoneNumber as CusPhone')->get();
+        return view("admin.order.shipped-order")->with(compact('list_order'));
     }
 
     // Hiện tất cả đơn đặt hàng đã hủy
-    public function cancelled_bill()
+    public function cancelled_order()
     {
         $this->checkLogin_Admin();
-
-        $list_bill = Bill::join('customer', 'bill.idCustomer', '=', 'customer.idCustomer')
-            ->join('billhistory', 'billhistory.idBill', '=', 'bill.idBill')->where('bill.Status', '99')
-            ->select('bill.*', 'customer.username', 'customer.PhoneNumber as CusPhone', 'billhistory.AdminName', 'billhistory.created_at AS TimeConfirm')->get();
-        return view("admin.order.cancelled-bill")->with(compact('list_bill'));
+        
+        $list_order = Order::join('customer', 'order.idCustomer', '=', 'customer.idCustomer')
+            ->join('orderhistory', 'orderhistory.idOrder', '=', 'order.idOrder')->where('order.Status', '99')
+            ->select('order.*', 'customer.username', 'customer.PhoneNumber as CusPhone', 'orderhistory.AdminName', 'orderhistory.created_at AS TimeConfirm')->get();
+        return view("admin.order.cancelled-order")->with(compact('list_order'));
     }
     // Hiện tất cả đơn đặt hàng đã xác nhận
-    public function confirmed_bill()
+    public function confirmed_order()
     {
         $this->checkLogin_Admin();
 
-        $list_bill = Bill::join('customer', 'bill.idCustomer', '=', 'customer.idCustomer')
-            ->join('billhistory', 'billhistory.idBill', '=', 'bill.idBill')->where('billhistory.Status', '1')
-            ->select('bill.*', 'customer.username', 'customer.PhoneNumber as CusPhone', 'billhistory.AdminName', 'billhistory.created_at AS TimeConfirm')->get();
-        return view("admin.order.confirmed-bill")->with(compact('list_bill'));
+        $list_order = Order::join('customer', 'order.idCustomer', '=', 'customer.idCustomer')
+            ->join('orderhistory', 'orderhistory.idOrder', '=', 'order.idOrder')->where('orderhistory.Status', '1')
+            ->select('order.*', 'customer.username', 'customer.PhoneNumber as CusPhone', 'orderhistory.AdminName', 'orderhistory.created_at AS TimeConfirm')->get();
+        return view("admin.order.confirmed-order")->with(compact('list_order'));
     }
 
 
@@ -669,48 +668,48 @@ class CartController extends Controller
 
 
     // Xác nhận đơn hàng
-    public function confirm_bill(Request $request, $idBill)
+    public function confirm_order(Request $request, $idOrder)
     {
         // Tìm và cập nhật đơn hàng
-        $bill = Bill::find($idBill);
+        $order = Order::find($idOrder);
 
-        if (!$bill) {
+        if (!$order) {
             return redirect()->back()->with('error', 'Đơn hàng không tồn tại.');
         }
 
         if ($request->Status == 2) {
             // Cập nhật ngày nhận và trạng thái đơn hàng
-            $bill->update(['ReceiveDate' => now(), 'Status' => $request->Status]);
+            $order->update(['ReceiveDate' => now(), 'Status' => $request->Status]);
 
             // Không cần cập nhật cột Sold vì bảng product không có cột này
             // Nếu bạn cần thực hiện các cập nhật khác, hãy thêm mã ở đây
         } else {
             // Chỉ cập nhật trạng thái đơn hàng
-            $bill->update(['Status' => $request->Status]);
+            $order->update(['Status' => $request->Status]);
         }
 
         // Lưu lịch sử đơn hàng
-        $BillHistory = new BillHistory();
-        $BillHistory->idBill = $idBill;
-        $BillHistory->AdminName = Session::get('AdminName');
-        $BillHistory->Status = $request->Status;
-        $BillHistory->save();
+        $OrderHistory = new OrderHistory();
+        $OrderHistory->idOrder = $idOrder; 
+        $OrderHistory->AdminName = Session::get('AdminName');
+        $OrderHistory->Status = $request->Status;
+        $OrderHistory->save();
 
         return redirect()->back()->with('success', 'Đơn hàng đã được cập nhật.');
     }
 
-    public function delete_bill($idBill)
+    public function delete_bill($idOrder)
     {
-        $BillHistory = new BillHistory();
-        $BillHistory->idBill = $idBill;
-        $BillHistory->AdminName = Session::get('AdminName');
-        $BillHistory->Status = 99;
-        $BillHistory->save();
-        Bill::find($idBill)->update(['Status' => '99']);
-        $Bill = Bill::find($idBill);
+        $OrderHistory = new OrderHistory();
+        $OrderHistory->idOrder = $idOrder;
+        $OrderHistory->AdminName = Session::get('AdminName');
+        $OrderHistory->Status = 99;
+        $OrderHistory->save();
+        Order::find($idOrder)->update(['Status' => '99']);
+        $Order = Order::find($idOrder);
 
-        $BillInfo = BillInfo::where('idBill', $idBill)->get();
-        foreach ($BillInfo as $key => $bi) {
+        $OrderDetail = OrderDetail::where('idOrder', $idOrder)->get();
+        foreach ($OrderDetail as $key => $bi) {
             DB::update('update product_attribute set Quantity = Quantity + ? where idProAttr = ?', [$bi->QuantityBuy, $bi->idProAttr]);
             DB::update('update product set QuantityTotal = QuantityTotal + ? where idProduct = ?', [$bi->QuantityBuy, $bi->idProduct]);
         }

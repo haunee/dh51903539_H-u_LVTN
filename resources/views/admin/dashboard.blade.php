@@ -67,13 +67,13 @@
                             <h4 class="card-title">Doanh Thu Cửa Hàng</h4>
                         </div>
                         <form class="col-lg-6 p-0"> @csrf
-                        <div class="row">
+                        {{-- <div class="row">
                             <input type='text' name="DateFrom" id='DateFrom' placeholder="Từ ngày" class="form-control ml-2" style="width:44%;"/>
                             <input type='text' name="DateTo" id='DateTo' placeholder="Đến ngày" class="form-control ml-2" style="width:44%;"/>
                             <button type="button" class="badge badge-info p-0 statistic-btn" style="border:none; width:7%; margin-left:12px; font-size:20px;" data-toggle="tooltip" data-placement="top" title="" 
                                 data-original-title="Tìm kiếm"><i class="ri-search-line"></i>
                             </button>
-                        </div>
+                        </div> --}}
                         </form>
                         <form class="col-lg-3 p-0"> @csrf
                         <div class="input-group">

@@ -21,8 +21,8 @@ class Product extends Model
     protected $primaryKey = 'idProduct';
     protected $table = 'product';
 
-    public function billinfo()
+    public function orderdetail()
     {
-        return $this->hasMany(BillInfo::class, 'idProduct', 'idProduct');
+        return $this->hasMany(OrderDetail::class, 'idProduct', 'idProduct');
     }
 }

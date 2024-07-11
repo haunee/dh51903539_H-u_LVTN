@@ -160,9 +160,7 @@
                                                     </a>
 
                                                 </li>
-                                                <li><a class="quick-view-pd" data-id="{{ $product->idProduct }}"
-                                                        data-tooltip="tooltip" data-placement="left" title="Xem nhanh"><i
-                                                            class="icon-eye"></i></a></li>
+                                               
                                             </ul>
                                         </div>
                                     </div>
@@ -228,9 +226,7 @@
                                                     <i class="fa fa-heart"></i>
                                                     </a>
                                                 </li>
-                                                <li><a class="quick-view-pd" data-id="{{ $product->idProduct }}"
-                                                        data-tooltip="tooltip" data-placement="left" title="Xem nhanh"><i
-                                                            class="icon-eye"></i></a></li>
+                                               
                                             </ul>
                                         </div>
                                     </div>

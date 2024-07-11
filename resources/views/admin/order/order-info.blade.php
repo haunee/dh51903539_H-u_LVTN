@@ -8,7 +8,7 @@
                 <div class="card card-block card-stretch card-height print rounded">
                     <div class="card-header d-flex justify-content-between bg-primary header-invoice">
                         <div class="iq-header-title">
-                            <h4 class="card-title mb-0">Đơn hàng #{{$address->idBill}}</h4>
+                            <h4 class="card-title mb-0">Đơn hàng #{{$address->idOrder}}</h4>
                         </div>
                         <!-- <div class="invoice-btn">
                             <button type="button" class="btn btn-primary-dark mr-2"><i class="las la-print"></i> Print
@@ -55,22 +55,22 @@
                                         </thead>
                                         <tbody>
                                             <?php $Total = 0; $ship = 0; $total_bill = 0; $discount = 0; ?>
-                                            @foreach($list_bill_info as $key => $bill_info)
-                                                <?php $Total += ($bill_info->Price * $bill_info->QuantityBuy); ?>
+                                            @foreach($list_order_info as $key => $order_info)
+                                                <?php $Total += ($order_info->Price * $order_info->QuantityBuy); ?>
                                             <tr>
                                                 <th class="text-center" scope="row">{{$key + 1}}</th>
                                                 <td class="row" style="border-bottom:0;">
-                                                        <?php $image = json_decode($bill_info->ImageName)[0]; ?>
+                                                        <?php $image = json_decode($order_info->ImageName)[0]; ?>
                                                         <img class="avatar-70 rounded" src="{{asset('/storage/kidadmin/images/product/'.$image)}}" alt="">
                                                         <div class="ml-2" style="flex:1;">
-                                                            <h6 class="mb-0">{{$bill_info->ProductName}}</h6>
-                                                            <p class="mb-0">Mã sản phẩm: {{$bill_info->idProduct}}</p>
-                                                            <span>{{$bill_info->AttributeProduct}}</span>
+                                                            <h6 class="mb-0">{{$order_info->ProductName}}</h6>
+                                                            <p class="mb-0">Mã sản phẩm: {{$order_info->idProduct}}</p>
+                                                            <span>{{$order_info->AttributeProduct}}</span>
                                                         </div>
                                                 </td>
-                                                <td class="text-center" style="border-bottom:0;">{{number_format($bill_info->Price,0,',','.')}}đ</td>
-                                                <td class="text-center" style="border-bottom:0;">{{$bill_info->QuantityBuy}}</td>
-                                                <td class="text-center" style="border-bottom:0;"><b>{{number_format($bill_info->Price * $bill_info->QuantityBuy,0,',','.')}}đ</b></td>
+                                                <td class="text-center" style="border-bottom:0;">{{number_format($order_info->Price,0,',','.')}}đ</td>
+                                                <td class="text-center" style="border-bottom:0;">{{$order_info->QuantityBuy}}</td>
+                                                <td class="text-center" style="border-bottom:0;"><b>{{number_format($order_info->Price * $order_info->QuantityBuy,0,',','.')}}đ</b></td>
                                             </tr>
                                             @endforeach
                                         </tbody>

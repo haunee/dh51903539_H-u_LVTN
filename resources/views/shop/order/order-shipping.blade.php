@@ -44,32 +44,32 @@
                                 <a href="{{URL::to('/ordered')}}" class="col-xl-2 col-md-2 text-center view-hover" style="position:relative;">
                                     <i class="fa fa-envelope" style="font-size:24px;"></i>
                                     <div>Tất cả</div>
-                                    @if(App\Models\Bill::where('idCustomer',Session::get('idCustomer'))->count() > 0)
-                                    <span class="qty-ordered">{{App\Models\Bill::where('idCustomer',Session::get('idCustomer'))->count()}}</span> @endif
+                                    @if(App\Models\Order::where('idCustomer',Session::get('idCustomer'))->count() > 0)
+                                    <span class="qty-ordered">{{App\Models\Order::where('idCustomer',Session::get('idCustomer'))->count()}}</span> @endif
                                 </a>
                                 <a href="{{URL::to('/order-waiting')}}" class="col-xl-2 col-md-2 text-center view-hover" style="position:relative;">
                                     <i class="fa fa-inbox" style="font-size:24px;"></i>
                                     <div>Chờ xác nhận</div>
-                                    @if(App\Models\Bill::where('idCustomer',Session::get('idCustomer'))->where('Status','0')->count() > 0)
-                                    <span class="qty-ordered">{{App\Models\Bill::where('idCustomer',Session::get('idCustomer'))->where('Status','0')->count()}}</span> @endif
+                                    @if(App\Models\Order::where('idCustomer',Session::get('idCustomer'))->where('Status','0')->count() > 0)
+                                    <span class="qty-ordered">{{App\Models\Order::where('idCustomer',Session::get('idCustomer'))->where('Status','0')->count()}}</span> @endif
                                 </a>
                                 <a class="col-xl-2 col-md-2 text-center view-hover text-primary" style="position:relative;"> 
                                     <i class="fa fa-plane" style="font-size:24px;"></i>
                                     <div>Đang giao</div>
-                                    @if(App\Models\Bill::where('idCustomer',Session::get('idCustomer'))->where('Status','1')->count() > 0)
-                                    <span class="qty-ordered">{{App\Models\Bill::where('idCustomer',Session::get('idCustomer'))->where('Status','1')->count()}}</span> @endif
+                                    @if(App\Models\Order::where('idCustomer',Session::get('idCustomer'))->where('Status','1')->count() > 0)
+                                    <span class="qty-ordered">{{App\Models\Order::where('idCustomer',Session::get('idCustomer'))->where('Status','1')->count()}}</span> @endif
                                 </a>
                                 <a href="{{URL::to('/order-shipped')}}" class="col-xl-2 col-md-2 text-center view-hover" style="position:relative;"> 
                                     <i class="fa fa-check-circle" style="font-size:24px;"></i>
                                     <div>Đã giao</div>
-                                    @if(App\Models\Bill::where('idCustomer',Session::get('idCustomer'))->where('Status','2')->count() > 0)
-                                    <span class="qty-ordered">{{App\Models\Bill::where('idCustomer',Session::get('idCustomer'))->where('Status','2')->count()}}</span> @endif
+                                    @if(App\Models\Order::where('idCustomer',Session::get('idCustomer'))->where('Status','2')->count() > 0)
+                                    <span class="qty-ordered">{{App\Models\Order::where('idCustomer',Session::get('idCustomer'))->where('Status','2')->count()}}</span> @endif
                                 </a>
                                 <a href="{{URL::to('/order-cancelled')}}" class="col-xl-2 col-md-2 text-center view-hover" style="position:relative;">
                                     <i class="fa fa-times" style="font-size:24px;"></i>
                                     <div>Đã hủy</div>
-                                    @if(App\Models\Bill::where('idCustomer',Session::get('idCustomer'))->where('Status','99')->count() > 0)
-                                    <span class="qty-ordered">{{App\Models\Bill::where('idCustomer',Session::get('idCustomer'))->where('Status','99')->count()}}</span> @endif
+                                    @if(App\Models\Order::where('idCustomer',Session::get('idCustomer'))->where('Status','99')->count() > 0)
+                                    <span class="qty-ordered">{{App\Models\Order::where('idCustomer',Session::get('idCustomer'))->where('Status','99')->count()}}</span> @endif
                                 </a>
                             </div>
                             <!-- <div class="account-table text-center mt-25 table-responsive"> -->
@@ -84,17 +84,17 @@
                                         </tr>
                                     </thead>
                                     <tbody>             
-                                        @foreach($list_bill as $key => $bill)                     
+                                        @foreach($list_order as $key => $order)                     
                                         <tr>
-                                            <td>{{$bill->idBill}}</td>
-                                            <td>{{$bill->CustomerName}}</td>
-                                            <td>{{$bill->created_at}}</td>            
+                                            <td>{{$order->idBill}}</td>
+                                            <td>{{$order->CustomerName}}</td>
+                                            <td>{{$order->created_at}}</td>            
 
-                                            <td>{{number_format($bill->TotalBill,0,',','.')}}đ</td>
+                                            <td>{{number_format($order->TotalBill,0,',','.')}}đ</td>
 
-                                            <form action="{{URL::to('/confirm-bill/'.$bill->idBill)}}" method="POST"> @csrf
+                                            <form action="{{URL::to('/confirm-bill/'.$order->idOrder)}}" method="POST"> @csrf
                                             <td class="d-flex justify-content-center">
-                                                <a class="view-hover h3 mr-2" href="{{URL::to('/ordered-info/'.$bill->idBill)}}" data-toggle="tooltip" data-placement="top" title="" data-original-title="Xem chi tiết"><i class="fa fa-eye"></i></a>
+                                                <a class="view-hover h3 mr-2" href="{{URL::to('/ordered-info/'.$order->idOrder)}}" data-toggle="tooltip" data-placement="top" title="" data-original-title="Xem chi tiết"><i class="fa fa-eye"></i></a>
                                                 <!-- <button class="view-hover h3" style=" border:none; background-color: transparent;" data-toggle="tooltip" data-placement="top" title="" data-original-title="Xác nhận hoàn thành"><i class="fa fa-check-circle"></i></button>
                                                 <input type="hidden" name="Status" value="2">     -->
                                             </td>

@@ -35,22 +35,6 @@ use Illuminate\Support\Facades\Session;
 
 
 
-    {{-- <!-- Morris Chart CSS -->
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
-    <!-- Favicon -->
-    <link rel="shortcut icon" href="{{ asset('/kidadmin/images/favicon.ico') }}" />
-    <link rel="stylesheet" href="{{ asset('/kidadmin/css/backend-plugin.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('/kidadmin/css/backend.css?v=1.0.0') }}">
-    <link rel="stylesheet" href="{{ asset('/kidadmin/vendor/@fortawesome/fontawesome-free/css/all.min.css') }}">
-    <link rel="stylesheet"
-        href="{{ asset('/kidadmin/vendor/line-awesome/dist/line-awesome/css/line-awesome.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('/kidadmin/vendor/remixicon/fonts/remixicon.css') }}"> --}}
-
-
-
 </head>
 
 <body class="  ">
@@ -158,33 +142,33 @@ use Illuminate\Support\Facades\Session;
                                 </svg>
                             </a>
                             <ul id="purchase" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
-                                <li class="{{ Request::is('list-bill') ? 'active' : '' }}">
-                                    <a href="{{ URL::to('/list-bill') }}">
+                                <li class="{{ Request::is('list-order') ? 'active' : '' }}">
+                                    <a href="{{ URL::to('/list-order') }}">
                                         <i class="las la-minus"></i><span>Danh Sách Đơn Hàng</span>
                                     </a>
                                 </li>
-                                <li class="{{ Request::is('waiting-bill') ? 'active' : '' }}">
-                                    <a href="{{ URL::to('/waiting-bill') }}">
+                                <li class="{{ Request::is('waiting-order') ? 'active' : '' }}">
+                                    <a href="{{ URL::to('/waiting-order') }}">
                                         <i class="las la-minus"></i><span>Đơn Chờ Xác Nhận</span>
                                     </a>
                                 </li>
-                                <li class="{{ Request::is('shipping-bill') ? 'active' : '' }}">
-                                    <a href="{{ URL::to('/shipping-bill') }}">
+                                <li class="{{ Request::is('shipping-order') ? 'active' : '' }}">
+                                    <a href="{{ URL::to('/shipping-order') }}">
                                         <i class="las la-minus"></i><span>Đơn Đang Giao</span>
                                     </a>
                                 </li>
-                                <li class="{{ Request::is('shipped-bill') ? 'active' : '' }}">
-                                    <a href="{{ URL::to('/shipped-bill') }}">
+                                <li class="{{ Request::is('shipped-order') ? 'active' : '' }}">
+                                    <a href="{{ URL::to('/shipped-order') }}">
                                         <i class="las la-minus"></i><span>Đơn Đã Giao</span>
                                     </a>
                                 </li>
-                                <li class="{{ Request::is('cancelled-bill') ? 'active' : '' }}">
-                                    <a href="{{ URL::to('/cancelled-bill') }}">
+                                <li class="{{ Request::is('cancelled-order') ? 'active' : '' }}">
+                                    <a href="{{ URL::to('/cancelled-order') }}">
                                         <i class="las la-minus"></i><span>Đơn Đã Hủy</span>
                                     </a>
                                 </li>
-                                <li class="{{ Request::is('confirmed-bill') ? 'active' : '' }}">
-                                    <a href="{{ URL::to('/confirmed-bill') }}">
+                                <li class="{{ Request::is('confirmed-order') ? 'active' : '' }}">
+                                    <a href="{{ URL::to('/confirmed-order') }}">
                                         <i class="las la-minus"></i><span>Đơn Đã Xác Nhận</span>
                                     </a>
                                 </li>

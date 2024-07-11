@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('bill', function (Blueprint $table) {
-            $table->increments('idBill');
+        Schema::create('order', function (Blueprint $table) {
+            $table->increments('idOrder');
             $table->integer('idCustomer');
             $table->string('Payment', 50)->default('cash');
            

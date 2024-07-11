@@ -5,11 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class BillHistory extends Model
+class OrderDetail extends Model
 {
     public $timestamp = false;
-    protected $fillable = ['idBill','AdminName','Status','created_at'];
-    protected $primaryKey = ['idBill'];
-    protected $table = 'billhistory';
+    protected $fillable = ['idOrder','idProduct','AttributeProduct','Price','QuantityBuy','idProAttr'];
+    protected $table = 'orderdetail';
     public $incrementing = false;
 }

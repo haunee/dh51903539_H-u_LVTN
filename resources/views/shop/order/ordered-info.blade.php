@@ -49,21 +49,21 @@
                 </thead>
                 <tbody>
                     <?php $Total = 0; $ship = 0; $total_bill = 0; $discount = 0; ?>
-                    @foreach($list_bill_info as $key => $bill_info)
-                        <?php $Total += ($bill_info->Price * $bill_info->QuantityBuy); ?>
+                    @foreach($list_order_info as $key => $order_info)
+                        <?php $Total += ($order_info->Price * $order_info->QuantityBuy); ?>
                     <tr class="product-item">
-                        <?php $image = json_decode($bill_info->ImageName)[0]; ?>
+                        <?php $image = json_decode($order_info->ImageName)[0]; ?>
                         <td class="image">
-                            <a href="{{URL::to('/shop-single/'.$bill_info->idProduct)}}"><img src="{{asset('/storage/kidadmin/images/product/'.$image)}}" alt=""></a>
+                            <a href="{{URL::to('/shop-single/'.$order_info->idProduct)}}"><img src="{{asset('/storage/kidadmin/images/product/'.$image)}}" alt=""></a>
                         </td>
                         <td class="product">
-                            <a href="{{URL::to('/shop-single/'.$bill_info->idProduct)}}">{{$bill_info->ProductName}}</a>
-                            <span>Mã sản phẩm: {{$bill_info->idProduct}}</span>
-                            <span>{{$bill_info->AttributeProduct}}</span>
+                            <a href="{{URL::to('/shop-single/'.$order_info->idProduct)}}">{{$order_info->ProductName}}</a>
+                            <span>Mã sản phẩm: {{$order_info->idProduct}}</span>
+                            <span>{{$order_info->AttributeProduct}}</span>
                         </td>
-                        <td class="price">{{number_format($bill_info->Price,0,',','.')}}đ</td>
-                        <td class="quantity">{{$bill_info->QuantityBuy}}</td>
-                        <td class="total">{{number_format($bill_info->Price * $bill_info->QuantityBuy,0,',','.')}}đ</td>
+                        <td class="price">{{number_format($order_info->Price,0,',','.')}}đ</td>
+                        <td class="quantity">{{$order_info->QuantityBuy}}</td>
+                        <td class="total">{{number_format($order_info->Price * $order_info->QuantityBuy,0,',','.')}}đ</td>
                     </tr>
                     @endforeach
                 </tbody>

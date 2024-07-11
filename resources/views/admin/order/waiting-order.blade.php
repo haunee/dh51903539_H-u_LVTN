@@ -10,7 +10,7 @@ use Carbon\Carbon;
             <div class="col-lg-12">
                 <div class="d-flex flex-wrap align-items-center justify-content-between mb-4">
                     <div>
-                        <h4 class="mb-3">Danh Sách Đơn Chờ Xác Nhận ( Tổng: {{$list_bill->count()}} đơn hàng )</h4>
+                        <h4 class="mb-3">Danh Sách Đơn Chờ Xác Nhận ( Tổng: {{$list_order->count()}} đơn hàng )</h4>
                         <p class="mb-0">Trang tổng quan mua hàng cho phép người quản lý mua hàng theo dõi, đánh giá một cách hiệu quả,<br>
                             và tối ưu hóa tất cả các quy trình mua lại trong một công ty.</p>
                     </div>
@@ -31,26 +31,26 @@ use Carbon\Carbon;
                             </tr>
                         </thead>
                         <tbody class="ligth-body" id="load-bill">
-                            @foreach($list_bill as $key => $bill)
+                            @foreach($list_order as $key => $order)
                             <tr>
-                                <td>{{$bill->idBill}}</td>
-                                <td>{{$bill->username}}</td>
-                                <td>{{$bill->CusPhone}}</td>
-                                <td>@if($bill->Payment == 'vnpay') VNPay @else Khi nhận hàng @endif</td>
-                                <td>{{ Carbon::parse($bill->created_at)->setTimezone('Asia/Ho_Chi_Minh')->format('d/m/Y H:i:s') }}</td>
+                                <td>{{$order->idOrder}}</td>
+                                <td>{{$order->username}}</td>
+                                <td>{{$order->CusPhone}}</td>
+                                <td>@if($order->Payment == 'vnpay') VNPay @else Khi nhận hàng @endif</td>
+                                <td>{{ Carbon::parse($order->created_at)->setTimezone('Asia/Ho_Chi_Minh')->format('d/m/Y H:i:s') }}</td>
 
                                 <td>
-                                    <form action="{{URL::to('/confirm-bill/'.$bill->idBill)}}" method="POST"> @csrf
+                                    <form action="{{URL::to('/confirm-bill/'.$order->idOrder)}}" method="POST"> @csrf
                                     <div class="d-flex align-items-center list-action">
                                         <a class="badge badge-success mr-2" data-toggle="tooltip" data-placement="top" title="" data-original-title="Xem chi tiết" 
-                                            href="{{URL::to('/bill-info/'.$bill->idBill)}}"><i class="fa fa-eye mr-0"></i>
+                                            href="{{URL::to('/order-info/'.$order->idOrder)}}"><i class="fa fa-eye mr-0"></i>
                                         </a>
                                         <button class="badge badge-info mr-2 momo" style="border:none;" data-toggle="tooltip" data-placement="top" title="" 
                                             data-original-title="Xác nhận đơn hàng"><i class="fa fa-check"></i>
                                         </button>
                                         <input type="hidden" name="Status" value="1">
                                         <a class="badge bg-warning mr-2 delete-bill-btn" data-toggle="modal" data-target="#modal-delete-bill" data-placement="top" data-original-title="Hủy đơn hàng"
-                                            data-id="{{$bill->idBill}}" style="cursor:pointer;"><i class="fa fa-trash mr-0"></i>
+                                            data-id="{{$order->idOrder}}" style="cursor:pointer;"><i class="fa fa-trash mr-0"></i>
                                         </a>
                                     </div>
                                     </form>
@@ -91,14 +91,14 @@ use Carbon\Carbon;
     $(document).ready(function(){  
         APP_URL = '{{url('/')}}' ;
         $(".delete-bill-btn").on("click", function() {
-            var idBill = $(this).data("id");
-            $(".content-delete").html("Bạn có muốn hủy đơn hàng #" +idBill+ " không?");
+            var idOrder = $(this).data("id");
+            $(".content-delete").html("Bạn có muốn hủy đơn hàng #" +idOrder+ " không?");
 
             $("#delete-bill-confirm").on("click", function() {
                 var _token = $('input[name="_token"]').val();
 
                 $.ajax({
-                    url: APP_URL + '/delete-bill/' +idBill,
+                    url: APP_URL + '/delete-bill/' +idOrder,
                     method: 'POST',
                     data: {_token:_token},
                     success:function(data){
