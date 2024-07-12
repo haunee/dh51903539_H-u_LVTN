@@ -329,7 +329,7 @@
                     $('.qty-of-attr-label').html("Còn Lại: " + $Quantity);
                     $('.qty-of-attr').val($Quantity);
 
-                    AttributeProduct = $('#AttributeName').val() + ': ' + $AttrValName;
+                    AttributeProduct = $('#AttributeName').val() + ': ' + $AttriValName;
                     $('#AttributeProduct').val(AttributeProduct);
 
                     $('#idProAttr').val($("#" + $idAttribute).val());

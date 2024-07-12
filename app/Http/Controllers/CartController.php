@@ -365,8 +365,12 @@ class CartController extends Controller
             $vnp_TmnCode = "CGXZLS0Z";
             $vnp_HashSecret = "XNBCJFAKAZQSGTARRLGCHVZWCIOIGSHN";
 
-            $vnp_TxnRef = base64_encode(openssl_random_pseudo_bytes(30)); //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
-            $vnp_OrderInfo = $data['address_rdo'] . '_' . $data['Voucher'] . '_' . Session::get('idCustomer') . '_' . $data['idVoucher'];
+           
+            //$vnp_TxnRef = base64_encode(openssl_random_pseudo_bytes(30)); //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
+            //$vnp_OrderInfo = $data['address_rdo'] . '_' . $data['Voucher'] . '_' . Session::get('idCustomer') . '_' . $data['idVoucher'];
+
+            $vnp_TxnRef = uniqid(); // Mã đơn hàng duy nhất.
+            $vnp_OrderInfo = $data['address_rdo'] . '_' . Session::get('idCustomer');
             $vnp_OrderType = 'billpayment';
             $vnp_Amount = $data['TotalBill'] * 100;
             $vnp_Locale = 'vn';
@@ -486,7 +490,7 @@ class CartController extends Controller
             $OrderInfo = explode("_", $request->vnp_OrderInfo);
 
             $get_address = AddressCustomer::find($OrderInfo[0]);
-            $Order->idCustomer = $OrderInfo[2];
+            $Order->idCustomer = $OrderInfo[1];
             $Order->TotalBill = $request->vnp_Amount / 100;
             $Order->Address = $get_address->Address;
             $Order->PhoneNumber = $get_address->PhoneNumber;
@@ -495,8 +499,8 @@ class CartController extends Controller
             $Order->Payment = 'vnpay';
 
             $Order->save();
-            $get_Order = Order::where('created_at', now())->where('idCustomer', $OrderInfo[2])->first();
-            $get_cart = Cart::where('idCustomer', $OrderInfo[2])->get();
+            $get_Order = Order::where('created_at', now())->where('idCustomer', $OrderInfo[1])->first();
+            $get_cart = Cart::where('idCustomer', $OrderInfo[1])->get();
 
             foreach ($get_cart as $key => $cart) {
                 $data_orderdetail = array(
@@ -517,7 +521,7 @@ class CartController extends Controller
             }
 
             if ($get_Order->Voucher != '') DB::update(DB::RAW('update voucher set VoucherQuantity = VoucherQuantity - 1 where idVoucher = ' . $OrderInfo[3] . ''));
-            Cart::where('idCustomer', $OrderInfo[2])->delete();
+            Cart::where('idCustomer', $OrderInfo[1])->delete();
             $OrderHistory->idOrder = $get_Order->idOrder;
             $OrderHistory->AdminName = 'System';
             $OrderHistory->Status = 1;

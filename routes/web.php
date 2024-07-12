@@ -94,9 +94,7 @@ Route::get('/empty-cart', [CartController::class, 'empty_cart']);
 
 
 //ORDER
-Route::get('/payment', [CartController::class, 'payment']);
-Route::post('/payment', [CartController::class, 'payment']);
-Route::get('/success-order', [CartController::class, 'success_order']);
+
 
 Route::get('/ordered', [CartController::class, 'ordered']);
 
@@ -109,6 +107,10 @@ Route::get('/order-shipped', [CartController::class, 'order_shipped']);
 Route::get('/order-waiting', [CartController::class, 'order_waiting']);
 
 Route::get('/ordered-info/{idOrder}', [CartController::class, 'ordered_info']);
+
+Route::get('/payment', [CartController::class, 'payment']);
+Route::post('/payment', [CartController::class, 'payment']);
+Route::get('/success-order', [CartController::class, 'success_order']);
 
 //địa chỉ
 Route::post('/insert-address',[CartController::class, 'insert_address']);
