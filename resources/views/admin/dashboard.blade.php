@@ -31,7 +31,7 @@
                                     </div>
                                 </div>                                
                                 <div class="iq-progress-bar mt-2">
-                                    <span class="bg-info iq-progress progress-1" data-percent="85">
+                                    <span class="bg-info iq-progress progress-1" data-percent="70">
                                     </span>
                                 </div>
                             </div>
@@ -78,7 +78,7 @@
                         <form class="col-lg-3 p-0"> @csrf
                         <div class="input-group">
                             <div class="input-group-prepend">
-                                <label class="input-group-text" for="chart-by-days">Lọc theo</label>
+                                <label class="input-group-text" for="chart-by-days">Lọc </label>
                             </div>
                             <select class="custom-select" id="chart-by-days">
                                 
@@ -90,7 +90,7 @@
                         </form>
                     </div>
                     <div class="card-body">
-                        <div id="chart-sale" style="height: 250px;"></div>
+                        <div id="chart-sale" style="height: 280px;"></div>
                     </div>
                 </div>
             </div>  
@@ -130,7 +130,7 @@
                 <div class="card card-transparent card-block card-stretch mb-4">
                     <div class="card-header d-flex align-items-center justify-content-between p-0">
                         <div class="header-title">
-                            <h4 class="card-title mb-0">Best Product All Time</h4>
+                            {{-- <h4 class="card-title mb-0">Best Product All Time</h4> --}}
                         </div>
                     </div>
                 </div>
@@ -166,8 +166,9 @@
         jQuery.datetimepicker.setLocale('vi');
         jQuery(function(){
             jQuery('#DateFrom').datetimepicker({
-                // format: 'DD-MM-YYYY HH:mm',
+                //format: 'DD-MM-YYYY HH:mm',
                 format:'Y-m-d',
+                //format: 'd-m-Y',
                 // timepicker: false,
                 onShow:function( ct ){
                     this.setOptions({
@@ -176,8 +177,9 @@
                 }
             });
             jQuery('#DateTo').datetimepicker({
-                // format: 'DD-MM-YYYY HH:mm',
+                //format: 'DD-MM-YYYY HH:mm',
                 format:'Y-m-d',
+                //format: 'd-m-Y',
                 // timepicker: false,
                 onShow:function( ct ){
                     this.setOptions({
@@ -188,7 +190,6 @@
         });
 
         chart_7days();
-
         var chart = new Morris.Bar({
             element: 'chart-sale',
             barColors: ['orange','#32BDEA','#FF9DBE'],

@@ -6,17 +6,18 @@ use App\Mail\VerifyAdminPass;
 use Illuminate\Http\Request;
 use App\Models\Admin;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Log;
+
 use Illuminate\Support\Facades\Mail;
 use App\Models\Customer;
 use App\Models\Product;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use Illuminate\Support\Carbon;
-
+use Illuminate\Support\Facades\Hash; // Đảm bảo dòng này có mặt
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 class AdminController extends Controller
 {
 
@@ -81,7 +82,7 @@ class AdminController extends Controller
 
 
 
-        return redirect()->route('admin.dashboard'); 
+        return redirect()->route('admin.dashboard');
     }
 
 
@@ -253,14 +254,7 @@ class AdminController extends Controller
 
 
 
-    //chuyển trang quản lí người dùng
-    public function manage_customers()
-    {
 
-        $list_customer = Customer::get();
-        $count_customer = Customer::count();
-        return view("admin.manage-user.manage-customers")->with(compact('list_customer', 'count_customer'));
-    }
 
 
 
@@ -275,9 +269,9 @@ class AdminController extends Controller
 
         $start_this_month = Carbon::now()->startOfMonth()->toDateString();
 
-        $total_revenue = Order::whereNotIn('Status', [99])->sum('TotalBill');
+        $total_revenue = Order::whereNotIn('Status', [99])->sum('TotalBill'); //
         $total_sell = OrderDetail::join('order', 'order.idOrder', '=', 'orderdetail.idOrder')->whereNotIn('Status', [99])->sum('QuantityBuy');
-
+        //sử dụng join
         $list_topProduct = Product::join('productimage', 'productimage.idProduct', '=', 'product.idProduct')
             ->join('orderdetail', 'orderdetail.idProduct', '=', 'product.idProduct')
             ->join('order', 'order.idOrder', '=', 'orderdetail.idOrder')->whereNotIn('Status', [99])
@@ -285,7 +279,7 @@ class AdminController extends Controller
             ->select('ProductName', 'ImageName')
             ->selectRaw('sum(QuantityBuy) as Sold')
             ->groupBy('ProductName', 'ImageName')->orderBy('Sold', 'DESC')->take(6)->get();
-
+        //phát âm chú ý truy vấn
         $list_topProduct_AllTime = Product::join('productimage', 'productimage.idProduct', '=', 'product.idProduct')
             ->join('orderdetail', 'orderdetail.idProduct', '=', 'product.idProduct')
             ->join('order', 'order.idOrder', '=', 'orderdetail.idOrder')
@@ -314,8 +308,54 @@ class AdminController extends Controller
             ->selectRaw('sum(TotalBill) as Sale, count(idOrder) as QtyBill, date(created_at) as Date')
             ->groupBy('Date')->get();
         $total_sold = OrderDetail::join('order', 'order.idOrder', '=', 'orderdetail.idOrder')->whereNotIn('order.Status', [99])
-            ->whereBetween('order.created_at', [$sub7days, now()])->selectRaw('sum(QuantityBuy) as TotalSold, date(order.created_at) as Date')
+            ->whereBetween('order.created_at', [$sub7days, now()])
+            ->selectRaw('sum(QuantityBuy) as TotalSold, date(order.created_at) as Date')
             ->groupBy('Date')->get();
+
+        if ($get_statistic->count() > 0) {
+            foreach ($get_statistic as $key => $statistic) {
+                $chart_data[] = array(
+                    'Date' => $statistic->Date,
+                    'Sale' => $statistic->Sale, //so luong ban
+                    'TotalSold' => $total_sold[$key]->TotalSold, //tong doanh thu
+                    'QtyBill' => $statistic->QtyBill
+                );
+            }
+        } else $chart_data[] = array();
+
+        echo $data = json_encode($chart_data);
+    }
+    // Thống kê doanh thu theo ngày, tháng, năm
+    public function statistic_by_date_order(Request $request)
+    {
+        $data = $request->all();
+
+        $sub7days = Carbon::now()->subDays(7)->toDateString();
+        $sub30days = Carbon::now()->subDays(30)->toDateString();
+        $sub365days = Carbon::now()->subDays(365)->toDateString();
+
+        if ($data['Days'] == 'lastweek') {
+            $get_statistic = Order::whereNotIn('order.Status', [99])->whereBetween('created_at', [$sub7days, now()])
+                ->selectRaw('sum(TotalBill) as Sale, count(idOrder) as QtyBill, date(created_at) as Date')
+                ->groupBy('Date')->get();
+            $total_sold = OrderDetail::join('order', 'order.idOrder', '=', 'orderdetail.idOrder')->whereNotIn('order.Status', [99])
+                ->whereBetween('order.created_at', [$sub7days, now()])->selectRaw('sum(QuantityBuy) as TotalSold, date(order.created_at) as Date')
+                ->groupBy('Date')->get();
+        } else if ($data['Days'] == 'lastmonth') {
+            $get_statistic = Order::whereNotIn('order.Status', [99])->whereBetween('created_at', [$sub30days, now()])
+                ->selectRaw('sum(TotalBill) as Sale, count(idOrder) as QtyBill, date(created_at) as Date')
+                ->groupBy('Date')->get();
+            $total_sold = OrderDetail::join('order', 'order.idOrder', '=', 'orderdetail.idOrder')->whereNotIn('order.Status', [99])
+                ->whereBetween('order.created_at', [$sub30days, now()])->selectRaw('sum(QuantityBuy) as TotalSold, date(order.created_at) as Date')
+                ->groupBy('Date')->get();
+        } else if ($data['Days'] == 'lastyear') {
+            $get_statistic = Order::whereNotIn('order.Status', [99])->whereBetween('created_at', [$sub365days, now()])
+                ->selectRaw('sum(TotalBill) as Sale, count(idOrder) as QtyBill, date(created_at) as Date')
+                ->groupBy('Date')->get();
+            $total_sold = OrderDetail::join('order', 'order.idOrder', '=', 'orderdetail.idOrder')->whereNotIn('order.Status', [99])
+                ->whereBetween('order.created_at', [$sub365days, now()])->selectRaw('sum(QuantityBuy) as TotalSold, date(order.created_at) as Date')
+                ->groupBy('Date')->get();
+        }
 
         if ($get_statistic->count() > 0) {
             foreach ($get_statistic as $key => $statistic) {
@@ -330,51 +370,59 @@ class AdminController extends Controller
 
         echo $data = json_encode($chart_data);
     }
-     // Thống kê doanh thu theo ngày, tháng, năm
-     public function statistic_by_date_order(Request $request)
-     {
-         $data = $request->all();
- 
-         $sub7days = Carbon::now()->subDays(7)->toDateString();
-         $sub30days = Carbon::now()->subDays(30)->toDateString();
-         $sub365days = Carbon::now()->subDays(365)->toDateString();
- 
-         if ($data['Days'] == 'lastweek') {
-             $get_statistic = Order::whereNotIn('order.Status', [99])->whereBetween('created_at', [$sub7days, now()])
-                 ->selectRaw('sum(TotalBill) as Sale, count(idOrder) as QtyBill, date(created_at) as Date')
-                 ->groupBy('Date')->get();
-             $total_sold = OrderDetail::join('order', 'order.idOrder', '=', 'orderdetail.idOrder')->whereNotIn('order.Status', [99])
-                 ->whereBetween('order.created_at', [$sub7days, now()])->selectRaw('sum(QuantityBuy) as TotalSold, date(order.created_at) as Date')
-                 ->groupBy('Date')->get();
-         } else if ($data['Days'] == 'lastmonth') {
-             $get_statistic = Order::whereNotIn('order.Status', [99])->whereBetween('created_at', [$sub30days, now()])
-                 ->selectRaw('sum(TotalBill) as Sale, count(idOrder) as QtyBill, date(created_at) as Date')
-                 ->groupBy('Date')->get();
-             $total_sold = OrderDetail::join('order', 'order.idOrder', '=', 'orderdetail.idOrder')->whereNotIn('order.Status', [99])
-                 ->whereBetween('order.created_at', [$sub30days, now()])->selectRaw('sum(QuantityBuy) as TotalSold, date(order.created_at) as Date')
-                 ->groupBy('Date')->get();
-         } else if ($data['Days'] == 'lastyear') {
-             $get_statistic = Order::whereNotIn('order.Status', [99])->whereBetween('created_at', [$sub365days, now()])
-                 ->selectRaw('sum(TotalBill) as Sale, count(idOrder) as QtyBill, date(created_at) as Date')
-                 ->groupBy('Date')->get();
-             $total_sold = OrderDetail::join('order', 'order.idOrder', '=', 'orderdetail.idOrder')->whereNotIn('order.Status', [99])
-                 ->whereBetween('order.created_at', [$sub365days, now()])->selectRaw('sum(QuantityBuy) as TotalSold, date(order.created_at) as Date')
-                 ->groupBy('Date')->get();
-         }
- 
-         if ($get_statistic->count() > 0) {
-             foreach ($get_statistic as $key => $statistic) {
-                 $chart_data[] = array(
-                     'Date' => $statistic->Date,
-                     'Sale' => $statistic->Sale,
-                     'TotalSold' => $total_sold[$key]->TotalSold,
-                     'QtyBill' => $statistic->QtyBill
-                 );
-             }
-         } else $chart_data[] = array();
- 
-         echo $data = json_encode($chart_data);
-     }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //chuyển trang quản lí người dùng
+    public function manage_customers()
+    {
+
+        $list_customer = Customer::get();
+        $count_customer = Customer::count();
+        return view("admin.manage-user.manage-customers")->with(compact('list_customer', 'count_customer'));
+    }
+
+    public function resetPassword(Request $request, $idCustomer)
+    {
+        $validator = Validator::make($request->all(), [
+            'new_password' => 'required|min:8|confirmed',
+        ]);
+    
+        if ($validator->fails()) {
+            Log::warning('Password reset validation failed', [
+                'errors' => $validator->errors()
+            ]);
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+    
+        $customer = Customer::find($idCustomer);
+    
+        if (!$customer) {
+            Log::error('Customer not found', [
+                'customer_id' => $idCustomer
+            ]);
+            return redirect()->back()->with('error', 'Customer not found');
+        }
+    
+        $customer->password = Hash::make($request->input('new_password'));
+        $customer->save();
+    
+        Log::info('Password reset successfully', [
+            'customer_id' => $idCustomer
+        ]);
+    
+        return redirect()->back()->with('success', 'Password updated successfully');
+    }
 }

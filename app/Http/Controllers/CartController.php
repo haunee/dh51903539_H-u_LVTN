@@ -10,7 +10,7 @@ use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\AddressCustomer;
-  //ORDER  ODERDETAIL
+//ORDER  ODERDETAIL
 use App\Models\OrderHistory;
 use App\Models\Order;
 use App\Models\OrderDetail;
@@ -278,6 +278,7 @@ class CartController extends Controller
 
     //===========BILL=======ORDER========//
 
+    //0 chờ xác nhận 1 đang giao 2 đã giao 99 đã hủy
 
     // Hiện tất cả đơn đặt hàng
     public function ordered()
@@ -365,7 +366,7 @@ class CartController extends Controller
             $vnp_TmnCode = "CGXZLS0Z";
             $vnp_HashSecret = "XNBCJFAKAZQSGTARRLGCHVZWCIOIGSHN";
 
-           
+
             //$vnp_TxnRef = base64_encode(openssl_random_pseudo_bytes(30)); //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
             //$vnp_OrderInfo = $data['address_rdo'] . '_' . $data['Voucher'] . '_' . Session::get('idCustomer') . '_' . $data['idVoucher'];
 
@@ -470,7 +471,7 @@ class CartController extends Controller
                 ]);
             }
 
-         
+
             return Redirect::to('success-order')->send();
         }
     }
@@ -484,7 +485,7 @@ class CartController extends Controller
         $list_category = Category::get();
         $list_brand = Brand::get();
         if ($request->vnp_TransactionStatus && $request->vnp_TransactionStatus == '00') {
-            // $test = dd($request->toArray());
+
             $Order = new Order();
             $OrderHistory = new OrderHistory();
             $OrderInfo = explode("_", $request->vnp_OrderInfo);
@@ -520,7 +521,7 @@ class CartController extends Controller
                 // DB::update(DB::RAW('update product_attribute set Quantity = Quantity - ' . $cart->QuantityBuy . ' where idProAttr = ' . $cart->idProAttr . ''));
             }
 
-            if ($get_Order->Voucher != '') DB::update(DB::RAW('update voucher set VoucherQuantity = VoucherQuantity - 1 where idVoucher = ' . $OrderInfo[3] . ''));
+            //if ($get_Order->Voucher != '') DB::update(DB::RAW('update voucher set VoucherQuantity = VoucherQuantity - 1 where idVoucher = ' . $OrderInfo[3] . ''));
             Cart::where('idCustomer', $OrderInfo[1])->delete();
             $OrderHistory->idOrder = $get_Order->idOrder;
             $OrderHistory->AdminName = 'System';
@@ -534,7 +535,7 @@ class CartController extends Controller
 
 
 
-    
+
     public function delete_order(Request $request, $idOrder)
     {
         if ($request->isMethod('post')) {
@@ -556,7 +557,7 @@ class CartController extends Controller
                     DB::update('update product set QuantityTotal = QuantityTotal + ? where idProduct = ?', [$bi->QuantityBuy, $bi->idProduct]);
                 }
 
-                
+
 
                 return response()->json(['success' => true]);
             } catch (\Exception $e) {
@@ -650,7 +651,7 @@ class CartController extends Controller
     public function cancelled_order()
     {
         $this->checkLogin_Admin();
-        
+
         $list_order = Order::join('customer', 'order.idCustomer', '=', 'customer.idCustomer')
             ->join('orderhistory', 'orderhistory.idOrder', '=', 'order.idOrder')->where('order.Status', '99')
             ->select('order.*', 'customer.username', 'customer.PhoneNumber as CusPhone', 'orderhistory.AdminName', 'orderhistory.created_at AS TimeConfirm')->get();
@@ -694,7 +695,7 @@ class CartController extends Controller
 
         // Lưu lịch sử đơn hàng
         $OrderHistory = new OrderHistory();
-        $OrderHistory->idOrder = $idOrder; 
+        $OrderHistory->idOrder = $idOrder;
         $OrderHistory->AdminName = Session::get('AdminName');
         $OrderHistory->Status = $request->Status;
         $OrderHistory->save();

@@ -22,4 +22,6 @@ class Admin extends Model
     protected $primaryKey = 'idAdmin';  
     protected $table = 'admin';  
 
+   
+
 }

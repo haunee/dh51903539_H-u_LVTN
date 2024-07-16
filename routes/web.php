@@ -159,8 +159,7 @@ Route::post('/send-reset-code', [AdminController::class, 'submit_send_mail']);
 
 Route::post('/reset-password', [AdminController::class, 'submit_reset_Password']);
 
-//account user
-Route::get('/manage-customers', [AdminController::class, 'manage_customers']);
+
 
 
 
@@ -278,3 +277,18 @@ Route::post('/confirm-bill/{idOrder}', [CartController::class, 'confirm_order'])
 Route::get('/dashboard', [AdminController::class, 'show_dashboard'])->name('admin.dashboard');
 Route::post('/chart-7days',[AdminController::class, 'chart_7days']);
 Route::post('/statistic-by-date-order',[AdminController::class, 'statistic_by_date_order']);
+
+
+
+
+
+
+
+
+
+
+
+Route::post('/admin/reset-password/{idCustomer}', [AdminController::class, 'resetPassword'])
+     ->name('admin.reset-password');
+//account user
+Route::get('/manage-customers', [AdminController::class, 'manage_customers']);

@@ -34,6 +34,8 @@ class Customer extends Authenticatable
         return $this -> hasMany(ResetPasswordCustomer::class,'email','email');
         
     }
+
+
     /**
      * The attributes that should be hidden for serialization.
      *

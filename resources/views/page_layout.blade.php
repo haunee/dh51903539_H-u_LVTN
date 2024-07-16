@@ -110,15 +110,19 @@
                                                     <a class="mega-title">Danh Mục Khác</a>
 
                                                     <ul class="mega-item">
-                                                        <li><a href="{{URL::to('/store?show=all&sort_by=new')}}">Sản phẩm mới</a></li>
-                                                        <li><a href="{{URL::to('/store?show=all&sort_by=bestsellers')}}">Sản phẩm bán chạy</a></li>
-                                                       
+                                                        <li><a href="{{ URL::to('/store?show=all&sort_by=new') }}">Sản
+                                                                phẩm mới</a></li>
+                                                        <li><a
+                                                                href="{{ URL::to('/store?show=all&sort_by=bestsellers') }}">Sản
+                                                                phẩm bán chạy</a></li>
+
                                                     </ul>
                                                 </li>
 
                                                 <li class="mega-dropdown">
                                                     <a class="menu-banner" href="#">
-                                                        <img src="{{asset('/page/images/logo9.jpg')}}" alt="">
+                                                        <img src="{{ asset('/page/images/logo9.jpg') }}"
+                                                            alt="">
                                                     </a>
                                                 </li>
 
@@ -158,7 +162,7 @@
                                             <ul class="dropdown-menu">
                                                 <li><a href="{{ URL::to('/profile') }}">Tài khoản của tôi</a></li>
                                                 <li><a href="{{ URL::to('/wishlist') }}">Sản phẩm yêu thích</a></li>
-                                                <li><a href="{{URL::to('/ordered')}}">Đơn hàng</a></li>
+                                                <li><a href="{{ URL::to('/ordered') }}">Đơn hàng</a></li>
                                                 <li><a href="{{ URL::to('/logout') }}">Đăng xuất</a></li>
                                             </ul>
                                             <input type="hidden" id="idCustomer"
@@ -396,6 +400,7 @@
 
     <script src="{{ asset('/page/js/main.js') }}"></script>
     <script>
+   
         $('.js-preloader').preloadinator();
         $('.js-preloader').preloadinator({
             scroll: false
@@ -548,7 +553,7 @@
                     }
                 }
             });
-         
+
 
 
 
