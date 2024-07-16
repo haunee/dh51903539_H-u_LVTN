@@ -6,7 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-
+use Illuminate\Support\Carbon;
 class Customer extends Authenticatable
 {
     use HasFactory, Notifiable;
@@ -33,6 +33,11 @@ class Customer extends Authenticatable
     public function resetPasswordCustomers() {
         return $this -> hasMany(ResetPasswordCustomer::class,'email','email');
         
+    }
+
+    public function getCreatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->timezone('Asia/Ho_Chi_Minh')->format('d-m-Y H:i:s');
     }
 
 

@@ -375,16 +375,6 @@ class AdminController extends Controller
 
 
 
-
-
-
-
-
-
-
-
-
-
     //chuyển trang quản lí người dùng
     public function manage_customers()
     {
@@ -394,35 +384,58 @@ class AdminController extends Controller
         return view("admin.manage-user.manage-customers")->with(compact('list_customer', 'count_customer'));
     }
 
+    // public function resetPassword(Request $request, $idCustomer)
+    // {
+    //     $validator = Validator::make($request->all(), [
+    //         'new_password' => 'required|min:8|confirmed',
+    //     ]);
+    
+    //     if ($validator->fails()) {
+    //         Log::warning('Password reset validation failed', [
+    //             'errors' => $validator->errors()
+    //         ]);
+    //         return redirect()->back()->withErrors($validator)->withInput();
+    //     }
+    
+    //     $customer = Customer::find($idCustomer);
+    
+    //     if (!$customer) {
+    //         Log::error('Customer not found', [
+    //             'customer_id' => $idCustomer
+    //         ]);
+    //         return redirect()->back()->with('error', 'Customer not found');
+    //     }
+    
+    //     $customer->password = Hash::make($request->input('new_password'));
+    //     $customer->save();
+    
+    //     Log::info('Password reset successfully', [
+    //         'customer_id' => $idCustomer
+    //     ]);
+    
+    //     return redirect()->back()->with('success', 'Password updated successfully');
+    // }
+
     public function resetPassword(Request $request, $idCustomer)
     {
-        $validator = Validator::make($request->all(), [
-            'new_password' => 'required|min:8|confirmed',
+        // Xác thực các trường đầu vào
+        $validatedData = $request->validate([
+            'new_password' => 'required|confirmed|min:8',
         ]);
-    
-        if ($validator->fails()) {
-            Log::warning('Password reset validation failed', [
-                'errors' => $validator->errors()
-            ]);
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
-    
+
+        // Tìm khách hàng theo ID
         $customer = Customer::find($idCustomer);
-    
+        
+        // Nếu không tìm thấy khách hàng, trả về lỗi 404
         if (!$customer) {
-            Log::error('Customer not found', [
-                'customer_id' => $idCustomer
-            ]);
-            return redirect()->back()->with('error', 'Customer not found');
+            return response()->json(['message' => 'Khách hàng không tồn tại'], 404);
         }
-    
-        $customer->password = Hash::make($request->input('new_password'));
+
+        // Đặt lại mật khẩu
+        $customer->password = Hash::make($validatedData['new_password']);
         $customer->save();
-    
-        Log::info('Password reset successfully', [
-            'customer_id' => $idCustomer
-        ]);
-    
-        return redirect()->back()->with('success', 'Password updated successfully');
+
+        // Trả về phản hồi thành công
+        return response()->json(['message' => 'Đổi mật khẩu thành công']);
     }
 }

@@ -1,6 +1,8 @@
 @extends('page_layout')
 @section('content')
-
+@php
+    use Carbon\Carbon;
+@endphp
 <!--Page Banner Start-->
 <div class="page-banner" style="background-image: url(/page/images/oso.png);">
     <div class="container">
@@ -89,9 +91,8 @@
                                         <tr>
                                             <td>{{$order->idOrder}}</td>
                                             <td>{{$order->CustomerName}}</td>
-                                            <td>{{$order->created_at}}</td>
-
-                                            <td>{{$order->ReceiveDate}}</td>            
+                                            <td>{{$order->created_at}}</td>         
+                                            <td>{{ Carbon::parse($order->ReceiveDate)->setTimezone('Asia/Ho_Chi_Minh')->format('d/m/Y H:i:s') }}</td>
 
                                             <td>{{number_format($order->TotalBill,0,',','.')}}đ</td>
                                             <td class="d-flex justify-content-center">

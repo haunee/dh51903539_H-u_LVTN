@@ -44,7 +44,7 @@
                                 <td>{{ Carbon::parse($order->created_at)->setTimezone('Asia/Ho_Chi_Minh')->format('d/m/Y H:i:s') }}</td>
 
 
-                                @if($order->ReceiveDate != null) <td>{{$order->ReceiveDate}}</td>
+                                @if($order->ReceiveDate != null)<td>{{ Carbon::parse($order->ReceiveDate)->setTimezone('Asia/Ho_Chi_Minh')->format('d/m/Y H:i:s') }}</td>
                                 @else <td class="text-center"><div class="align-items-center badge badge-warning">Chưa giao</div></td> @endif
                                 
                                 @if($order->Status == 0) <td><div class=" align-items-center badge badge-warning">Chờ xác nhận</div></td>

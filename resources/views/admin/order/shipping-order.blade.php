@@ -40,7 +40,7 @@
                                 <td>@if($order->Payment == 'vnpay') VNPay @else Khi nhận hàng @endif</td>
                                 <td>{{ Carbon::parse($order->created_at)->setTimezone('Asia/Ho_Chi_Minh')->format('d/m/Y H:i:s') }}</td>
                                 <td><div class=" align-items-center badge badge-warning">{{$order->AdminName}}</div></td>
-                                <td>{{$order->TimeConfirm}}</td>
+                                <td>{{ Carbon::parse($order->TimeConfirm)->setTimezone('Asia/Ho_Chi_Minh')->format('d/m/Y H:i:s') }}</td>
 
                                 <td>
                                     <form action="{{URL::to('/confirm-bill/'.$order->idOrder)}}" method="POST"> @csrf

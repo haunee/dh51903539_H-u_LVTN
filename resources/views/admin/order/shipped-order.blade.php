@@ -1,6 +1,8 @@
 @extends('admin_layout')
 @section('content_dash')
-
+@php
+    use Carbon\Carbon;
+@endphp
 <div class="content-page">
     <div class="container-fluid">
         <div class="row">
@@ -35,8 +37,8 @@
                                 <td>{{$order->username}}</td>
                                 <td>{{$order->CusPhone}}</td>
                                 <td>@if($order->Payment == 'vnpay') VNPay @else Khi nhận hàng @endif</td>
-                                <td>{{$order->created_at}}</td>
-                                <td>{{$order->ReceiveDate}}</td>
+                                <td>{{ Carbon::parse($order->created_at)->setTimezone('Asia/Ho_Chi_Minh')->format('d/m/Y H:i:s') }}</td>
+                                <td>{{ Carbon::parse($order->ReceiveDate)->setTimezone('Asia/Ho_Chi_Minh')->format('d/m/Y H:i:s') }}</td>
 
                                 <td>
                                     <div class="d-flex align-items-center list-action">
