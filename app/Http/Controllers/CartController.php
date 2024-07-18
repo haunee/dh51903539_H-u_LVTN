@@ -350,26 +350,23 @@ class CartController extends Controller
 
 
 
-
-
-
-
     public function submit_payment(Request $request)
     {
         $data = $request->all();
         $Order = new Order();
-
+    
+        // Kiểm tra xem người dùng đã nhập địa chỉ chưa
+        if (!isset($data['address_rdo']) || empty($data['address_rdo'])) {
+            return redirect()->back()->with('error', 'Bạn chưa nhập địa chỉ');
+        }
+    
         if ($data['checkout'] == 'vnpay') {
             $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
             $vnp_Returnurl = rtrim(getenv('APP_URL'), '/') . '/success-order';
-
+    
             $vnp_TmnCode = "CGXZLS0Z";
             $vnp_HashSecret = "XNBCJFAKAZQSGTARRLGCHVZWCIOIGSHN";
-
-
-            //$vnp_TxnRef = base64_encode(openssl_random_pseudo_bytes(30)); //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
-            //$vnp_OrderInfo = $data['address_rdo'] . '_' . $data['Voucher'] . '_' . Session::get('idCustomer') . '_' . $data['idVoucher'];
-
+    
             $vnp_TxnRef = uniqid(); // Mã đơn hàng duy nhất.
             $vnp_OrderInfo = $data['address_rdo'] . '_' . Session::get('idCustomer');
             $vnp_OrderType = 'billpayment';
@@ -377,9 +374,7 @@ class CartController extends Controller
             $vnp_Locale = 'vn';
             $vnp_BankCode = 'NCB';
             $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
-            //Add Params of 2.0.1 Version
-            // $vnp_ExpireDate = $_POST['txtexpire'];
-            //Billing
+    
             $inputData = array(
                 "vnp_Version" => "2.1.0",
                 "vnp_TmnCode" => $vnp_TmnCode,
@@ -394,15 +389,14 @@ class CartController extends Controller
                 "vnp_ReturnUrl" => $vnp_Returnurl,
                 "vnp_TxnRef" => $vnp_TxnRef
             );
-
+    
             if (isset($vnp_BankCode) && $vnp_BankCode != "") {
                 $inputData['vnp_BankCode'] = $vnp_BankCode;
             }
             if (isset($vnp_Bill_State) && $vnp_Bill_State != "") {
                 $inputData['vnp_Bill_State'] = $vnp_Bill_State;
             }
-
-            //var_dump($inputData);
+    
             ksort($inputData);
             $query = "";
             $i = 0;
@@ -416,10 +410,10 @@ class CartController extends Controller
                 }
                 $query .= urlencode($key) . "=" . urlencode($value) . '&';
             }
-
+    
             $vnp_Url = $vnp_Url . "?" . $query;
             if (isset($vnp_HashSecret)) {
-                $vnpSecureHash =   hash_hmac('sha512', $hashdata, $vnp_HashSecret); //  
+                $vnpSecureHash = hash_hmac('sha512', $hashdata, $vnp_HashSecret);
                 $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
             }
             $returnData = array(
@@ -435,16 +429,16 @@ class CartController extends Controller
             $get_address = AddressCustomer::find($data['address_rdo']);
             $Order->idCustomer = Session::get('idCustomer');
             $Order->TotalBill = $data['TotalBill'];
-
+    
             $Order->Address = $get_address->Address;
             $Order->PhoneNumber = $get_address->PhoneNumber;
             $Order->CustomerName = $get_address->CustomerName;
             $Order->Payment = 'cash';
-
+    
             $Order->save();
             $get_Order = Order::where('created_at', now())->where('idCustomer', Session::get('idCustomer'))->first();
             $get_cart = Cart::where('idCustomer', Session::get('idCustomer'))->get();
-
+    
             foreach ($get_cart as $key => $cart) {
                 $data_orderdetail = array(
                     'idOrder' => $get_Order->idOrder,
@@ -457,26 +451,23 @@ class CartController extends Controller
                     'updated_at' => now()
                 );
                 OrderDetail::insert($data_orderdetail);
-                // DB::update(DB::RAW('update product set QuantityTotal = QuantityTotal - '.$cart->QuantityBuy.' where idProduct = '.$cart->idProduct.''));
-                // DB::update(DB::RAW('update product_attribute set Quantity = Quantity - '.$cart->QuantityBuy.' where idProAttr = '.$cart->idProAttr.''));
+    
                 DB::update('UPDATE product SET QuantityTotal = QuantityTotal - ? WHERE idProduct = ?', [
                     $cart->QuantityBuy,
                     $cart->idProduct,
                 ]);
-
-                // Cập nhật số lượng của thuộc tính sản phẩm
+    
                 DB::update('UPDATE product_attribute SET Quantity = Quantity - ? WHERE idProAttr = ?', [
                     $cart->QuantityBuy,
                     $cart->idProAttr,
                 ]);
             }
-
-
+    
             return Redirect::to('success-order')->send();
         }
     }
-
-
+    
+    
 
 
     // Chuyển đến trang đặt hàng thành công

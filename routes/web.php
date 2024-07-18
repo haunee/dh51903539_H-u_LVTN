@@ -21,6 +21,10 @@ use App\Http\Controllers\CartController;
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/home', [HomeController::class, 'index']);
 
+Route::post('/view-product/{idProduct}', [HomeController::class, 'viewProduct'])->name('view.product');
+
+
+
 //ACCOUNT customer
 //chuyển trang xác nhận  //xac nhận mã
 Route::get('/verify', [CustomerController::class, 'verify']);
@@ -279,16 +283,16 @@ Route::post('/chart-7days',[AdminController::class, 'chart_7days']);
 Route::post('/statistic-by-date-order',[AdminController::class, 'statistic_by_date_order']);
 
 
-
-
-
-
-
-
-
-
-
+//Manage-user
 Route::post('/admin/reset-password/{idCustomer}', [AdminController::class, 'resetPassword'])
      ->name('admin.reset-password');
 //account user
 Route::get('/manage-customers', [AdminController::class, 'manage_customers']);
+
+
+
+
+
+
+
+

@@ -21,7 +21,7 @@
         <!--Cart Start-->
         <div class="cart-page section-padding-5">
             <div class="container">
-
+             
                 <div class="container__address">
                     <div class="container__address-css"></div>
                     <div class="container__address-content">
@@ -31,6 +31,11 @@
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#AddressModal">+
                                 Thêm Thông Tin/Địa Chỉ</button>
                         </div>
+                        @if(session('error'))
+                        <div class="alert alert-danger">
+                            {{ session('error') }}
+                        </div>
+                        @endif
                         <ul class="shipping-list list-address">
 
                         </ul>
@@ -84,20 +89,7 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="cart-coupon">
-                            {{-- <div class="cart-title">
-                                <h4 class="title">Mã giảm giá</h4>
-                                <p>Nhập mã giảm giá của bạn nếu có.</p>
-                            </div>
-                            <div class="cart-form mt-25 d-flex">
-                                <div class="single-form flex-fill mr-30">
-                                    <input type="text" id="VoucherCode"
-                                        placeholder="Nhập mã giảm giá (chỉ áp dụng 1 lần)">
-                                </div>
-                                <div class="cart-form-btn d-flex">
-                                    <button type="button" style="width:97px;"
-                                        class="btn btn-primary pl-2 pr-2 check-voucher">Áp dụng</button>
-                                </div>
-                            </div> --}}
+                        
                             <div class="container__address-content-hd">
                                 <i class="container__address-content-hd-icon fa fa-money"></i>
                                 <div>Phương thức thanh toán</div>
@@ -120,24 +112,7 @@
                         </div>
                     </div>
                     <div class="col-lg-6 container__address-content">
-                        {{-- <div class="container__address-content-hd">
-                            <i class="container__address-content-hd-icon fa fa-money"></i>
-                            <div>Phương thức thanh toán</div>
-                        </div>
-                        <ul class="shipping-list checkout-payment">
-                            <li class="cus-radio">
-                                <input type="radio" name="checkout" value="cash" id="cash" checked>
-                                <label for="cash">
-                                    <span>Thanh toán khi nhận hàng</span>
-                                </label>
-                            </li>
-                            <li class="cus-radio payment-radio">
-                                <input type="radio" name="checkout" value="vnpay" id="vnpay">
-                                <label for="vnpay">
-                                    <span>VNPay</span>
-                                </label>
-                            </li>
-                        </ul> --}}
+                       
                     </div>
                     <div class="col-lg-12">
                         <div class="cart-totals shop-single-content">
