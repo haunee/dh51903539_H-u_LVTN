@@ -4,7 +4,7 @@
     use Carbon\Carbon;
 @endphp
     <!--Page Banner Start-->
-    <div class="page-banner" style="background-image: url(/page/images/oso.png);">
+    <div class="page-banner" style="background-image: url(/page/images/banner/banner5.jpg);">
         <div class="container">
             <div class="page-banner-content text-center">
                 <h2 class="title">Đơn đặt hàng</h2>

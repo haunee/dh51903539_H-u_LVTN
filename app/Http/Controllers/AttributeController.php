@@ -57,22 +57,22 @@ class AttributeController extends Controller
     {
         $data = $request->all();
 
-        // Tìm nhóm phân loại cần sửa
+     
         $attribute = Attribute::find($idAttribute);
 
-        // Kiểm tra xem tên nhóm phân loại đã tồn tại trong các nhóm khác chưa
+      
         $select_attribute = Attribute::where('AttributeName', $data['AttributeName'])
             ->where('idAttribute', '<>', $idAttribute)->first();
 
         if ($select_attribute) {
-            // Nếu tên nhóm phân loại đã tồn tại, redirect về trang trước với thông báo lỗi
+           
             return redirect()->back()->with('error', 'Tên nhóm phân loại này đã tồn tại');
         } else {
-            // Nếu tên nhóm phân loại chưa tồn tại, cập nhật và lưu vào cơ sở dữ liệu
+            
             $attribute->AttributeName = $data['AttributeName'];
             $attribute->save();
 
-            // Redirect về trang trước với thông báo thành công
+            
             return redirect()->back()->with('message', 'Sửa nhóm phân loại thành công');
         }
     }

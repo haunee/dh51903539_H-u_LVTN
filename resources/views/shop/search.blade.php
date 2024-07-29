@@ -1,7 +1,7 @@
 @extends('page_layout')
 @section('content')
     <!--Page Banner Start-->
-    <div class="page-banner" style="background-image: url(/page/images/banner/banner-shop.png);">
+    <div class="page-banner" style="background-image: url(/page/images/banner/banner5.jpg);">
         <div class="container">
             <div class="page-banner-content text-center">
                 <h2 class="title">Tìm Kiếm Sản Phẩm</h2>
@@ -29,14 +29,7 @@
                     
 
                     <div class="shop-top-bar d-sm-flex align-items-center justify-content-between mt-3">
-                        <div class="top-bar-btn">
-                            <ul class="nav" role="tablist">
-                                <li class="nav-item"><a class="nav-link grid active" data-toggle="tab" href="#grid"
-                                        role="tab"></a></li>
-                                <li class="nav-item"><a class="nav-link list" data-toggle="tab" href="#list"
-                                        role="tab"></a></li>
-                            </ul>
-                        </div>
+                     
                         <div class="top-bar-sorter">
                             <div class="sorter-wrapper d-flex align-items-center">
                                 <label>Sắp xếp theo:</label>
@@ -49,10 +42,13 @@
                                         echo "data-sort='&sort_by=new'";
                                     }
                                     ?>>
+                                    
                                         <?php
                                         if (isset($_GET['sort_by'])) {
                                             if ($_GET['sort_by'] == 'new') {
                                                 echo 'Mới Nhất';
+                                            } elseif ($_GET['sort_by'] == 'bestsellers') {
+                                                echo 'Bán Chạy';
                                             } elseif ($_GET['sort_by'] == 'price_desc') {
                                                 echo 'Giá Cao - Thấp';
                                             } elseif ($_GET['sort_by'] == 'price_asc') {
@@ -65,6 +61,7 @@
                                     </span><i class="select-input__icon fa fa-angle-down"></i>
                                     <ul class="select-input__list">
                                         <li class="select-input__item" data-sort="&sort_by=new">Mới Nhất</li>
+                                        <li class="select-input__item" data-sort="&sort_by=bestsellers">Bán Chạy</li>
                                         <li class="select-input__item" data-sort="&sort_by=price_desc">Giá Cao - Thấp</li>
                                         <li class="select-input__item" data-sort="&sort_by=price_asc">Giá Thấp - Cao</li>
                                     </ul>
@@ -216,8 +213,11 @@
                                     <label class="mb-0 ml-2" for="cat-{{ $category->idCategory }}"
                                         style="font-size:15px;cursor:pointer;"><span
                                             style="position:relative; top:2px;">{{ $category->CategoryName }}</span></label>
-                                    <span
-                                        style="margin-left:auto">({{ App\Http\Controllers\ProductController::count_cat_search($category->idCategory) }})</span>
+                                            <span style="margin-left:auto">({{ App\Http\Controllers\ProductController::count_cat_search($category->idCategory) }})</span>                                            {{-- <span style="margin-left:auto">({{ $count_pd[$category->idCategory] ?? 0 }})</span> --}}
+
+                                            {{-- <span style="margin-left:auto">
+                                                ({{ $category_counts[$category->idCategory] ?? 0 }})
+                                            </span> --}}
                                 </li>
                             @endforeach
                         </ul>
@@ -249,8 +249,10 @@
                                     <label class="mb-0 ml-2" for="brand-{{ $brand->idBrand }}"
                                         style="font-size:15px;cursor:pointer;"><span
                                             style="position:relative; top:2px;">{{ $brand->BrandName }}</span></label>
-                                    <span
-                                        style="margin-left:auto">({{ App\Http\Controllers\ProductController::count_brand_search($brand->idBrand) }})</span>
+                                            <span style="margin-left:auto">({{ App\Http\Controllers\ProductController::count_brand_search($brand->idBrand) }})</span>
+                                        
+
+                                        {{-- <span style="margin-left:auto"> ({{ $brand_counts[$brand->idBrand] ?? 0 }})</span> --}}
                                 </li>
                             @endforeach
                         </ul>
@@ -280,11 +282,6 @@
 
 
 
-                    <!--Sidebar Size Start-->
-                    <div class="sidebar-banner">
-                        <a href="#"><img src="/page/images/banner-top-pd.png" alt=""></a>
-                    </div>
-                    <!--Sidebar Size End-->
 
 
 

@@ -28,9 +28,9 @@
                 </div>
                 <ul class="shipping-list list-address">
                     <li class="cus-radio align-items-center" style="font-size:20px;">
-                        <span class="mr-2">{{$address->CustomerName}}</span>
-                        <span class="mr-2">{{$address->PhoneNumber}}</span>
-                        <span>{{$address->Address}}</span>
+                        <span class="mr-2">{{$order->CustomerName}}</span>
+                        <span class="mr-2">{{$order->PhoneNumber}}</span>
+                        <span>{{$order->Address}}</span>
                     </li>
                 </ul>
             </div>
@@ -92,7 +92,7 @@
                                     </td>
                                 </tr>
 
-                                @if($address->Voucher != '') 
+                                {{-- @if($address->Voucher != '') 
                                 <tr>
                                     <td width="70%">Mã giảm giá</td>
                                     @php
@@ -110,7 +110,7 @@
                                     @endphp
                                     <td class="text-right totalBill">- {{number_format($discount,0,',','.')}}đ</td>
                                 </tr>
-                                @endif
+                                @endif --}}
 
                                 <tr>
                                     <td width="70%">Thành tiền</td>
@@ -122,9 +122,15 @@
                                 <input type="hidden" name="idVoucher" class="idVoucher" value="0">                                
                             </tbody>
                         </table>
-                        @if($address->Payment == 'vnpay')
+                        @if($order->Payment == 'vnpay')
                         <div class="col-lg-3 paid_tag">
                             <div class="h3 p-3 mb-0 text-primary">Đã thanh toán</div>
+                        </div>
+                        @endif
+
+                        @if($order->Status == '2')
+                        <div class="col-lg-3 paid_tag">
+                            <div class="h3 p-3 mb-0 text-primary">Đã thanh toán </div>
                         </div>
                         @endif
                     </div>

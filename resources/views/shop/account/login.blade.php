@@ -4,7 +4,7 @@
 <?php use Illuminate\Support\Facades\Session; ?>
 
 <!--Page Banner Start-->
-<div class="page-banner" style="background-image: url(/page/images/oso.png);">
+<div class="page-banner" style="background-image: url(/page/images/banner/banner9.jpg);">
     <div class="container">
         <div class="page-banner-content text-center">
             <h2 class="title">Đăng Nhập</h2>

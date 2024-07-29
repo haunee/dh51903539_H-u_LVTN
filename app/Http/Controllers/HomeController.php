@@ -23,7 +23,7 @@ class HomeController extends Controller
 
         $idCustomer = session('idCustomer');
 
-        // Lấy danh sách các sản phẩm yêu thích của người dùng
+      
         $wishlistProducts = WishList::where('idCustomer', $idCustomer)->pluck('idProduct')->toArray();
 
         // Lấy các sản phẩm mới nhất
@@ -33,29 +33,17 @@ class HomeController extends Controller
             ->take(6)
             ->get();
 
-        // Lấy các sản phẩm bán chạy nhất
-        $list_bestsellers_pd = Product::join('productimage', 'productimage.idProduct', '=', 'product.idProduct')
-            ->select('product.*', 'productimage.ImageName')
-            ->orderBy('product.created_at', 'desc')
-            ->get();
 
-        // Lấy các sản phẩm yêu thích của người dùng
-        $wishlist_recommend_pds = collect();
-        if (!empty($wishlistProducts)) {
-            $wishlist_recommend_pds = Product::join('productimage', 'productimage.idProduct', '=', 'product.idProduct')
-                ->whereIn('product.idProduct', $wishlistProducts)
-                ->select('product.*', 'productimage.ImageName')
-                ->get();
-        }
+   
 
-          // Lấy các sản phẩm đã xem của người dùng
+        // Lấy các sản phẩm đã xem của người dùng
         $recentlyViewedProducts = Product::join('productimage', 'productimage.idProduct', '=', 'product.idProduct')
         ->whereIn('product.idProduct', Viewer::where('idCustomer', $idCustomer)->pluck('idProduct'))
         ->distinct('product.idProduct')
         ->select('product.*', 'productimage.ImageName')
         ->get();
         Log::info($recentlyViewedProducts->toArray());
-        return view('shop.home')->with(compact('list_category','newestProducts','recentlyViewedProducts' ,'list_brand', 'list_bestsellers_pd', 'wishlist_recommend_pds', 'wishlistProducts'));
+        return view('shop.home')->with(compact('list_category','newestProducts','recentlyViewedProducts' ,'list_brand', 'wishlistProducts'));
     }
 
   

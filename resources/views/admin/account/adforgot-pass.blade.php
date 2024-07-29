@@ -24,25 +24,29 @@
                                         <div class="p-3">
                                             <h2 class="mb-2">Quên Mật Khẩu</h2>
                                             <p>Nhập email để nhận mã xác nhận.</p>
-                                            @if(session('message') && session('section') == 'send-code')
+                                            @if ($errors->any())
+                                            <div class="alert alert-danger">
+                                                <ul>
+                                                    @foreach ($errors->all() as $error)
+                                                        <li>{{ $error }}</li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                            @endif
+                                            
+                                            @if (session('message'))
                                                 <div class="alert alert-success">
                                                     {{ session('message') }}
                                                 </div>
                                             @endif
-                                            @if(session('error') && session('section') == 'send-code')
+                                            
+                                            @if (session('error'))
                                                 <div class="alert alert-danger">
                                                     {{ session('error') }}
                                                 </div>
                                             @endif
-                                            @if($errors->any() && session('section') == 'send-code')
-                                                <div class="alert alert-danger">
-                                                    <ul>
-                                                        @foreach ($errors->all() as $error)
-                                                            <li>{{ $error }}</li>
-                                                        @endforeach
-                                                    </ul>
-                                                </div>
-                                            @endif
+                                        
+
                                             <form action="{{ URL::to('/send-reset-code') }}" method="POST">
                                                 @csrf
                                                 <div class="row">
@@ -62,25 +66,6 @@
                                         <div class="p-3">
                                             <h2 class="mb-2">Đặt Lại Mật Khẩu</h2>
                                             <p>Nhập mã xác nhận và mật khẩu mới.</p>
-                                            @if(session('message') && session('section') == 'reset-password')
-                                                <div class="alert alert-success">
-                                                    {{ session('message') }}
-                                                </div>
-                                            @endif
-                                            @if(session('error') && session('section') == 'reset-password')
-                                                <div class="alert alert-danger">
-                                                    {{ session('error') }}
-                                                </div>
-                                            @endif
-                                            @if($errors->any() && session('section') == 'reset-password')
-                                                <div class="alert alert-danger">
-                                                    <ul>
-                                                        @foreach ($errors->all() as $error)
-                                                            <li>{{ $error }}</li>
-                                                        @endforeach
-                                                    </ul>
-                                                </div>
-                                            @endif
                                             <form action="{{ URL::to('/reset-password') }}" method="POST">
                                                 @csrf
                                                 <div class="row">
@@ -88,30 +73,28 @@
                                                         <div class="floating-label form-group">
                                                             <input class="floating-input form-control" type="text" placeholder=" " name="reset_code" required>
                                                             <label>Mã Xác Nhận</label>
+                                                          
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-12">
                                                         <div class="floating-label form-group">
                                                             <input class="floating-input form-control" type="password" placeholder=" " name="password" required>
                                                             <label>Mật Khẩu Mới</label>
+                                                 
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-12">
                                                         <div class="floating-label form-group">
                                                             <input class="floating-input form-control" type="password" placeholder=" " name="password_confirmation" required>
                                                             <label>Xác Nhận Mật Khẩu</label>
+                                                           
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <input type="submit" class="btn btn-primary btn-block" value="Đặt Lại Mật Khẩu"/>
                                                 <br>
-                                            
-                                                   
                                                         <button type="button" class="btn btn-light btn-block" onclick="window.location.href='{{ URL::to('/admin') }}'">Đăng nhập</button>
-                                         
-                                                
-                                                
-                                            </form>
+                                              </form>
                                         </div>
                                     </div>
                                     <div class="col-lg-5 content-right">

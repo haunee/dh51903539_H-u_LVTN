@@ -9,10 +9,11 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="d-flex flex-wrap align-items-center justify-content-between mb-4">
-                
-               
-                <a href="{{URL::to('/add-brand')}}" class="btn btn-primary add-list"><i class="las la-plus mr-3"></i>Thêm Thương Hiệu</a>
+                <div>
+                    <h4 class="mb-3">Danh Sách Thương Hiệu ( Tổng: {{$count_brand}} thương hiệu )</h4>
+                </div>
             </div>
+            <a href="{{URL::to('/add-brand')}}" class="btn btn-primary add-list"><i class="las la-plus mr-3"></i>Thêm Thương Hiệu</a>
         </div>
 
         <div class="col-lg-12">

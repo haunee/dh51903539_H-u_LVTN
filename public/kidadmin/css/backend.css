@@ -76,6 +76,7 @@
 *::after {
   box-sizing: border-box; }
 
+
 html {
   font-family: sans-serif;
   line-height: 1.15;
@@ -7220,14 +7221,14 @@ a.text-light-gray:hover, a.text-light-gray:focus {
 .sidebar-default .iq-sidebar-menu .iq-menu li a:hover {
   color: #01041b; }
   .sidebar-default .iq-sidebar-menu .iq-menu li a:hover svg {
-    color: #FF7E41; }
+    color: #33CCFF; }
 
 .sidebar-default .iq-sidebar-menu .iq-menu li a[aria-expanded="true"] {
-  color: #FF7E41;
+  color: #33CCFF;
   text-decoration: none;
   transition: none; }
   .sidebar-default .iq-sidebar-menu .iq-menu li a[aria-expanded="true"] i.iq-arrow-left {
-    color: #FF7E41; }
+    color: #33CCFF; }
 
 .sidebar-default .iq-sidebar-menu .iq-menu li .iq-submenu li a:hover {
   background: transparent;
@@ -7255,13 +7256,13 @@ a.text-light-gray:hover, a.text-light-gray:focus {
   text-decoration: none;
   background: #f4f5fa; }
   .sidebar-default .iq-sidebar-menu .iq-menu > li.active > a svg {
-    color: #FF7E41; }
+    color: #33CCFF; }
 
 .sidebar-default .iq-sidebar-menu .iq-menu li.active .iq-submenu li.active > a {
   color: #01041b;
   border-radius: 0; }
   .sidebar-default .iq-sidebar-menu .iq-menu li.active .iq-submenu li.active > a svg {
-    color: #FF7E41; }
+    color: #33CCFF; }
 
 .sidebar-default .iq-sidebar-menu .iq-menu li.active .iq-submenu li:last-child > a {
   -webkit-border-radius: 0 0 10px 10px;
@@ -7430,7 +7431,7 @@ a.text-light-gray:hover, a.text-light-gray:focus {
     height: 25px; }
   .iq-sidebar-logo .logo-title {
     font-weight: 700;
-    color: #ff9dbe;
+    color: #33CCFF;
   }
 
 .iq-saidbar-logo img {
@@ -10972,7 +10973,7 @@ button.badge-success:focus {
 
 .bg-info {
   color: #fff !important;
-  background-color: #7EE2FF !important; }
+  background-color: #FFFF99 !important; }
 
 a.bg-info:hover, a.bg-info:focus,
 button.bg-info:hover,

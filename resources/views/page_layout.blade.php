@@ -267,8 +267,9 @@
                                 {{-- <a class="footer-logo" href="#"><img
                                         src="{{ asset('/page/images/logo/logo2.png') }}" alt=""></a> --}}
                                 <div class="footer-widget-text">
-                                    <p>A perfect blend of creativity, energy, communication, happiness and love. Let us
-                                        arrange a smile for you. </p>
+                                    <p>Địa chỉ: 123 Đường ABC, Phường XYZ, Quận 1, TP. Hồ Chí Minh </p>
+                                    <p><strong>Số điện thoại:</strong> (012) 345-6789</p>
+                                    <p><strong>Email:</strong> info@example.com</p>
                                 </div>
                                 <div class="widget-social">
                                     <ul>
@@ -284,35 +285,21 @@
 
                         <div class="col-lg-2 col-md-4 col-sm-6">
                             <div class="footer-widget">
-                                <h4 class="footer-widget-title">Information</h4>
+                                <h4 class="footer-widget-title">Liên Kết</h4>
 
                                 <div class="footer-widget-menu">
                                     <ul>
-                                        <li><a href="#">Search Terms</a></li>
-                                        <li><a href="#">Advanced Search</a></li>
-                                        <li><a href="#">Helps & Faqs</a></li>
-                                        <li><a href="#">Store Location</a></li>
-                                        <li><a href="#">Orders & Returns</a></li>
+                                        <li><a href="#">Giới thiệu</a></li>
+                                        <li><a href="#">Liên hệ</a></li>
+                                        <li><a href="#">Chính sách bảo mật</a></li>
+                                        <li><a href="#">Điều khoản dịch vụ</a></li>
+                                        
                                     </ul>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="col-lg-2 col-md-4 col-sm-6">
-                            <div class="footer-widget">
-                                <h4 class="footer-widget-title">My Account</h4>
-
-                                <div class="footer-widget-menu">
-                                    <ul>
-                                        <li><a href="#">Delivery</a></li>
-                                        <li><a href="#">Legal Notice</a></li>
-                                        <li><a href="#">Secure payment</a></li>
-                                        <li><a href="#">Sitemap</a></li>
-                                        <li><a href="about.html">About us</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
+                       
 
                         <div class="col-lg-2 col-md-4 col-sm-6">
                             <div class="footer-widget">
@@ -321,8 +308,6 @@
                                 <div class="footer-widget-menu">
                                     <ul>
                                         <li><a href="#">FAQ’s</a></li>
-                                        <li><a href="#">Pricing Plans</a></li>
-                                        <li><a href="#">Track</a></li>
                                         <li><a href="#">Your Order</a></li>
                                         <li><a href="#">Returns</a></li>
                                     </ul>
@@ -339,8 +324,8 @@
                                         <li><a href="{{ URL::to('/account') }}">My Account</a></li>
                                         <li><a href="#">Terms of Use</a></li>
                                         <li><a href="#">Deliveries & Returns</a></li>
-                                        <li><a href="#">Gift card</a></li>
-                                        <li><a href="#">Legal Notice</a></li>
+                                      
+                                        
                                     </ul>
                                 </div>
                             </div>
@@ -419,8 +404,7 @@
             $('.select-input__item').on('click', function() {
                 var sort_by = $(this).data("sort");
                 split_url = url.split("&sort_by");
-                if (url.indexOf("?show=all") != -1 || url.indexOf("?keyword") != -1) window.location.href =
-                    split_url[0] + sort_by;
+                if (url.indexOf("?show=all") != -1 || url.indexOf("?keyword") != -1) window.location.href = split_url[0] + sort_by;
                 else window.location.href = url + '?show=all' + sort_by;
             });
 
@@ -428,7 +412,7 @@
 
             // Gợi ý tìm kiếm sản phẩm
             $('#search-input').on('keyup', function() {
-                var value = $(this).val();
+                var value = $(this).val();//lấy giá trị nhập vào
                 var _token = $('input[name="_token"]').val();
                 if (value != '') {
                     $.ajax({
@@ -438,11 +422,14 @@
                             value: value,
                             _token: _token
                         },
+                        //yêu cầu thành công
                         success: function(data) {
-                            $('.search-product').fadeIn();
-                            $('.search-product').html(data);
+                            $('.search-product').fadeIn();//hiển thị từ từ
+                            $('.search-product').html(data);//hiện html
 
+                            //sự kiện click cho từng gợi ý
                             $('.search-product-item').on('click', function() {
+                                //lấy text của mục gợi ý làm giá trị tìm kiếm
                                 $('#search-input').val($(this).text());
                                 $('.search-product').fadeOut();
                             });
@@ -451,6 +438,7 @@
                 } else $('.search-product').fadeOut();
             });
 
+            //khi rời khỏi tìm kiếm sẽ mất gợi ý
             $('#search-input').on('blur', function() {
                 $('.search-product').fadeOut();
             });
@@ -474,15 +462,18 @@
                 var min_price_filter = '';
                 var max_price_filter = '';
 
+                //nếu ở trang tìm kiếm 
                 if (url.indexOf("search?keyword=") != -1) {
-                    var keyword = $('#keyword-link').val();
-                    page = 'search?keyword=' + keyword;
+                    var keyword = $('#keyword-link').val();//lấy gtri ptu có id -link
+                    page = 'search?keyword=' + keyword;//tạo url tìm kiếm khóa cụ thể 
                 } else page = 'store?show=all';
 
+
+                //lặp qua các ptu và trạng thái checked 
                 $.each($("[data-filter='brand']:checked"), function() {
-                    tempArrayBrand.push($(this).val());
+                    tempArrayBrand.push($(this).val()); //thêm gtri pt hiện tại vào mảng 
                 });
-                tempArrayBrand.reverse();
+                 tempArrayBrand.reverse();
 
                 $.each($("[data-filter='category']:checked"), function() {
                     tempArrayCat.push($(this).val());
@@ -501,12 +492,10 @@
                     if (tempArrayBrand.length !== 0 && tempArrayCat.length !== 0) {
                         brand += '&brand=' + tempArrayBrand.toString();
                         category += '&category=' + tempArrayCat.toString();
-                        window.location.href = page + brand + category + min_price_filter +
-                            max_price_filter + sort_by;
+                        window.location.href = page + brand + category + min_price_filter +max_price_filter + sort_by;
                     } else if (tempArrayCat.length !== 0) {
                         category += '&category=' + tempArrayCat.toString();
-                        window.location.href = page + category + min_price_filter + max_price_filter +
-                            sort_by;
+                        window.location.href = page + category + min_price_filter + max_price_filter + sort_by;
                     } else if (tempArrayBrand.length !== 0) {
                         brand += '&brand=' + tempArrayBrand.toString();
                         window.location.href = page + brand + min_price_filter + max_price_filter + sort_by;
@@ -514,6 +503,7 @@
                 }
             });
 
+            //sự kiện click của sắp xếp
             $('.select-input__item').on('click', function() {
                 var sort_by = $(this).data("sort");
                 split_url = url.split("&sort_by");

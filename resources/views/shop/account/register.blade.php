@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
 <!--Page Banner Start-->
-<div class="page-banner" style="background-image: url(/page/images/oso.png);">
+<div class="page-banner" style="background-image: url(/page/images/banner/banner9.jpg);">
     <div class="container">
         <div class="page-banner-content text-center">
             <h2 class="title">Đăng Ký</h2>

@@ -11,7 +11,7 @@
                     <div class="card car-transparent">
                         <div class="card-body p-0">
                             <div class="profile-image position-relative">
-                                <img src="/kidadmin/images/profile/profile.png" class="img-fluid rounded w-100"
+                                <img src="/kidadmin/images/profile/pro1.jpg" class="img-fluid rounded w-100"
                                     alt="profile-image">
                             </div>
                         </div>

@@ -58,6 +58,51 @@
 
 
 
+.pagination-wrapper {
+  margin: 20px 0;
+}
+
+.pagination .page-link {
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  padding: 8px 16px;
+}
+
+.pagination .page-item.active .page-link {
+  background-color: #33CCFF;
+  color: #fff;
+}
+
+.pagination .page-link:hover {
+  background-color: #BBBBBB;
+}
+
+.page-info {
+  font-size: 14px;
+  color: #333;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* Màu sắc khi sản phẩm đã có trong danh sách yêu thích */
 .add-to-wishlist.in-wishlist .fa-heart {
@@ -68,7 +113,7 @@
 
 
 :root {
-  --primary-color: #f379a7;
+  --primary-color: #00CCCC;
 }
 
 
@@ -175,7 +220,7 @@ a:focus {
 
 a:hover {
   text-decoration: none;
-  color: #f379a7;
+  color: #33CCFF;
 }
 
 button, input[type="submit"] {
@@ -308,7 +353,7 @@ figure {
 }
 
 .text-primary {
-  color: #f379a7 !important;
+  color: #33CCFF !important;
 }
 
 .text-secondary {
@@ -520,7 +565,7 @@ figure {
 }
 
 .page-pagination .pagination .page-item.active .page-link, .page-pagination .pagination .page-item .page-link:hover {
-  background-color: #f379a7;
+  background-color: #33CCFF;
   color: #ffffff;
 }
 
@@ -754,8 +799,8 @@ figure {
 }
 
 .btn-primary {
-  background-color: #f379a7;
-  border-color: #f379a7;
+  background-color: #33CCFF;
+  border-color: #33CCFF;
   color: #ffffff;
 }
 
@@ -831,14 +876,14 @@ figure {
 }
 
 .btn-dark {
-  background-color: #343a40;
-  border-color: #343a40;
+  background-color: #33CCFF;
+  border-color: #33CCFF;
   color: #ffffff;
 }
 
 .btn-dark:hover {
-  background-color: #292d32;
-  border-color: #292d32;
+  background-color: #33CCFF;
+  border-color: #33CCFF;
 }
 
 .btn-android {
@@ -892,8 +937,8 @@ figure {
 }
 
 .btn-dribbble:hover {
-  background-color: #e7357b;
-  border-color: #e7357b;
+  background-color: #33CCFF;
+  border-color: #33CCFF;
 }
 
 .btn-dropbox {
@@ -1788,8 +1833,8 @@ select {
 }
 
 .cus-checkbox.primary input:checked + .icon {
-  background-color: #f379a7;
-  border-color: #f379a7;
+  background-color: #33CCFF;
+  border-color: #33CCFF;
 }
 
 .cus-checkbox.secondary input:checked + .icon {
@@ -1910,7 +1955,7 @@ select {
   border-radius: 50%;
   position: absolute;
   left: 0;
-  border: 1px solid #f379a7;
+  border: 1px solid #33CCFF;
   -webkit-transition: all 0.3s linear;
   -o-transition: all 0.3s linear;
   transition: all 0.3s linear;
@@ -1933,7 +1978,7 @@ select {
   top: 0;
   width: 20px;
   height: 20px;
-  background-color: #f379a7;
+  background-color: #0000FF;
   opacity: 0;
   -webkit-transform: scale(0.5);
   -ms-transform: scale(0.5);
@@ -2240,7 +2285,7 @@ blockquote p {
 }
 
 .site-main-nav .site-nav ul > li:hover > a {
-  color: #f379a7;
+  color: #00CCCC;
 }
 
 .site-main-nav .site-nav ul > li .sub-menu {
@@ -2378,7 +2423,7 @@ blockquote p {
 }
 
 .site-main-nav .site-nav ul > li .mega-sub-menu > .mega-dropdown > .mega-title:hover {
-  color: #f379a7;
+  color: #33CCFF;
 }
 
 .site-main-nav .site-nav ul > li .mega-sub-menu > .mega-dropdown > .mega-title::after {
@@ -2424,7 +2469,7 @@ blockquote p {
 }
 
 .site-main-nav .site-nav ul > li .mega-sub-menu > .mega-dropdown > .mega-item > li:hover > a {
-  color: #f379a7;
+  color: #33CCFF;
 }
 
 .site-main-nav .site-nav ul > li:hover .sub-menu,
@@ -2555,7 +2600,7 @@ blockquote p {
   width: 20px;
   height: 20px;
   line-height: 20px;
-  background: #f379a7;
+  background: #33CCFF;
   border-radius: 100%;
   text-align: center;
   font-weight: 400;
@@ -2587,7 +2632,7 @@ blockquote p {
 }
 
 .header-meta-info .header-account .header-account-list.top-link .dropdown-menu li a:hover {
-  color: #f379a7;
+  color: #33CCFF;
 }
 
 .header-meta-info .header-account .header-account-list.mini-cart .dropdown-menu {
@@ -2638,7 +2683,7 @@ blockquote p {
 .header-meta-info .header-account .header-account-list.mini-cart .dropdown-menu .product-cart .single-cart-box .cart-img .pro-quantity {
   border-radius: 100%;
   color: #ffffff;
-  background-color: #f379a7;
+  background-color: #33CCFF;
   font-size: 12px;
   line-height: 23px;
   min-width: 27px;
@@ -2737,8 +2782,8 @@ blockquote p {
 }
 
 .header-meta-info .header-account .header-account-list.mini-cart .dropdown-menu .product-btn .btn:hover {
-  background-color: #f379a7;
-  border-color: #f379a7;
+  background-color: #33CCFF;
+  border-color: #33CCFF;
 }
 
 .header-meta-info .header-account .header-account-list.mobile-menu-trigger button {
@@ -3560,7 +3605,7 @@ blockquote p {
 .single-product .product-content .price-box .current-price {
   font-weight: 500;
   font-size: 15px;
-  color: #f379a7;
+  color: #993300;
 }
 
 .single-product .product-content .price-box .old-price {
@@ -4665,7 +4710,7 @@ blockquote p {
 .shop-single-content .thumb-price .current-price {
   font-weight: 500;
   font-size: 23px;
-  color: #f379a7;
+  color: #993300;
 }
 
 @media only screen and (max-width: 575px) {
@@ -4902,7 +4947,7 @@ blockquote p {
 }
 
 .shop-single-content .shop-single-material .material-list .material-radio input[type="radio"]:checked + label {
-  background-color: #f379a7;
+  background-color: #33CCFF;
   color: #ffffff;
 }
 
@@ -5267,7 +5312,7 @@ blockquote p {
 }
 
 .shop-single-info .shop-info-tab .nav .nav-item .nav-link.active {
-  color: #f379a7;
+  color: #110000;
 }
 
 .shop-single-info .description {
@@ -5432,7 +5477,7 @@ blockquote p {
 }
 
 .login-register-content .forget a:hover {
-  color: #f379a7;
+  color: #33CCFF;
 }
 
 .login-register-content .single-form .btn-primary:hover {
@@ -5441,7 +5486,7 @@ blockquote p {
 }
 
 .login-register-content .single-form .btn-dark:hover {
-  background-color: #f379a7;
+  background-color: #33CCFF;
   border-color: #f379a7;
 }
 
@@ -5449,7 +5494,7 @@ blockquote p {
 /*  4.14 - Cart CSS
 /*----------------------------------------*/
 .cart-table .table thead {
-  background-color: rgba(249, 140, 140, 0.8);
+  background-color: #33CCFF;
 }
 
 .cart-table .table thead tr th {
@@ -5478,7 +5523,7 @@ blockquote p {
 }
 
 .cart-table .table tbody tr td {
-  border: 1px solid rgba(249, 140, 140, 0.8);
+  border: 1px solid #33CCFF;
   text-align: center;
   vertical-align: middle;
   padding: 15px;
@@ -5503,7 +5548,7 @@ blockquote p {
 }
 
 .cart-table .table tbody tr td.product a:hover {
-  color: #f379a7;
+  color: #33CCFF;
 }
 
 .cart-table .table tbody tr td.product span {
@@ -5580,7 +5625,7 @@ blockquote p {
 }
 
 .cart-btn .btn.btn-primary {
-  border-color: #f379a7;
+  border-color: #33CCFF;
   color: #ffffff;
 }
 
@@ -6087,7 +6132,7 @@ blockquote p {
 }
 
 .my-account-menu .account-menu-list li a:hover, .my-account-menu .account-menu-list li a.active {
-  background-color: #f379a7;
+  background-color: #33CCFF;
   color: #ffffff;
 }
 
@@ -6804,11 +6849,11 @@ blockquote p {
 /*  4.9 - Page Banner CSS
 /*----------------------------------------*/
 .page-banner {
-  padding-top: 95px;
-  padding-bottom: 95px;
+  padding-top: 100px;
+  padding-bottom: 100px;
   background-position: center center;
   background-size: cover;
-  background-size: contain;
+  /* background-size: contain; */
 }
 
 @media only screen and (max-width: 767px) {
@@ -7244,7 +7289,7 @@ blockquote p {
 }
 
 .footer-widget .widget-social ul li a:hover {
-  background-color: #f379a7;
+  background-color: #33CCFF;
   color: #ffffff;
 }
 
@@ -7272,7 +7317,7 @@ blockquote p {
 }
 
 .footer-widget .footer-widget-menu ul li a:hover {
-  color: #f379a7;
+  color: #33CCFF;
 }
 
 .copyright-section {
@@ -7507,7 +7552,7 @@ blockquote p {
   align-items: center;
   font-size: 1.8rem;
   margin-bottom: 20px;
-  color: #f379a7;
+  color: #0000FF;
 }
 
 .container__address-content-hd-icon {
@@ -9686,7 +9731,7 @@ div.dataTables_wrapper div.dataTables_filter input {
   padding: 6px 12px;
   line-height: 1.42857143;
   text-decoration: none;
-  color: #f379a7;
+  color: #333;
   background-color: #fff;
   border: 1px solid #ddd;
   margin-left: -1px;
@@ -9719,8 +9764,8 @@ div.dataTables_wrapper div.dataTables_filter input {
 .pagination > .active > span:focus {
   z-index: 3;
   color: #fff;
-  background-color: #f379a7;
-  border-color: #f379a7;
+  background-color: #33CCFF;
+  border-color: #33CCFF;
   cursor: default;
 }
 .pagination > .disabled > span,
@@ -9832,7 +9877,7 @@ div.dataTables_wrapper div.dataTables_filter input {
 }
 
 input[type=checkbox] {
-  filter: hue-rotate(92deg);
+  /* filter: hue-rotate(92deg); */
 }
 
 .dataTables_paginate .pagination{
@@ -9885,7 +9930,7 @@ input[type=checkbox] {
   top: -16%;
   right: 33%;
   color: #fff;
-  background-color: #f379a7;
+  background-color: #FF3300;
   border-radius: 100%;
   width: 20px;
   height: 20px;
@@ -9899,7 +9944,7 @@ input[type=checkbox] {
   justify-content: center;
   align-items: center;
   transform: rotate(-30deg);
-  border: 5px solid #f379a7;
+  border: 5px solid #33CCFF;
   border-radius: 5px;
   right: 20%;
   top: 25%;

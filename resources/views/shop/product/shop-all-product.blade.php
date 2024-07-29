@@ -1,7 +1,7 @@
 @extends('page_layout')
 @section('content')
     <!--Page Banner Start-->
-    <div class="page-banner" style="background-image: url(/page/images/banner/banner-shop.png);">
+    <div class="page-banner" style="background-image: url(/page/images/banner/banner5.jpg);">
         <div class="container">
             <div class="page-banner-content text-center">
                 <h2 class="title">Cửa Hàng</h2>
@@ -38,14 +38,9 @@
                                         if (isset($_GET['sort_by'])) {
                                             if ($_GET['sort_by'] == 'new') {
                                                 echo 'Mới Nhất';
-                                            // } elseif ($_GET['sort_by'] == 'old') {
-                                            //     echo 'Cũ Nhất';
+                                     
                                             } elseif ($_GET['sort_by'] == 'bestsellers') {
-                                                echo 'Bán Chạy';
-                                            // } elseif ($_GET['sort_by'] == 'featured') {
-                                            //     echo 'Nổi Bật';
-                                            // } elseif ($_GET['sort_by'] == 'sale') {
-                                            //     echo 'Đang SALE';
+                                                echo 'Bán Chạy';                               
                                             } elseif ($_GET['sort_by'] == 'price_desc') {
                                                 echo 'Giá Cao - Thấp';
                                             } elseif ($_GET['sort_by'] == 'price_asc') {
@@ -57,7 +52,7 @@
                                         ?>
                                     </span><i class="select-input__icon fa fa-angle-down"></i>
                                     <ul class="select-input__list">
-                                        <li class="select-input__item" data-sort="&sort_by=new">Mới Nhất</li> 
+                                        <li class="select-input__item" data-sort="&sort_by=new">Mới Nhất</li>
                                         <li class="select-input__item" data-sort="&sort_by=bestsellers">Bán Chạy</li>
                                         <li class="select-input__item" data-sort="&sort_by=price_desc">Giá Cao - Thấp </li>
                                         <li class="select-input__item" data-sort="&sort_by=price_asc">Giá Thấp - Cao</li>
@@ -158,9 +153,55 @@
                             @endforeach
                         </div>
                     </div>
+                    
+                    <!-- Nút phân trang -->
+                    <div class="pagination-wrapper d-flex justify-content-center mt-4">
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination">
+                                {{-- Previous Page Link --}}
+                                @if ($list_pd->onFirstPage())
+                                    <li class="page-item disabled" aria-disabled="true">
+                                        <span class="page-link" aria-hidden="true">&lsaquo;</span>
+                                    </li>
+                                @else
+                                    <li class="page-item">
+                                        <a class="page-link" href="{{ $list_pd->appends($filters)->previousPageUrl() }}" rel="prev" aria-label="Previous">&lsaquo;</a>
+                                    </li>
+                                @endif
+                    
+                                {{-- Pagination Elements --}}
+                                @for ($page = 1; $page <= $list_pd->lastPage(); $page++)
+                                    @if ($page == $list_pd->currentPage())
+                                        <li class="page-item active" aria-current="page"><span class="page-link">{{ $page }}</span></li>
+                                    @else
+                                        <li class="page-item"><a class="page-link" href="{{ $list_pd->appends($filters)->url($page) }}">{{ $page }}</a></li>
+                                    @endif
+                                @endfor
+                    
+                                {{-- Next Page Link --}}
+                                @if ($list_pd->hasMorePages())
+                                    <li class="page-item">
+                                        <a class="page-link" href="{{ $list_pd->appends($filters)->nextPageUrl() }}" rel="next" aria-label="Next">&rsaquo;</a>
+                                    </li>
+                                @else
+                                    <li class="page-item disabled" aria-disabled="true">
+                                        <span class="page-link" aria-hidden="true">&rsaquo;</span>
+                                    </li>
+                                @endif
+                            </ul>
+                        </nav>
+                    </div>
+                    
+                    
+
+                    
+
+
+                    
+                    
                 </div>
 
-                
+
                 <div class="col-lg-3">
                     <div class="shop-sidebar">
 
@@ -231,7 +272,7 @@
                             </ul>
                         </div>
 
-                       <div class="sidebar-categories">
+                        <div class="sidebar-categories">
                             <h3 class="widget-title">Theo giá</h3>
                             <div class="d-flex justify-content-between">
                                 <input class="input-filter-price min" type="number" min="0" maxlength="13"
@@ -250,15 +291,10 @@
                             </div>
                             <div class="alert-filter-price text-primary mt-2 d-none">Vui lòng điền khoảng giá phù hợp</div>
                             <button type="button" class="btn-filter-price btn btn-primary">Áp dụng</button>
-                        </div> 
+                        </div>
                         <!--Sidebar Categories End-->
 
 
-                        <!--Sidebar Size Start-->
-                        <div class="sidebar-banner">
-                            <a href="#"><img src="/page/images/banner-top-pd.png" alt=""></a>
-                        </div>
-                        <!--Sidebar Size End-->
 
 
 

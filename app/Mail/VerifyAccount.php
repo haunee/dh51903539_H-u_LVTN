@@ -18,8 +18,9 @@ class VerifyAccount extends Mailable
     public $token;
     public function __construct($acc,$token)
     {
-        $this -> account = $acc;
-        $this -> token = $token;
+        //gán 2 tham số vào đây
+        $this -> account = $acc;//customer
+        $this -> token = $token;//verifytoken 
     }
 
     /**

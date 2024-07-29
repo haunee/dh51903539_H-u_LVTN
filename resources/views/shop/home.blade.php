@@ -7,7 +7,8 @@
             <div class="swiper-wrapper">
                 <!--Single Slider Start-->
                 <div class="single-slider swiper-slide animation-style-01"
-                    style="background-image: url('/page/images/KIDOLBanner.png');">
+                    {{-- style="background-image: url('/page/images/KIDOLBanner.png');"> --}}
+                    style="background-image: url('/page/images/banner/banner-4.jpg');">
                     <div class="container">
                         <div class="slider-content">
                             <h5 class="sub-title">Nhập: <span class="text-primary">SALE100K</span> <br> Giảm 100K cho mọi đơn
@@ -26,7 +27,7 @@
 
                 <!--Single Slider Start-->
                 <div class="single-slider swiper-slide animation-style-01"
-                    style="background-image: url('/page/images/KIDOLBanner2.png');">
+                    style="background-image: url('/page/images/KIDOLBanner.png');">
                     <div class="container" style="text-align:right;">
                         <div class="slider-content">
                             <h5 class="sub-title sub-title-right">Nhập: <span class="text-info">SALE100K</span> <br> Giảm
@@ -267,7 +268,7 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="about-image">
-                        <img src="/page/images/banner/banner_home.png" alt="">
+                        <img src="/page/images/banner/slide-home.png" alt="">
                     </div>
                 </div>
                 <div class="col-lg-6">

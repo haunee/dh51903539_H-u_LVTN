@@ -15,7 +15,7 @@ use App\Models\Product;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Hash; // Đảm bảo dòng này có mặt
+use Illuminate\Support\Facades\Hash; 
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 class AdminController extends Controller
@@ -60,7 +60,7 @@ class AdminController extends Controller
         // Tìm kiếm người dùng trong cơ sở dữ liệu
         $admin = Admin::where('AdminUser', $adminUser)->first();
         if (!$admin || !Hash::check($adminPass, $admin->AdminPass)) {
-            // Nếu tên tài khoản không tồn tại hoặc mật khẩu không chính xác
+           
             if (!$admin) {
                 return back()->withErrors(['error' => 'Tên tài khoản không tồn tại.'])->withInput();
             } else {
@@ -94,20 +94,19 @@ class AdminController extends Controller
     }
 
 
-    //chuyển trang profile
+   
     public function profile()
     {
         return view('admin.account.my-adprofile');
     }
 
-    //edit profile
-
+    
     public function edit_profile()
     {
         return view("admin.account.edit-profile");
     }
 
-    // Chỉnh sửa hồ sơ cá nhân
+    // edit pf
     public function submit_edit_adprofile(Request $request)
     {
         $request->validate([
@@ -157,11 +156,6 @@ class AdminController extends Controller
 
 
 
-
-
-
-
-    //chuyển trang change password
     public function change_adpassword()
     {
         return view('admin.account.change-adpassword');
@@ -206,8 +200,12 @@ class AdminController extends Controller
     //gửi mail
     public function submit_send_mail(Request $request)
     {
+       
         $request->validate([
             'email' => 'required|email|exists:admin,email',
+        ], [
+            'email.required' => 'Vui lòng nhập email.',
+            'email.exists' => 'Email không tồn tại trong hệ thống.',
         ]);
 
         $admin = Admin::where('email', $request->email)->first();
@@ -228,7 +226,8 @@ class AdminController extends Controller
             Session::flash('section', 'send-code');
         }
 
-        return redirect()->back();
+        return redirect()->back()->with(['section' => 'send-code'])->withInput();
+
     }
 
 
@@ -236,9 +235,17 @@ class AdminController extends Controller
     //trang nhập mã xác thực
     public function submit_reset_Password(Request $request)
     {
+
         $request->validate([
-            'reset_code' => 'required|exists:admin,code',
-            'password' => 'required|confirmed|min:6',
+            'reset_code' => 'required|exists:admin,code', 
+            'password' => 'required|confirmed|min:8|regex:/[A-Z]/',
+        ],[
+            'reset_code.required' => 'Vui lòng nhập mã xác nhận.',
+            'reset_code.exists' => 'Mã xác nhận không hợp lệ.',
+            'password.required' => 'Vui lòng nhập mật khẩu mới.',
+            'password.confirmed' => 'Xác nhận mật khẩu không khớp.',
+            'password.min' => 'Mật khẩu phải có ít nhất 8 ký tự.',
+            'password.regex' => 'mật khẩu tối thiểu 1 kí tự hoa',
         ]);
 
         $admin = Admin::where('code', $request->reset_code)->first();
@@ -262,32 +269,40 @@ class AdminController extends Controller
 
 
     //DASHBOARD
-    // Chuyển đến trang thống kê
+   
     public function show_dashboard()
     {
         $this->checkLogin();
 
-        $start_this_month = Carbon::now()->startOfMonth()->toDateString();
+        //doanh thu
+        $total_revenue = Order::whereNotIn('Status', [99])->sum('TotalBill'); 
 
-        $total_revenue = Order::whereNotIn('Status', [99])->sum('TotalBill'); //
+        //sản phẩm đã bán
         $total_sell = OrderDetail::join('order', 'order.idOrder', '=', 'orderdetail.idOrder')->whereNotIn('Status', [99])->sum('QuantityBuy');
-        //sử dụng join
+       
+
+        //danh sách sp bán chạy
+        
         $list_topProduct = Product::join('productimage', 'productimage.idProduct', '=', 'product.idProduct')
             ->join('orderdetail', 'orderdetail.idProduct', '=', 'product.idProduct')
-            ->join('order', 'order.idOrder', '=', 'orderdetail.idOrder')->whereNotIn('Status', [99])
-            ->whereBetween('order.created_at', [$start_this_month, now()])
-            ->select('ProductName', 'ImageName')
-            ->selectRaw('sum(QuantityBuy) as Sold')
-            ->groupBy('ProductName', 'ImageName')->orderBy('Sold', 'DESC')->take(6)->get();
-        //phát âm chú ý truy vấn
+            ->join('order', 'order.idOrder', '=', 'orderdetail.idOrder')
+            ->whereNotIn('Status', [99])
+            ->select('ProductName', 'ImageName') 
+            ->selectRaw('sum(QuantityBuy) as Sold')//tính tổng sl sp đặt tên sold
+            ->groupBy('ProductName', 'ImageName')//nhóm kết quả tên và ảnh lại 
+            ->orderBy('Sold', 'DESC')
+            ->take(6)->get();
+       
+
+        
         $list_topProduct_AllTime = Product::join('productimage', 'productimage.idProduct', '=', 'product.idProduct')
             ->join('orderdetail', 'orderdetail.idProduct', '=', 'product.idProduct')
             ->join('order', 'order.idOrder', '=', 'orderdetail.idOrder')
             ->whereNotIn('order.Status', [99])
-            ->select('product.ProductName', 'productimage.ImageName', 'product.Price')
-            ->selectRaw('sum(orderdetail.QuantityBuy) as Sold')
-            ->groupBy('product.ProductName', 'productimage.ImageName', 'product.Price')
-            ->orderBy('Sold', 'DESC')
+            ->select('product.ProductName', 'productimage.ImageName', 'product.Price')//lấy tên hình giá sản phẩm 
+            ->selectRaw('sum(orderdetail.QuantityBuy) as Sold')//lấy tổng sl sp đã bán 
+            ->groupBy('product.ProductName', 'productimage.ImageName', 'product.Price')//nhóm kq theo tên hình giá
+            ->orderBy('Sold', 'DESC')//sắp xếp theo sold giảm dần
             ->take(5)
             ->get();
 
@@ -302,68 +317,101 @@ class AdminController extends Controller
     public function chart_7days()
     {
 
+        //lấy ngày giờ hiện tại trừ 7 ngày: lọc dữ liệu 7 ngày qua
         $sub7days = Carbon::now()->subDays(7)->toDateString();
 
-        $get_statistic = Order::whereNotIn('order.Status', [99])->whereBetween('created_at', [$sub7days, now()])
+        //số lượng đơn hàng và tổng giá trị đơn hàng
+        $get_statistic = Order::whereNotIn('order.Status', [99])
+           
+            ->whereBetween('created_at', [$sub7days, now()])
+            
             ->selectRaw('sum(TotalBill) as Sale, count(idOrder) as QtyBill, date(created_at) as Date')
-            ->groupBy('Date')->get();
+            ->groupBy('Date')
+            ->get();
+
+
+        //tổng sl sp đã bán
         $total_sold = OrderDetail::join('order', 'order.idOrder', '=', 'orderdetail.idOrder')->whereNotIn('order.Status', [99])
             ->whereBetween('order.created_at', [$sub7days, now()])
             ->selectRaw('sum(QuantityBuy) as TotalSold, date(order.created_at) as Date')
             ->groupBy('Date')->get();
 
-        if ($get_statistic->count() > 0) {
-            foreach ($get_statistic as $key => $statistic) {
-                $chart_data[] = array(
-                    'Date' => $statistic->Date,
-                    'Sale' => $statistic->Sale, //so luong ban
-                    'TotalSold' => $total_sold[$key]->TotalSold, //tong doanh thu
-                    'QtyBill' => $statistic->QtyBill
-                );
-            }
-        } else $chart_data[] = array();
-
-        echo $data = json_encode($chart_data);
-    }
-    // Thống kê doanh thu theo ngày, tháng, năm
-    public function statistic_by_date_order(Request $request)
-    {
-        $data = $request->all();
-
-        $sub7days = Carbon::now()->subDays(7)->toDateString();
-        $sub30days = Carbon::now()->subDays(30)->toDateString();
-        $sub365days = Carbon::now()->subDays(365)->toDateString();
-
-        if ($data['Days'] == 'lastweek') {
-            $get_statistic = Order::whereNotIn('order.Status', [99])->whereBetween('created_at', [$sub7days, now()])
-                ->selectRaw('sum(TotalBill) as Sale, count(idOrder) as QtyBill, date(created_at) as Date')
-                ->groupBy('Date')->get();
-            $total_sold = OrderDetail::join('order', 'order.idOrder', '=', 'orderdetail.idOrder')->whereNotIn('order.Status', [99])
-                ->whereBetween('order.created_at', [$sub7days, now()])->selectRaw('sum(QuantityBuy) as TotalSold, date(order.created_at) as Date')
-                ->groupBy('Date')->get();
-        } else if ($data['Days'] == 'lastmonth') {
-            $get_statistic = Order::whereNotIn('order.Status', [99])->whereBetween('created_at', [$sub30days, now()])
-                ->selectRaw('sum(TotalBill) as Sale, count(idOrder) as QtyBill, date(created_at) as Date')
-                ->groupBy('Date')->get();
-            $total_sold = OrderDetail::join('order', 'order.idOrder', '=', 'orderdetail.idOrder')->whereNotIn('order.Status', [99])
-                ->whereBetween('order.created_at', [$sub30days, now()])->selectRaw('sum(QuantityBuy) as TotalSold, date(order.created_at) as Date')
-                ->groupBy('Date')->get();
-        } else if ($data['Days'] == 'lastyear') {
-            $get_statistic = Order::whereNotIn('order.Status', [99])->whereBetween('created_at', [$sub365days, now()])
-                ->selectRaw('sum(TotalBill) as Sale, count(idOrder) as QtyBill, date(created_at) as Date')
-                ->groupBy('Date')->get();
-            $total_sold = OrderDetail::join('order', 'order.idOrder', '=', 'orderdetail.idOrder')->whereNotIn('order.Status', [99])
-                ->whereBetween('order.created_at', [$sub365days, now()])->selectRaw('sum(QuantityBuy) as TotalSold, date(order.created_at) as Date')
-                ->groupBy('Date')->get();
-        }
 
         if ($get_statistic->count() > 0) {
             foreach ($get_statistic as $key => $statistic) {
                 $chart_data[] = array(
                     'Date' => $statistic->Date,
                     'Sale' => $statistic->Sale,
-                    'TotalSold' => $total_sold[$key]->TotalSold,
+                    'TotalSold' => $total_sold[$key]->TotalSold, 
                     'QtyBill' => $statistic->QtyBill
+                );
+            }
+        } else $chart_data[] = array();
+
+   
+        echo $data = json_encode($chart_data);
+    }
+
+
+
+    // Thống kê doanh thu theo ngày, tháng, năm
+    public function statistic_by_date_order(Request $request)
+    {
+        $data = $request->all();
+
+        // lấy dữ liệu từ 7 30 365 đến hiện tại
+        $sub7days = Carbon::now()->subDays(7)->toDateString();
+        $sub30days = Carbon::now()->subDays(30)->toDateString();
+        $sub365days = Carbon::now()->subDays(365)->toDateString();
+
+        
+        if ($data['Days'] == 'lastweek') {
+            //số lượng đơn hàng ,tổng tiền 
+            $get_statistic = Order::whereNotIn('order.Status', [99])
+                //lọc các đơn hàng được tạo từ 7 ngày đến nay
+                ->whereBetween('created_at', [$sub7days, now()])
+                //tính tổng tiền đơn hàng , đếm đơn , ngày tạo đơn 
+                ->selectRaw('sum(TotalBill) as Sale, count(idOrder) as QtyBill, date(created_at) as Date')
+                ->groupBy('Date')->get();// nhóm lại theo ngày
+
+            //tổng sp đã bán
+            $total_sold = OrderDetail::join('order', 'order.idOrder', '=', 'orderdetail.idOrder')
+                ->whereNotIn('order.Status', [99])
+                ->whereBetween('order.created_at', [$sub7days, now()])
+                ->selectRaw('sum(QuantityBuy) as TotalSold, date(order.created_at) as Date')
+                ->groupBy('Date')->get();
+
+        } else if ($data['Days'] == 'lastmonth') {
+            $get_statistic = Order::whereNotIn('order.Status', [99])
+                ->whereBetween('order.created_at', [$sub30days, now()])
+                ->selectRaw('sum(TotalBill) as Sale, count(idOrder) as QtyBill, date(order.created_at) as Date')
+                ->groupBy('Date')->get();
+            $total_sold = OrderDetail::join('order', 'order.idOrder', '=', 'orderdetail.idOrder')
+                ->whereNotIn('order.Status', [99])
+                ->whereBetween('order.created_at', [$sub30days, now()])
+                ->selectRaw('sum(QuantityBuy) as TotalSold, date(order.created_at) as Date')
+                ->groupBy('Date')->get();
+
+        } else if ($data['Days'] == 'lastyear') {
+            $get_statistic = Order::whereNotIn('order.Status', [99])
+                ->whereBetween('created_at', [$sub365days, now()])
+                ->selectRaw('sum(TotalBill) as Sale, count(idOrder) as QtyBill, date(created_at) as Date')
+                ->groupBy('Date')->get();
+
+            $total_sold = OrderDetail::join('order', 'order.idOrder', '=', 'orderdetail.idOrder')
+                ->whereNotIn('order.Status', [99])
+                ->whereBetween('order.created_at', [$sub365days, now()])
+                ->selectRaw('sum(QuantityBuy) as TotalSold, date(order.created_at) as Date')
+                ->groupBy('Date')->get();
+        }
+
+        if ($get_statistic->count() > 0) {
+            foreach ($get_statistic as $key => $statistic) {
+                $chart_data[] = array(
+                    'Date' => $statistic->Date,//ngày 
+                    'Sale' => $statistic->Sale,//doanh thu
+                    'TotalSold' => $total_sold[$key]->TotalSold,//số lượng bán
+                    'QtyBill' => $statistic->QtyBill// tổng đơn 
                 );
             }
         } else $chart_data[] = array();
@@ -371,7 +419,8 @@ class AdminController extends Controller
         echo $data = json_encode($chart_data);
     }
 
-
+   
+    
 
 
 
@@ -384,58 +433,24 @@ class AdminController extends Controller
         return view("admin.manage-user.manage-customers")->with(compact('list_customer', 'count_customer'));
     }
 
-    // public function resetPassword(Request $request, $idCustomer)
-    // {
-    //     $validator = Validator::make($request->all(), [
-    //         'new_password' => 'required|min:8|confirmed',
-    //     ]);
     
-    //     if ($validator->fails()) {
-    //         Log::warning('Password reset validation failed', [
-    //             'errors' => $validator->errors()
-    //         ]);
-    //         return redirect()->back()->withErrors($validator)->withInput();
-    //     }
-    
-    //     $customer = Customer::find($idCustomer);
-    
-    //     if (!$customer) {
-    //         Log::error('Customer not found', [
-    //             'customer_id' => $idCustomer
-    //         ]);
-    //         return redirect()->back()->with('error', 'Customer not found');
-    //     }
-    
-    //     $customer->password = Hash::make($request->input('new_password'));
-    //     $customer->save();
-    
-    //     Log::info('Password reset successfully', [
-    //         'customer_id' => $idCustomer
-    //     ]);
-    
-    //     return redirect()->back()->with('success', 'Password updated successfully');
-    // }
-
+    //reset pw user
     public function resetPassword(Request $request, $idCustomer)
     {
-        // Xác thực các trường đầu vào
+     
         $validatedData = $request->validate([
             'new_password' => 'required|confirmed|min:8',
-        ]);
-
-        // Tìm khách hàng theo ID
+        ]);    
         $customer = Customer::find($idCustomer);
-        
-        // Nếu không tìm thấy khách hàng, trả về lỗi 404
         if (!$customer) {
             return response()->json(['message' => 'Khách hàng không tồn tại'], 404);
         }
 
-        // Đặt lại mật khẩu
+   
         $customer->password = Hash::make($validatedData['new_password']);
         $customer->save();
 
-        // Trả về phản hồi thành công
+    
         return response()->json(['message' => 'Đổi mật khẩu thành công']);
     }
 }

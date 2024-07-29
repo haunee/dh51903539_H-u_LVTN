@@ -275,7 +275,7 @@ Route::get('/confirmed-order', [CartController::class, 'confirmed_order']);
 
 Route::post('/delete-bill/{idOrder}',[CartController::class, 'delete_bill']);
 
-Route::post('/confirm-bill/{idOrder}', [CartController::class, 'confirm_order']);
+Route::post('/confirm-bill/{idOrder}', [CartController::class, 'confirm_bill']);
 
 //DASHBOARD
 Route::get('/dashboard', [AdminController::class, 'show_dashboard'])->name('admin.dashboard');

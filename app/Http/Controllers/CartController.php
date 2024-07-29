@@ -10,7 +10,7 @@ use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\AddressCustomer;
-//ORDER  ODERDETAIL
+
 use App\Models\OrderHistory;
 use App\Models\Order;
 use App\Models\OrderDetail;
@@ -29,6 +29,7 @@ class CartController extends Controller
     // Kiểm tra đăng nhập
     public function checkLogin()
     {
+        //lấy giá trị của biến session có tên id khi đăng nhập thành công 
         $idCustomer = Session::get('idCustomer');
         if ($idCustomer == false) return Redirect::to('login')->send();
     }
@@ -36,6 +37,7 @@ class CartController extends Controller
     // Kiểm tra giỏ hàng
     public function checkCart()
     {
+        //truy vấn đến cart để đếm số lượng các mục giỏ hàng có id =id 
         $check_cart = Cart::where('idCustomer', Session::get('idCustomer'))->count();
         if ($check_cart <= 0) Redirect::to('empty-cart')->send();
     }
@@ -67,26 +69,31 @@ class CartController extends Controller
             $cart->idCustomer = Session::get('idCustomer');
             $cart->AttributeProduct = $data['AttributeProduct'];
             $cart->idProAttr = $data['idProAttr'];
-            $qty_of_attr = $data['qty_of_attr'];
+            $qty_of_attr = $data['qty_of_attr'];//số lượng tối đa của 1 thuộc tính
 
             Log::info('Dữ liệu giỏ hàng', ['cart' => $cart]);
 
             $output = '<div class="modal fade modal-AddToCart" id="successAddToCart" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true"><div class="modal-dialog modal-dialog-centered" role="document"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="exampleModalCenterTitle">Thông báo</h5></div><button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" aria-hidden="true"></span></button><div class="modal-body text-center p-3 h4"><div class="mb-3"><i class="fa fa-check-circle text-primary" style="font-size:50px;"></i></div>Đã thêm sản phẩm vào giỏ hàng</div><div class="modal-footer justify-content-center"><button type="button" class="btn btn-secondary" data-dismiss="modal">Tiếp tục mua sắm</button><a href="../cart" type="button" class="btn btn-primary">Đi đến giỏ hàng</a></div></div></div></div>';
 
-            $find_pd = Cart::where('idProduct', $data['idProduct'])->where('idCustomer', Session::get('idCustomer'))
-                ->where('AttributeProduct', $data['AttributeProduct'])->first();
+            //truy vấn đến bảng cart với điều kiện id= id
+            $find_pd = Cart::where('idProduct', $data['idProduct'])//gtri lấy từ request
+                ->where('idCustomer', Session::get('idCustomer'))//id = id trong session
+                ->where('AttributeProduct', $data['AttributeProduct'])->first();//gtri từ request đại diện thuộc tính cho sp
 
             if ($find_pd) {
-                $QuantityBuy = $data['QuantityBuy'] + $find_pd->QuantityBuy;
+                $QuantityBuy = $data['QuantityBuy'] + $find_pd->QuantityBuy;//số lượng kh mua + sl sp có trong giỏ hàng
                 if ($QuantityBuy > $qty_of_attr) {
                     $output = '<div id="errorAddToCart" class="modal fade bd-example-modal-sm modal-AddToCart" tabindex="-1" role="dialog"  aria-hidden="true"><div class="modal-dialog modal-dialog-centered modal-sm"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Thông báo</h5></div><button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"></span></button><div class="modal-body"><p>Vượt quá số lượng sản phẩm hiện có!</p></div><div class="modal-footer justify-content-center"><button type="button" class="btn btn-secondary" data-dismiss="modal">OK</button></div></div></div></div>';
-                    Log::info('Số lượng sản phẩm vượt quá số lượng hiện có');
+                    // Log::info('Số lượng sản phẩm vượt quá số lượng hiện có');
                     echo $output;
                 } else {
                     $Total = $QuantityBuy * $data['Price'];
 
-                    Cart::where('idProduct', $data['idProduct'])->where('idCustomer', Session::get('idCustomer'))
-                        ->where('AttributeProduct', $data['AttributeProduct'])->update(['QuantityBuy' => $QuantityBuy, 'Total' => $Total]);
+                    //cập nhật giỏ hàng dựa trên id cập nhật QuantityBuy với tổng sl và tổng tiền mới
+                    Cart::where('idProduct', $data['idProduct'])
+                        ->where('idCustomer', Session::get('idCustomer'))
+                        ->where('AttributeProduct', $data['AttributeProduct'])
+                        ->update(['QuantityBuy' => $QuantityBuy, 'Total' => $Total]);
 
                     Log::info('Cập nhật giỏ hàng thành công');
                     echo $output;
@@ -113,10 +120,13 @@ class CartController extends Controller
         $list_category = Category::get();
         $list_brand = Brand::get();
 
+        //join bảng pd với cart dựa trên id :lấy thông tin sp từ bảng pd dựa id sp trong bảng cart
         $list_pd_cart = Cart::join('product', 'product.idProduct', '=', 'cart.idProduct')
+            //join bảng pdim dựa id để lấy ảnh 
             ->join('productimage', 'productimage.idProduct', 'cart.idProduct')
+            //join bảng pdA dựa id để lấy thuộc tính 
             ->join('product_attribute', 'product_attribute.idProAttr', '=', 'cart.idProAttr')
-            ->where('idCustomer', Session::get('idCustomer'))->get();
+            ->where('idCustomer', Session::get('idCustomer'))->get();//chỉ lấy gtri id bằng với id lưu ở session 
 
         return view('shop.cart.cart')->with(compact('list_category', 'list_brand', 'list_pd_cart'));
     }
@@ -142,9 +152,10 @@ class CartController extends Controller
 
             $data = $request->all();
 
+            //tìm gtri id từ request 
             $cart = Cart::find($data['idCart']);
             if ($cart) {
-                $cart->QuantityBuy = $data['QuantityBuy'];
+                $cart->QuantityBuy = $data['QuantityBuy'];//lấy số lượng thay đổi ở request 
                 $cart->Total = $cart->Price * $data['QuantityBuy'];
                 $cart->save();
 
@@ -338,14 +349,14 @@ class CartController extends Controller
         $list_category = Category::get();
         $list_brand = Brand::get();
 
-        $address = Order::where('idOrder', $idOrder)->first();
+        $order = Order::where('idOrder', $idOrder)->first();
 
         $list_order_info = OrderDetail::join('product', 'product.idProduct', '=', 'orderdetail.idProduct')
             ->join('productimage', 'productimage.idProduct', '=', 'orderdetail.idProduct')
             ->where('orderdetail.idOrder', $idOrder)
             ->select('product.ProductName', 'product.idProduct', 'productimage.ImageName', 'orderdetail.*')->get();
 
-        return view("shop.order.ordered-info")->with(compact('list_category', 'list_brand', 'address', 'list_order_info'));
+        return view("shop.order.ordered-info")->with(compact('list_category', 'list_brand', 'order', 'list_order_info'));
     }
 
 
@@ -426,6 +437,7 @@ class CartController extends Controller
                 echo json_encode($returnData);
             }
         } else if ($data['checkout'] == 'cash') {
+            //tìm address từ request ở bảng address
             $get_address = AddressCustomer::find($data['address_rdo']);
             $Order->idCustomer = Session::get('idCustomer');
             $Order->TotalBill = $data['TotalBill'];
@@ -436,12 +448,17 @@ class CartController extends Controller
             $Order->Payment = 'cash';
     
             $Order->save();
-            $get_Order = Order::where('created_at', now())->where('idCustomer', Session::get('idCustomer'))->first();
+            //truy vấn order lấy đơn hàng vừa tạo của kh
+            $get_Order = Order::where('created_at', now())
+                              ->where('idCustomer', Session::get('idCustomer'))->first();
+
+            // lấy giỏ hàng của kh
             $get_cart = Cart::where('idCustomer', Session::get('idCustomer'))->get();
     
+            //thêm chi tiết vào orderdetail 
             foreach ($get_cart as $key => $cart) {
                 $data_orderdetail = array(
-                    'idOrder' => $get_Order->idOrder,
+                    'idOrder' => $get_Order->idOrder,//id được lấy từ get order
                     'idProduct' => $cart->idProduct,
                     'AttributeProduct' => $cart->AttributeProduct,
                     'Price' => $cart->Price,
@@ -450,8 +467,9 @@ class CartController extends Controller
                     'created_at' => now(),
                     'updated_at' => now()
                 );
-                OrderDetail::insert($data_orderdetail);
+                OrderDetail::insert($data_orderdetail);//thêm dữ liệu vào bảng
     
+                //cập nhật số lượng sản phẩm 
                 DB::update('UPDATE product SET QuantityTotal = QuantityTotal - ? WHERE idProduct = ?', [
                     $cart->QuantityBuy,
                     $cart->idProduct,
@@ -462,7 +480,7 @@ class CartController extends Controller
                     $cart->idProAttr,
                 ]);
             }
-    
+            //Cart::where('idCustomer', Session::get('idCustomer'))->delete();
             return Redirect::to('success-order')->send();
         }
     }
@@ -470,17 +488,19 @@ class CartController extends Controller
     
 
 
-    // Chuyển đến trang đặt hàng thành công
+    //xử lý thanh toán thành công vnpay
     public function success_order(Request $request)
     {
         $list_category = Category::get();
         $list_brand = Brand::get();
+        //trạng thái 00 là mã trạng thái thành công
         if ($request->vnp_TransactionStatus && $request->vnp_TransactionStatus == '00') {
 
             $Order = new Order();
             $OrderHistory = new OrderHistory();
-            $OrderInfo = explode("_", $request->vnp_OrderInfo);
+            $OrderInfo = explode("_", $request->vnp_OrderInfo);// Phân tách chuỗi thông tin đơn hàng  nhận từ VNPay
 
+            //Tìm địa chỉ khách hàng từ cơ sở dữ liệu
             $get_address = AddressCustomer::find($OrderInfo[0]);
             $Order->idCustomer = $OrderInfo[1];
             $Order->TotalBill = $request->vnp_Amount / 100;
@@ -506,17 +526,17 @@ class CartController extends Controller
                     'updated_at' => now()
                 );
                 OrderDetail::insert($data_orderdetail);
+
+                
                 DB::update('update product set QuantityTotal = QuantityTotal - ? where idProduct = ?', [$cart->QuantityBuy, $cart->idProduct]);
                 DB::update('update product_attribute set Quantity = Quantity - ? where idProAttr = ?', [$cart->QuantityBuy, $cart->idProAttr]);
-                // DB::update(DB::RAW('update product set QuantityTotal = QuantityTotal - ' . $cart->QuantityBuy . ' where idProduct = ' . $cart->idProduct . ''));
-                // DB::update(DB::RAW('update product_attribute set Quantity = Quantity - ' . $cart->QuantityBuy . ' where idProAttr = ' . $cart->idProAttr . ''));
+              
             }
 
-            //if ($get_Order->Voucher != '') DB::update(DB::RAW('update voucher set VoucherQuantity = VoucherQuantity - 1 where idVoucher = ' . $OrderInfo[3] . ''));
             Cart::where('idCustomer', $OrderInfo[1])->delete();
             $OrderHistory->idOrder = $get_Order->idOrder;
             $OrderHistory->AdminName = 'System';
-            $OrderHistory->Status = 1;
+            $OrderHistory->Status = 1;// khi đã được xác nhận sẽ lưu vào bảng history
             $OrderHistory->save();
             return view("shop.cart.success-order")->with(compact('list_category', 'list_brand'));
         } else if ($request->vnp_TransactionStatus && $request->vnp_TransactionStatus != '00')
@@ -664,7 +684,7 @@ class CartController extends Controller
 
 
     // Xác nhận đơn hàng
-    public function confirm_order(Request $request, $idOrder)
+    public function confirm_bill(Request $request, $idOrder)
     {
         // Tìm và cập nhật đơn hàng
         $order = Order::find($idOrder);

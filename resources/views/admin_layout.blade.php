@@ -16,21 +16,22 @@ use Illuminate\Support\Facades\Session;
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>KidAngel dashboard</title>
     
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+   
     
     <!-- Dashboard -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-
     <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
     <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+
+
     <!-- Favicon -->
     <link rel="shortcut icon" href="{{ asset('/kidadmin/images/favicon.ico') }}" />
     <link rel="stylesheet" href="{{ asset('/kidadmin/css/backend-plugin.min.css') }}">
     <link rel="stylesheet" href="{{ asset('/kidadmin/css/backend.css?v=1.0.0') }}">
     <link rel="stylesheet" href="{{ asset('/kidadmin/vendor/@fortawesome/fontawesome-free/css/all.min.css') }}">
     <link rel="stylesheet" href="{{asset('/kidadmin/vendor/line-awesome/dist/line-awesome/css/line-awesome.min.css')}}">
-    <link rel="stylesheet"
-        href="{{ asset('/kidadmin/vendor/line-awesome/dist/line-awesome/css/line-awesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('/kidadmin/vendor/line-awesome/dist/line-awesome/css/line-awesome.min.css') }}">
     <link rel="stylesheet" href="{{ asset('/kidadmin/vendor/remixicon/fonts/remixicon.css') }}">
 
 
@@ -43,8 +44,7 @@ use Illuminate\Support\Facades\Session;
 <body class="  ">
     <!-- loader Start -->
     <div id="loading">
-        <div id="loading-center">
-        </div>
+        <div id="loading-center"> </div>
     </div>
     <!-- loader END -->
     <!-- Wrapper Start -->

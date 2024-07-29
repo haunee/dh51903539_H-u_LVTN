@@ -1,7 +1,7 @@
 @extends('page_layout')
 @section('content')
     <!--Page Banner Start-->
-    <div class="page-banner" style="background-image: url(/page/images/banner/banner-shop.png)">
+    <div class="page-banner" style="background-image: url(/page/images/banner/banner5.jpg)">
         <div class="container">
             <div class="page-banner-content text-center">
                 <h2 class="title">Chi tiết sản phẩm</h2>
@@ -60,7 +60,7 @@
                         <span class="product-sku">Mã sản phẩm: <span>{{ $product->idProduct }}</span></span>
                         <div class="text-primary">Đã Bán: {{ $product->Sold }} sản phẩm</div>
                         <div class="text-primary">Còn Lại: {{ $product->QuantityTotal }} sản phẩm</div>
-                     
+
                         <div class="thumb-price">
                             <span class="current-price">{{ number_format(round($product->Price, -3), 0, ',', '.') }}đ</span>
                         </div>
@@ -118,26 +118,27 @@
 
                                 <div class="action">
                                     <?php
-                                        $isInWishlist = in_array($product->idProduct, $wishlistProducts);
-                                        ?>
+                                    $isInWishlist = in_array($product->idProduct, $wishlistProducts);
+                                    ?>
                                     <a class="add-to-wishlist {{ $isInWishlist ? 'in-wishlist' : 'not-in-wishlist' }}"
-                                    data-id="{{ $product->idProduct }}" data-tooltip="tooltip"
-                                    data-placement="left" title="Thêm vào danh sách yêu thích">
-                                    <i class="fa fa-heart"></i>
-                                    </a>                                
+                                        data-id="{{ $product->idProduct }}" data-tooltip="tooltip" data-placement="left"
+                                        title="Thêm vào danh sách yêu thích">
+                                        <i class="fa fa-heart"></i>
+                                    </a>
                                 </div>
 
-                               
-                              
+
+
                             </div>
                             <div class="text-primary alert-add-to-cart"></div>
 
                             <div class="dynamic-checkout-button">
                                 <div class="checkout-btn">
-                                    <input type="submit" formaction="{{ url('/payment') }}" class="btn btn-primary buy-now" value="Mua ngay" />
+                                    <input type="submit" formaction="{{ url('/payment') }}"
+                                        class="btn btn-primary buy-now" value="Mua ngay" />
                                 </div>
                             </div>
-                            
+
                             <div class="text-primary alert-buy-now"></div>
                             <?php
                             $error = Session::get('error');
@@ -191,8 +192,7 @@
                         <ul class="nav justify-content-center" role="tablist">
                             <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#tab1"
                                     role="tab">Mô tả/Chi tiết</a></li>
-                            {{-- <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab2" role="tab">Nhận
-                                xét</a></li> --}}
+                          
                         </ul>
                     </div>
 
@@ -202,102 +202,7 @@
                                 <p>{!! $product->DesProduct !!}</p>
                             </div>
                         </div>
-                        <div class="tab-pane fade" id="tab2" role="tabpanel">
-                            <div class="reviews">
-                                <h3 class="review-title">Customer Reviews</h3>
-
-                                <ul class="reviews-items">
-                                    <li>
-                                        <div class="single-review">
-                                            <h6 class="name">Rosie Silva</h6>
-                                            <div class="rating-date">
-                                                <ul class="rating">
-                                                    <li class="rating-on"><i class="fa fa-star"></i></li>
-                                                    <li class="rating-on"><i class="fa fa-star"></i></li>
-                                                    <li class="rating-on"><i class="fa fa-star"></i></li>
-                                                    <li class="rating-on"><i class="fa fa-star"></i></li>
-                                                    <li><i class="fa fa-star"></i></li>
-                                                </ul>
-                                                <span class="date">13 ngày trước</span>
-                                            </div>
-                                            <p>Áo tốt, giá cả hợp lý. Shop gói hàng rất cẩn thận, mình rất hài lòng.</p>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="single-review">
-                                            <h6 class="name">James Turner</h6>
-                                            <div class="rating-date">
-                                                <ul class="rating">
-                                                    <li class="rating-on"><i class="fa fa-star"></i></li>
-                                                    <li class="rating-on"><i class="fa fa-star"></i></li>
-                                                    <li class="rating-on"><i class="fa fa-star"></i></li>
-                                                    <li class="rating-on"><i class="fa fa-star"></i></li>
-                                                    <li class="rating-on"><i class="fa fa-star"></i></li>
-                                                </ul>
-                                                <span class="date">7 ngày trước</span>
-                                            </div>
-                                            <p>Áo đẹp, mình mua cho con trai, bé rất thích.</p>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="single-review">
-                                            <h6 class="name">Maria Garcia</h6>
-                                            <div class="rating-date">
-                                                <ul class="rating">
-                                                    <li class="rating-on"><i class="fa fa-star"></i></li>
-                                                    <li class="rating-on"><i class="fa fa-star"></i></li>
-                                                    <li class="rating-on"><i class="fa fa-star"></i></li>
-                                                    <li class="rating-on"><i class="fa fa-star"></i></li>
-                                                    <li><i class="fa fa-star"></i></li>
-                                                </ul>
-                                                <span class="date">4 ngày trước</span>
-                                            </div>
-                                            <p>Sản phẩm rất tốt, màu sắc như hình, mình rất hài lòng.</p>
-                                        </div>
-                                    </li>
-                                </ul>
-
-                                <div class="review-form">
-                                    <h3 class="review-title">Thêm nhận xét</h3>
-                                    <form action="#">
-                                        <div class="rating-form d-flex align-items-center">
-                                            <span class="rating-title mr-3">Đánh giá của bạn:</span>
-                                            <ul class="rating">
-                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="row mt-3">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="name">Họ và tên</label>
-                                                    <input type="text" id="name" class="form-control" required>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="email">Email</label>
-                                                    <input type="email" id="email" class="form-control" required>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label for="review">Nhận xét của bạn</label>
-                                                    <textarea id="review" class="form-control" rows="4" required></textarea>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <button type="submit" class="btn btn-primary">Gửi nhận xét</button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-
-                            </div>
-                        </div>
+                       
                     </div>
                 </div>
                 <!--Shop Single info End-->
@@ -305,7 +210,69 @@
         </div>
         <!--Shop Single End-->
 
+        @if ($list_related_products->count() > 0)
+            <div class="new-product-area section-padding-2">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-6 col-md-9 col-sm-11">
+                            <div class="section-title text-center">
+                                <h2 class="title">Sản Phẩm Liên Quan</h2>
+                                <p>A perfect blend of creativity, energy, communication, happiness and love. Let us arrange
+                                    a smile for you.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-wrapper">
+                        <div class="swiper-container product-active">
+                            <div class="swiper-wrapper">
+                                @foreach ($list_related_products as $key => $related_product)
+                                    <div class="swiper-slide">
+                                        <div class="single-product">
+                                            <div class="product-image">
+                                                <?php $image = json_decode($related_product->ImageName)[0]; ?>
+                                                <a href="{{ URL::to('/shop-single/' . $related_product->idProduct) }}">
+                                                    <img src="{{ asset('/storage/kidadmin/images/product/' . $image) }}"
+                                                        alt="">
+                                                </a>
+                                                <?php
+                                                $isInWishlist = in_array($related_product->idProduct, $wishlistProducts);
+                                                ?>
 
+                                                <div class="action-links">
+                                                    <ul>
+                                                        <li>
+                                                            <a class="add-to-wishlist {{ $isInWishlist ? 'in-wishlist' : 'not-in-wishlist' }}"
+                                                                data-id="{{ $related_product->idProduct }}"
+                                                                data-tooltip="tooltip" data-placement="left"
+                                                                title="Thêm vào danh sách yêu thích">
+                                                                <i class="fa fa-heart"></i>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="product-content text-center">
+                                                <h4 class="product-name"><a
+                                                        href="{{ URL::to('/shop-single/' . $related_product->idProduct) }}">{{ $related_product->ProductName }}</a>
+                                                </h4>
+                                                <div class="price-box">
+                                                    <span
+                                                        class="current-price">{{ number_format($related_product->Price, 0, ',', '.') }}đ</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+
+                            <!-- Add Arrows -->
+                            <div class="swiper-next"><i class="fa fa-angle-right"></i></div>
+                            <div class="swiper-prev"><i class="fa fa-angle-left"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
 
         <!-- Validate QuantityBuy & Add To Cart & Buy Now -->
         <script>
@@ -400,12 +367,6 @@
                         });
                     }
                 });
-
-
-
-               
-
-
 
             });
         </script>

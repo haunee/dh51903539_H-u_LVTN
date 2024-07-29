@@ -23,7 +23,7 @@
                             <div class="card-body">
                                 <div class="d-flex align-items-center mb-4 card-total-sale">
                                     <div class="icon iq-icon-box-2 bg-info-light">
-                                        <img src="/kidadmin/images/product/1.png" class="img-fluid" alt="image">
+                                        <img src="/kidadmin/images/product/icon2.png" class="img-fluid" alt="image">
                                     </div>
                                     <div>
                                         <p class="mb-2">Tổng Doanh Thu</p>
@@ -43,7 +43,7 @@
                             <div class="card-body">
                                 <div class="d-flex align-items-center mb-4 card-total-sale">
                                     <div class="icon iq-icon-box-2 bg-success-light">
-                                        <img src="/kidadmin/images/product/3.png" class="img-fluid" alt="image">
+                                        <img src="/kidadmin/images/product/icon3.png" class="img-fluid" alt="image">
                                     </div>
                                     <div>
                                         <p class="mb-2">Tổng Sản Phầm Bán Ra</p>
@@ -66,15 +66,7 @@
                         <div class="header-title">
                             <h4 class="card-title">Doanh Thu Cửa Hàng</h4>
                         </div>
-                        <form class="col-lg-6 p-0"> @csrf
-                        {{-- <div class="row">
-                            <input type='text' name="DateFrom" id='DateFrom' placeholder="Từ ngày" class="form-control ml-2" style="width:44%;"/>
-                            <input type='text' name="DateTo" id='DateTo' placeholder="Đến ngày" class="form-control ml-2" style="width:44%;"/>
-                            <button type="button" class="badge badge-info p-0 statistic-btn" style="border:none; width:7%; margin-left:12px; font-size:20px;" data-toggle="tooltip" data-placement="top" title="" 
-                                data-original-title="Tìm kiếm"><i class="ri-search-line"></i>
-                            </button>
-                        </div> --}}
-                        </form>
+                     
                         <form class="col-lg-3 p-0"> @csrf
                         <div class="input-group">
                             <div class="input-group-prepend">
@@ -89,6 +81,8 @@
                         </div>
                         </form>
                     </div>
+
+                    
                     <div class="card-body">
                         <div id="chart-sale" style="height: 280px;"></div>
                     </div>
@@ -164,30 +158,7 @@
     $(document).ready(function(){  
         APP_URL = '{{url('/')}}' ;
         jQuery.datetimepicker.setLocale('vi');
-        jQuery(function(){
-            jQuery('#DateFrom').datetimepicker({
-                //format: 'DD-MM-YYYY HH:mm',
-                format:'Y-m-d',
-                //format: 'd-m-Y',
-                // timepicker: false,
-                onShow:function( ct ){
-                    this.setOptions({
-                        maxDate:jQuery('#DateTo').val()?jQuery('#DateTo').val():false
-                    })
-                }
-            });
-            jQuery('#DateTo').datetimepicker({
-                //format: 'DD-MM-YYYY HH:mm',
-                format:'Y-m-d',
-                //format: 'd-m-Y',
-                // timepicker: false,
-                onShow:function( ct ){
-                    this.setOptions({
-                        minDate:jQuery('#DateFrom').val()?jQuery('#DateFrom').val():false
-                    })
-                }
-            });
-        });
+       
 
         chart_7days();
         var chart = new Morris.Bar({
@@ -211,30 +182,15 @@
             $.ajax({
                 url: APP_URL + '/chart-7days',
                 method: 'POST',
-                dataType: 'JSON',
+                dataType: 'JSON',//dl trả về là json
                 data: {_token:_token},
                 success:function(data){
-                    chart.setData(data);
+                    chart.setData(data);//cập nhật dữ liệu cho biểu đồ
                 }
             });
         }
 
-        $('.statistic-btn').on("click", function(){
-            var DateFrom = $('#DateFrom').val();
-            var DateTo = $('#DateTo').val();
-            var _token = $('input[name="_token"]').val();
-
-            $.ajax({
-                url: APP_URL + '/statistic-by-date',
-                method: 'POST',
-                dataType: 'JSON',
-                data: {DateFrom:DateFrom,DateTo:DateTo,_token:_token},
-                success:function(data){
-                    chart.setData(data);
-                }
-            });
-        });
-
+     
         $('#chart-by-days').on("change", function(){
             var Days = $(this).val();
             var _token = $('input[name="_token"]').val();
@@ -245,30 +201,13 @@
                 dataType: 'JSON',
                 data: {Days:Days,_token:_token},
                 success:function(data){
+                     
                     chart.setData(data);
                 }
             });
         });
 
-        $('.select-topPro').on("click", function(){
-            var Days = $(this).html();
-            var _token = $('input[name="_token"]').val();
-            var sort_by = '';
-            
-            $('.topPro-default').html(Days);
-            if(Days == 'Trong Tuần') sort_by = 'week';
-            else if(Days == 'Trong Tháng') sort_by = 'month';
-            else if(Days == 'Trong Năm') sort_by = 'year';
-
-            $.ajax({
-                url: APP_URL + '/topPro-sort-by-date',
-                method: 'POST',
-                data: {sort_by:sort_by,_token:_token},
-                success:function(data){
-                    $('.list-topPro').html(data);
-                }
-            });
-        });
+      
     });
 </script>
 

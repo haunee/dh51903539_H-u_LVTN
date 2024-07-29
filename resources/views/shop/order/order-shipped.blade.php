@@ -74,7 +74,7 @@
                                     <span class="qty-ordered">{{App\Models\Order::where('idCustomer',Session::get('idCustomer'))->where('Status','99')->count()}}</span> @endif
                                 </a>
                             </div>
-                            <!-- <div class="account-table text-center mt-25 table-responsive"> -->
+                            
                                 <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%;">
                                     <thead>
                                         <tr>
@@ -102,7 +102,8 @@
                                         @endforeach
                                     </tbody>
                                 </table>
-                            <!-- </div> -->
+                               
+                            
                         </div>
                     </div>
                 </div>

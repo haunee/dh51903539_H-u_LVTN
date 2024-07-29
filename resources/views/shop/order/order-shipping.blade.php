@@ -86,7 +86,7 @@
                                     <tbody>             
                                         @foreach($list_order as $key => $order)                     
                                         <tr>
-                                            <td>{{$order->idBill}}</td>
+                                            <td>{{$order->idOrder}}</td>
                                             <td>{{$order->CustomerName}}</td>
                                             <td>{{$order->created_at}}</td>            
 

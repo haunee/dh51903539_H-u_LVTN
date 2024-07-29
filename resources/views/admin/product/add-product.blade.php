@@ -112,7 +112,7 @@
                             </div>
                         </div>                            
                         <input type="submit" class="btn btn-primary mr-2" id="btn-submit" value="Thêm sản phẩm">
-                        <a href="{{URL::to('/manage-products')}}" class="btn btn-light">Trở về</a>
+                        <a href="{{URL::to('/manage-product')}}" class="btn btn-light">Trở về</a>
                     </div>
                 </div>
             </div>
@@ -259,6 +259,7 @@
                             });
                         }
 
+
                         $('.choose-attr').on('change',function(){
                             $('.chk_attr').prop('checked', false);
 
@@ -271,7 +272,7 @@
                     $("#confirm-attrs").click(function(){
                         if($('[name="chk_attr[]"]:checked').length >= 1){
                             $('.attr-title-1').html(attr_group_name);
-                            $('.attr-title-1').removeClass('d-none');
+                            $('.attr-title-1').removeClass('d-none');//tên
                             $('.attr-title-2').removeClass('d-none');
                             $('#Quantity').addClass('disabled-input');
                         }else{
