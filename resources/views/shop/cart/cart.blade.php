@@ -121,8 +121,7 @@
                                 </table>
                             </div>
                             <div class="cart-total-btn">
-                                <a href="{{ URL::to('/payment') }}" class="btn btn-primary btn-block btn-payment">Thanh
-                                    toán</a>
+                                <a href="{{ URL::to('/payment') }}" class="btn btn-primary btn-block btn-payment">Thanh toán</a>
                             </div>
                         </div>
                     </div>
@@ -181,7 +180,7 @@
                             'transform': 'scale(0)',
                             'opacity': '0'
                         });
-                    }, 1000);
+                    }, 5000);//tg 
                 } else {
                     $input.val(currentValue + 1);
                     var idCart = $(this).nextAll().eq(1).val();
@@ -280,7 +279,7 @@
                                 'transform': 'scale(0)',
                                 'opacity': '0'
                             });
-                        }, 3000);
+                        }, 1000);
                     }
                 });
             });
@@ -301,9 +300,9 @@
                                 'transform': 'scale(0)',
                                 'opacity': '0'
                             });
-                        }, 3000);
+                        }, 1000);
                         $("html, body").animate({
-                            scrollTop: ($(".alert-qty-input", this).position().top + 200)
+                            scrollTop: ($(".alert-qty-input", this).position().top + 300)
                         }, "fast");
                         e.preventDefault();
                     }

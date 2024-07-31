@@ -60,6 +60,11 @@ class AttributeValueController extends Controller
         $data = $request->all();
         $attr_value = AttributeValue::find($idAttribute);
         
+         // Kiểm tra xem Tên phân loại có chứa số âm hay không
+        if (is_numeric($data['AttriValName']) && $data['AttriValName'] < 0) {
+            return redirect()->back()->with('error', ' Phân loại không được chứa số âm');
+        }
+
         $select_attr_value = AttributeValue::where('AttriValName', $data['AttriValName'])
         ->where('idAttribute','<>' ,$data['idAttribute'])->first();//loại trừ id hiện tại ra
 

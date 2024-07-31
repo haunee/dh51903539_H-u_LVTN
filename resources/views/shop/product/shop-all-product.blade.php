@@ -106,6 +106,8 @@
                                                     <span
                                                         class="current-price">{{ number_format($product->Price, 0, ',', '.') }}đ</span>
                                                 </div>
+
+                                                
                                             </div>
                                         </div>
                                     </div>

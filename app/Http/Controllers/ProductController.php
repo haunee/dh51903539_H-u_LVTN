@@ -45,69 +45,145 @@ class ProductController extends Controller
 
 
     // //them san pham
+    // public function submit_add_product(Request $request)
+    // {
+    //     $data = $request->all();
+
+    //     $select_product = Product::where('ProductName', $data['ProductName'])->first();
+
+    
+
+    //     if ($select_product) {
+    //         return redirect()->back()->with('error', 'Sản phẩm này đã tồn tại');
+    //     } else {
+
+    //         $product = new Product();
+    //         $product_image = new ProductImage();
+
+    //         $product->ProductName = $data['ProductName'];
+    //         $product->idCategory = $data['idCategory'];
+    //         $product->idBrand = $data['idBrand'];
+    //         $product->Price = $data['Price'];
+    //         $product->QuantityTotal = $data['QuantityTotal'];
+    //         $product->ShortDes = $data['ShortDes'];
+    //         $product->DesProduct = $data['DesProduct'];
+    //         $get_image = $request->file('ImageName');
+    //         $timestamp = now();
+
+    //         $product->save();
+    //         $get_pd = Product::where('created_at', $timestamp)->first();
+
+    //         // Thêm phân loại vào Product_Attribute
+    //         if ($request->qty_attr) {
+    //             foreach ($data['qty_attr'] as $key => $qty_attr) {
+    //                 $data_all = array(
+    //                     'idProduct' => $get_pd->idProduct,
+    //                     'idAttriValue' => $data['chk_attr'][$key],
+    //                     'Quantity' => $qty_attr,
+    //                     'created_at' => now(),
+    //                     'updated_at' => now()
+    //                 );
+    //                 ProductAttriBute::insert($data_all);
+    //             }
+    //         } else {
+    //             $data_all = array(
+    //                 'idProduct' => $get_pd->idProduct,
+    //                 'Quantity' => $data['QuantityTotal'],
+    //                 'created_at' => now(),
+    //                 'updated_at' => now()
+    //             );
+    //             ProductAttriBute::insert($data_all);
+    //         }
+
+    //         // Thêm hình ảnh vào table ProductImage
+    //         foreach ($get_image as $image) {
+    //             $get_name_image = $image->getClientOriginalName();
+    //             $name_image = current(explode('.', $get_name_image));
+    //             $new_image = $name_image . rand(0, 99) . '.' . $image->getClientOriginalExtension();
+    //             $image->storeAs('public/kidadmin/images/product', $new_image);
+    //             $images[] = $new_image;
+    //         }
+
+    //         $product_image->ImageName = json_encode($images);
+    //         $product_image->idProduct = $get_pd->idProduct;
+    //         $product_image->save();
+    //         return redirect()->back()->with('message', 'Thêm sản phẩm thành công');
+    //     }
+    // }
     public function submit_add_product(Request $request)
-    {
-        $data = $request->all();
+{
+    $data = $request->all();
 
-        $select_product = Product::where('ProductName', $data['ProductName'])->first();
+    // Kiểm tra giá trị số lượng phân loại
+    if (isset($data['qty_attr']) && is_array($data['qty_attr'])) {
+        foreach ($data['qty_attr'] as $quantity) {
+            if ($quantity < 0) {
+                return redirect()->back()->with('error', 'Số lượng phân loại không được là số âm');
+            }
+        }
+    }
 
-        if ($select_product) {
-            return redirect()->back()->with('error', 'Sản phẩm này đã tồn tại');
-        } else {
+    // Kiểm tra sản phẩm đã tồn tại
+    $select_product = Product::where('ProductName', $data['ProductName'])->first();
+    if ($select_product) {
+        return redirect()->back()->with('error', 'Sản phẩm này đã tồn tại');
+    } else {
+        $product = new Product();
+        $product_image = new ProductImage();
 
-            $product = new Product();
-            $product_image = new ProductImage();
+        $product->ProductName = $data['ProductName'];
+        $product->idCategory = $data['idCategory'];
+        $product->idBrand = $data['idBrand'];
+        $product->Price = $data['Price'];
+        $product->QuantityTotal = $data['QuantityTotal'];
+        $product->ShortDes = $data['ShortDes'];
+        $product->DesProduct = $data['DesProduct'];
+        $get_image = $request->file('ImageName');
+        $timestamp = now();
 
-            $product->ProductName = $data['ProductName'];
-            $product->idCategory = $data['idCategory'];
-            $product->idBrand = $data['idBrand'];
-            $product->Price = $data['Price'];
-            $product->QuantityTotal = $data['QuantityTotal'];
-            $product->ShortDes = $data['ShortDes'];
-            $product->DesProduct = $data['DesProduct'];
-            $get_image = $request->file('ImageName');
-            $timestamp = now();
+        $product->save();
+        $get_pd = Product::where('created_at', $timestamp)->first();
 
-            $product->save();
-            $get_pd = Product::where('created_at', $timestamp)->first();
-
-            // Thêm phân loại vào Product_Attribute
-            if ($request->qty_attr) {
-                foreach ($data['qty_attr'] as $key => $qty_attr) {
-                    $data_all = array(
-                        'idProduct' => $get_pd->idProduct,
-                        'idAttriValue' => $data['chk_attr'][$key],
-                        'Quantity' => $qty_attr,
-                        'created_at' => now(),
-                        'updated_at' => now()
-                    );
-                    ProductAttriBute::insert($data_all);
-                }
-            } else {
+        // Thêm phân loại vào Product_Attribute
+        if ($request->qty_attr) {
+            foreach ($data['qty_attr'] as $key => $qty_attr) {
                 $data_all = array(
                     'idProduct' => $get_pd->idProduct,
-                    'Quantity' => $data['QuantityTotal'],
+                    'idAttriValue' => $data['chk_attr'][$key],
+                    'Quantity' => $qty_attr,
                     'created_at' => now(),
                     'updated_at' => now()
                 );
                 ProductAttriBute::insert($data_all);
             }
-
-            // Thêm hình ảnh vào table ProductImage
-            foreach ($get_image as $image) {
-                $get_name_image = $image->getClientOriginalName();
-                $name_image = current(explode('.', $get_name_image));
-                $new_image = $name_image . rand(0, 99) . '.' . $image->getClientOriginalExtension();
-                $image->storeAs('public/kidadmin/images/product', $new_image);
-                $images[] = $new_image;
-            }
-
-            $product_image->ImageName = json_encode($images);
-            $product_image->idProduct = $get_pd->idProduct;
-            $product_image->save();
-            return redirect()->back()->with('message', 'Thêm sản phẩm thành công');
+        } else {
+            $data_all = array(
+                'idProduct' => $get_pd->idProduct,
+                'Quantity' => $data['QuantityTotal'],
+                'created_at' => now(),
+                'updated_at' => now()
+            );
+            ProductAttriBute::insert($data_all);
         }
+
+        // Thêm hình ảnh vào table ProductImage
+        foreach ($get_image as $image) {
+            $get_name_image = $image->getClientOriginalName();
+            $name_image = current(explode('.', $get_name_image));
+            $new_image = $name_image . rand(0, 99) . '.' . $image->getClientOriginalExtension();
+            $image->storeAs('public/kidadmin/images/product', $new_image);
+            $images[] = $new_image;
+        }
+
+        $product_image->ImageName = json_encode($images);
+        $product_image->idProduct = $get_pd->idProduct;
+        $product_image->save();
+        return redirect()->back()->with('message', 'Thêm sản phẩm thành công');
     }
+}
+
+
+
 
 
 
@@ -194,6 +270,14 @@ class ProductController extends Controller
         $data = $request->all();
         $product = Product::find($idProduct);
 
+        if (isset($data['qty_attr']) && is_array($data['qty_attr'])) {
+            foreach ($data['qty_attr'] as $quantity) {
+                if ($quantity < 0) {
+                    return redirect()->back()->with('error', 'Số lượng phân loại không được là số âm');
+                }
+            }
+        }
+    
         $select_product = Product::where('ProductName', $data['ProductName'])->whereNotIn('idProduct', [$idProduct])->first();
 
         if ($select_product) {
@@ -270,6 +354,7 @@ class ProductController extends Controller
     {
         //lấy id customer từ session
         $idCustomer = session('idCustomer');
+        $idProduct = session('idProduct');
         // Lấy danh sách các sản phẩm yêu thích của người dùng
         $wishlistProducts = WishList::where('idCustomer', $idCustomer)->pluck('idProduct')->toArray();
 
@@ -277,6 +362,9 @@ class ProductController extends Controller
         $list_category = Category::get();
         $list_brand = Brand::get();
 
+       
+     
+   
         // danh sách sản phẩm
         $list_pd_query = Product::join('brand', 'brand.idBrand', '=', 'product.idBrand') 
             ->join('category', 'category.idCategory', '=', 'product.idCategory') 
@@ -342,7 +430,7 @@ class ProductController extends Controller
         
         $list_pd = $list_pd_query->paginate(15);
         $filters = request()->except('page');
-        return view("shop.product.shop-all-product")->with(compact('list_category', 'filters','list_brand', 'list_pd', 'count_pd', 'wishlistProducts'));
+        return view("shop.product.shop-all-product")->with(compact('list_category','filters','list_brand', 'list_pd', 'count_pd', 'wishlistProducts'));
     }
 
 

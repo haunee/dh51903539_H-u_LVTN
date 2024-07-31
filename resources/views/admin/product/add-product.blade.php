@@ -184,107 +184,213 @@
 
 
 <script>
-    $(document).ready(function(){  
-        $('.choose-attr').on('change',function(){
-            var action = $(this).attr('id');
-            var idAttribute = $(this).val();
-            var attr_group_name = $("#attr-group-"+idAttribute).data("attr-group-name");
-            var _token = $('input[name="_token"]').val();
-            var result = '';
+    // $(document).ready(function(){  
+    //     $('.choose-attr').on('change',function(){
+    //         var action = $(this).attr('id');
+    //         var idAttribute = $(this).val();
+    //         var attr_group_name = $("#attr-group-"+idAttribute).data("attr-group-name");
+    //         var _token = $('input[name="_token"]').val();
+    //         var result = '';
 
-            if(action == 'attribute')   result = 'attributevalue';
-            $.ajax({
-                url: '{{url("/select-attribute")}}',
-                method: 'POST',
-                data: {action:action, idAttribute:idAttribute, _token:_token},
-                success:function(data){// hàm callback
-                    $('#'+result).html(data);
+    //         if(action == 'attribute')   result = 'attributevalue';
+    //         $.ajax({
+    //             url: '{{url("/select-attribute")}}',
+    //             method: 'POST',
+    //             data: {action:action, idAttribute:idAttribute, _token:_token},
+    //             success:function(data){// hàm callback
+    //                 $('#'+result).html(data);
 
-                    $("input[type=checkbox]").on("click", function() {
-                        var attr_id = $(this).data("id");
-                        var attr_name = $(this).data("name");
+    //                 $("input[type=checkbox]").on("click", function() {
+    //                     var attr_id = $(this).data("id");
+    //                     var attr_name = $(this).data("name");
 
-                        if($(this).is(":checked")){
-                            $("#attr-name-"+attr_id).addClass(" text-primary");
+    //                     if($(this).is(":checked")){
+    //                         $("#attr-name-"+attr_id).addClass(" text-primary");
 
-                            $("#confirm-attrs").click(function(){
-                                var input_attrs_item = '<div id="input-attrs-item-'+ attr_id +'" class="col-md-12 d-flex flex-wrap input_attrs_items"><div class="col-md-6"><input class="form-control text-center" type="text" value="'+ attr_name +'" disabled></div><div class="form-group col-md-6"><input id="qty-attr-'+ attr_id +'" class="form-control text-center qty-attr" name="qty_attr[]" placeholder="Nhập số lượng phân loại" type="number" min="0" required></div></div>';
-                                if($('#input-attrs-item-' +attr_id).length < 1) $('.input-attrs').append(input_attrs_item);
+    //                         $("#confirm-attrs").click(function(){
+    //                             var input_attrs_item = '<div id="input-attrs-item-'+ attr_id +'" class="col-md-12 d-flex flex-wrap input_attrs_items"><div class="col-md-6"><input class="form-control text-center" type="text" value="'+ attr_name +'" disabled></div><div class="form-group col-md-6"><input id="qty-attr-'+ attr_id +'" class="form-control text-center qty-attr" name="qty_attr[]" placeholder="Nhập số lượng phân loại" type="number" min="0" required></div></div>';
+    //                             if($('#input-attrs-item-' +attr_id).length < 1) $('.input-attrs').append(input_attrs_item);
                                 
-                                $(".qty-attr").on("input",function() {
-                                    var total_qty = 0;
-                                    $(".qty-attr").each(function(){
-                                        if(!isNaN(parseInt($(this).val())))
-                                        {
-                                            total_qty += parseInt($(this).val());  
-                                        }
-                                    });
-                                    $("#Quantity").val(total_qty);
-                                });
+    //                             // $(".qty-attr").on("input",function() {
+    //                             $(".qty-attr").on("input change", function() {   
+    //                                 var inputVal = parseInt($(this).val());
+    //                                 if (inputVal < 0) {
+    //                                     alert("Số lượng không được âm");
+    //                                     $(this).val(0); // Reset giá trị về 0 nếu người dùng nhập số âm
+    //                                 }
+    //                                 var total_qty = 0;
+    //                                 $(".qty-attr").each(function(){
+    //                                     if(!isNaN(parseInt($(this).val())))
+    //                                     {
+    //                                         total_qty += parseInt($(this).val());  
+    //                                     }
+    //                                 });
+    //                                 $("#Quantity").val(total_qty);
+    //                             });
 
-                                $("#qty-attr-"+ attr_id).on("change",function() {
-                                    if($(this).val() == "" || $(this).val() < 0){
-                                        $(this).css("border","1px solid #E08DB4");
-                                        $('#btn-submit').addClass('disabled-button');
-                                    }else{
-                                        $(this).css("border","1px solid #DCDFE8");
-                                        $('#btn-submit').removeClass('disabled-button');
-                                    }
-                                });
+    //                             $("#qty-attr-"+ attr_id).on("change",function() {
+    //                                 if($(this).val() == "" || $(this).val() < 0){
+    //                                     $(this).css("border","1px solid #E08DB4");
+    //                                     $('#btn-submit').addClass('disabled-button');
+    //                                 }else{
+    //                                     $(this).css("border","1px solid #DCDFE8");
+    //                                     $('#btn-submit').removeClass('disabled-button');
+    //                                 }
+    //                             });
 
-                                $("#form-add-product").submit( function(e) {
-                                    var val_input = $('#qty-attr-'+attr_id).val();
-                                    if(val_input == "" || val_input < 0){
-                                        e.preventDefault();
-                                        $('#qty-attr-'+attr_id).css("border","1px solid #E08DB4");
-                                    }
-                                });
-                            });
-                        }
-                        else if($(this).is(":not(:checked)")){
-                            $("#attr-name-"+attr_id).removeClass(" text-primary");
+    //                             $("#form-add-product").submit( function(e) {
+    //                                 var val_input = $('#qty-attr-'+attr_id).val();
+    //                                 if(val_input == "" || val_input < 0){
+    //                                     e.preventDefault();
+    //                                     $('#qty-attr-'+attr_id).css("border","1px solid #E08DB4");
+    //                                 }
+    //                             });
+    //                         });
+    //                     }
+    //                     else if($(this).is(":not(:checked)")){
+    //                         $("#attr-name-"+attr_id).removeClass(" text-primary");
                             
-                            $("#confirm-attrs").click(function(){
-                                $('#input-attrs-item-' +attr_id).remove();
+    //                         $("#confirm-attrs").click(function(){
+    //                             $('#input-attrs-item-' +attr_id).remove();
 
-                                // Số lượng input
-                                var total_qty = 0;
-                                $(".qty-attr").each(function(){
-                                    if(!isNaN(parseInt($(this).val())))
-                                    {
-                                        total_qty += parseInt($(this).val());  
-                                    }
-                                });
-                                $("#Quantity").val(total_qty);
-                            });
-                        }
+    //                             // Số lượng input
+    //                             var total_qty = 0;
+    //                             $(".qty-attr").each(function(){
+    //                                 if(!isNaN(parseInt($(this).val())))
+    //                                 {
+    //                                     total_qty += parseInt($(this).val());  
+    //                                 }
+    //                             });
+    //                             $("#Quantity").val(total_qty);
+    //                         });
+    //                     }
 
 
-                        $('.choose-attr').on('change',function(){
-                            $('.chk_attr').prop('checked', false);
+    //                     $('.choose-attr').on('change',function(){
+    //                         $('.chk_attr').prop('checked', false);
 
-                            $("#confirm-attrs").click(function(){
-                                $('.input_attrs_items').remove();
+    //                         $("#confirm-attrs").click(function(){
+    //                             $('.input_attrs_items').remove();
+    //                         });
+    //                     });
+    //                 });
+
+    //                 $("#confirm-attrs").click(function(){
+    //                     if($('[name="chk_attr[]"]:checked').length >= 1){
+    //                         $('.attr-title-1').html(attr_group_name);
+    //                         $('.attr-title-1').removeClass('d-none');//tên
+    //                         $('.attr-title-2').removeClass('d-none');
+    //                         $('#Quantity').addClass('disabled-input');
+    //                     }else{
+    //                         $('.attr-title-1').addClass('d-none');
+    //                         $('.attr-title-2').addClass('d-none');
+    //                         $('#Quantity').removeClass('disabled-input');
+    //                     }
+    //                 });
+    //             }
+    //         });
+    //     });
+    // });
+
+
+    $(document).ready(function() {
+    function validateQuantityInput(input) {
+        var inputVal = parseInt($(input).val());
+        if (inputVal < 0) {
+            alert("Số lượng không được âm");
+            $(input).val(0); // Reset giá trị về 0 nếu người dùng nhập số âm
+        }
+        var total_qty = 0;
+        $(".qty-attr").each(function() {
+            if (!isNaN(parseInt($(this).val()))) {
+                total_qty += parseInt($(this).val());
+            }
+        });
+        $("#Quantity").val(total_qty);
+    }
+
+    // Add event listener for input and change events on quantity inputs
+    $(document).on("input change", ".qty-attr", function() {
+        validateQuantityInput(this);
+    });
+
+    // AJAX call and other logic remain the same
+    $('.choose-attr').on('change', function() {
+        var action = $(this).attr('id');
+        var idAttribute = $(this).val();
+        var attr_group_name = $("#attr-group-" + idAttribute).data("attr-group-name");
+        var _token = $('input[name="_token"]').val();
+        var result = '';
+
+        if (action == 'attribute') result = 'attributevalue';
+
+        $.ajax({
+            url: '{{url("/select-attribute")}}',
+            method: 'POST',
+            data: { action: action, idAttribute: idAttribute, _token: _token },
+            success: function(data) {
+                $('#' + result).html(data);
+
+                $("input[type=checkbox]").on("click", function() {
+                    var attr_id = $(this).data("id");
+                    var attr_name = $(this).data("name");
+
+                    if ($(this).is(":checked")) {
+                        $("#attr-name-" + attr_id).addClass("text-primary");
+
+                        $("#confirm-attrs").click(function() {
+                            var input_attrs_item = '<div id="input-attrs-item-' + attr_id + '" class="col-md-12 d-flex flex-wrap input_attrs_items"><div class="col-md-6"><input class="form-control text-center" type="text" value="' + attr_name + '" disabled></div><div class="form-group col-md-6"><input id="qty-attr-' + attr_id + '" class="form-control text-center qty-attr" name="qty_attr[]" placeholder="Nhập số lượng phân loại" type="number" min="0" required></div></div>';
+                            if ($('#input-attrs-item-' + attr_id).length < 1) $('.input-attrs').append(input_attrs_item);
+
+                            $(document).on("input change", ".qty-attr", function() {
+                                validateQuantityInput(this);
                             });
                         });
-                    });
+                    } else if ($(this).is(":not(:checked)")) {
+                        $("#attr-name-" + attr_id).removeClass("text-primary");
 
-                    $("#confirm-attrs").click(function(){
-                        if($('[name="chk_attr[]"]:checked').length >= 1){
-                            $('.attr-title-1').html(attr_group_name);
-                            $('.attr-title-1').removeClass('d-none');//tên
-                            $('.attr-title-2').removeClass('d-none');
-                            $('#Quantity').addClass('disabled-input');
-                        }else{
-                            $('.attr-title-1').addClass('d-none');
-                            $('.attr-title-2').addClass('d-none');
-                            $('#Quantity').removeClass('disabled-input');
-                        }
+                        $("#confirm-attrs").click(function() {
+                            $('#input-attrs-item-' + attr_id).remove();
+
+                            var total_qty = 0;
+                            $(".qty-attr").each(function() {
+                                if (!isNaN(parseInt($(this).val()))) {
+                                    total_qty += parseInt($(this).val());
+                                }
+                            });
+                            $("#Quantity").val(total_qty);
+                        });
+                    }
+
+                    $('.choose-attr').on('change', function() {
+                        $('.chk_attr').prop('checked', false);
+
+                        $("#confirm-attrs").click(function() {
+                            $('.input_attrs_items').remove();
+                        });
                     });
-                }
-            });
+                });
+
+                $("#confirm-attrs").click(function() {
+                    if ($('[name="chk_attr[]"]:checked').length >= 1) {
+                        $('.attr-title-1').html(attr_group_name);
+                        $('.attr-title-1').removeClass('d-none');
+                        $('.attr-title-2').removeClass('d-none');
+                        $('#Quantity').addClass('disabled-input');
+                    } else {
+                        $('.attr-title-1').addClass('d-none');
+                        $('.attr-title-2').addClass('d-none');
+                        $('#Quantity').removeClass('disabled-input');
+                    }
+                });
+            }
         });
     });
+});
+
+    
+
+    
 </script>
 
 @endsection
