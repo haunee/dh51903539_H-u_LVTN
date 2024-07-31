@@ -8,7 +8,6 @@ use App\Models\Admin;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
-
 use Illuminate\Support\Facades\Mail;
 use App\Models\Customer;
 use App\Models\Product;
@@ -18,6 +17,11 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash; 
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Voucher;
+
+
+
+
 class AdminController extends Controller
 {
 
@@ -420,9 +424,9 @@ class AdminController extends Controller
     }
 
    
+ 
+
     
-
-
 
     //chuyển trang quản lí người dùng
     public function manage_customers()
@@ -453,4 +457,100 @@ class AdminController extends Controller
     
         return response()->json(['message' => 'Đổi mật khẩu thành công']);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+    // Chuyển đến trang thêm mã giảm giá
+    public function add_voucher(){
+        return view("admin.voucher.add-voucher");
+    }
+
+
+
+    // Chuyển đến trang sửa mã giảm giá
+    public function edit_voucher($idVoucher){
+        $voucher = Voucher::find($idVoucher);
+        return view("admin.voucher.edit-voucher")->with(compact('voucher'));
+    }
+
+
+
+   // Chuyển đến trang quản lý mã giảm giá
+    public function manage_voucher(){
+        $list_voucher = Voucher::whereNotIn('idVoucher',[0])->get();
+        $count_voucher = Voucher::whereNotIn('idVoucher',[0])->count();
+        return view("admin.voucher.manage-voucher")->with(compact('list_voucher','count_voucher'));
+    }
+
+
+    // Thêm mã giảm giá
+    public function submit_add_voucher(Request $request){
+        $data = $request->all();
+
+        $select_voucher = Voucher::where('VoucherCode', $data['VoucherCode'])->first();
+
+        if($select_voucher){
+            return redirect()->back()->with('error', 'Mã giảm giá này đã tồn tại');
+        }else{
+            $voucher = new Voucher();
+            $voucher->VoucherName = $data['VoucherName'];
+            $voucher->VoucherQuantity = $data['VoucherQuantity'];
+            $voucher->VoucherCondition = $data['VoucherCondition'];
+            $voucher->VoucherNumber = $data['VoucherNumber'];
+            $voucher->VoucherCode = $data['VoucherCode'];
+            $voucher->VoucherStart = $data['VoucherStart'];
+            $voucher->VoucherEnd = $data['VoucherEnd'];
+            $voucher->save();
+
+            return redirect()->back()->with('message', 'Thêm mã giảm giá thành công');
+        }
+    }
+
+
+
+    // Sửa mã giảm giá
+    public function submit_edit_voucher(Request $request, $idVoucher){
+        $data = $request->all();
+
+        $select_voucher = Voucher::where('VoucherCode', $data['VoucherCode'])->whereNotIn('idVoucher',[$idVoucher])->first();
+
+        if($select_voucher){
+            return redirect()->back()->with('error', 'Mã giảm giá này đã tồn tại');
+        }else{
+            $voucher = Voucher::find($idVoucher);
+            $voucher->VoucherName = $data['VoucherName'];
+            $voucher->VoucherQuantity = $data['VoucherQuantity'];
+            $voucher->VoucherCondition = $data['VoucherCondition'];
+            $voucher->VoucherNumber = $data['VoucherNumber'];
+            $voucher->VoucherCode = $data['VoucherCode'];
+            $voucher->VoucherStart = $data['VoucherStart'];
+            $voucher->VoucherEnd = $data['VoucherEnd'];
+            $voucher->save();
+
+            return redirect()->back()->with('message', 'Sửa mã giảm giá thành công');
+        }
+    }
+
+
+    // Xóa khuyến mãi
+    public function delete_voucher($idVoucher){
+        Voucher::destroy($idVoucher);
+        return redirect()->back();
+    }
+
 }

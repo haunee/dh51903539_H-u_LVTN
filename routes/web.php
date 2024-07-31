@@ -128,7 +128,8 @@ Route::delete('/delete-address/{idAddress}',[CartController::class, 'delete_addr
 Route::post('/submit-payment',[CartController::class, 'submit_payment']);
 
 
-
+//KM
+Route::post('/check-voucher',[CartController::class, 'check_voucher']);
 
 
 
@@ -294,5 +295,13 @@ Route::get('/manage-customers', [AdminController::class, 'manage_customers']);
 
 
 
+//KM
+Route::get('/manage-voucher', [AdminController::class, 'manage_voucher']);
+Route::get('/add-voucher', [AdminController::class, 'add_voucher']);
+Route::get('/edit-voucher/{idVoucher}', [AdminController::class, 'edit_voucher']);
+Route::get('/delete-voucher/{idVoucher}', [AdminController::class, 'delete_voucher']);
+Route::get('/manage-voucher', [AdminController::class, 'manage_voucher']);
+Route::post('/submit-add-voucher',[AdminController::class, 'submit_add_voucher']);
+Route::post('/submit-edit-voucher/{idVoucher}',[AdminController::class, 'submit_edit_voucher']);
 
 

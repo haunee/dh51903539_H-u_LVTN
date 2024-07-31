@@ -89,7 +89,22 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="cart-coupon">
-                        
+
+                                    <div class="cart-title">
+                                        <h4 class="title">Mã giảm giá</h4>
+                                        <p>Nhập mã giảm giá của bạn nếu có.</p>
+                                    </div>
+                                    <div class="cart-form mt-25 d-flex">
+                                        <div class="single-form flex-fill mr-30">
+                                            <input type="text" id="VoucherCode" placeholder="Nhập mã giảm giá (chỉ áp dụng 1 lần)">
+                                        </div>
+                                        <div class="cart-form-btn d-flex">
+                                            <button type="button" style="width:97px;" class="btn btn-primary pl-2 pr-2 check-voucher">Áp dụng</button>
+                                        </div>
+                                    </div>
+                                    <div class="text-primary alert-voucher"></div>
+                      
+
                             <div class="container__address-content-hd">
                                 <i class="container__address-content-hd-icon fa fa-money"></i>
                                 <div>Phương thức thanh toán</div>
@@ -155,8 +170,7 @@
                                         </tr>
 
                                         <input type="hidden" class="subtotal" value="{{ $Total }}">
-                                        <input type="hidden" name="TotalBill" class="totalBillVal"
-                                            value="{{ $total_bill }}">
+                                        <input type="hidden" name="TotalBill" class="totalBillVal" value="{{ $total_bill }}">
                                         <input type="hidden" name="Voucher" class="Voucher" value="">
                                         <input type="hidden" name="idVoucher" class="idVoucher" value="0">
                                     </tbody>

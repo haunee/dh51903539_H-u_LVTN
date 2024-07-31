@@ -20,7 +20,7 @@ use App\Models\WishList;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-
+use Illuminate\Support\Facades\Auth;
 class ProductController extends Controller
 {
     // Kiểm tra đăng nhập
@@ -485,8 +485,12 @@ class ProductController extends Controller
             ->join('attribute', 'attribute.idAttribute', '=', 'attributevalue.idAttribute') 
             ->where('product_attribute.idProduct', $this_pro->idProduct)->first();
         
-        $product = Product::join('productimage', 'productimage.idProduct', '=', 'product.idProduct')->where('product.idProduct', $this_pro->idProduct)->first();
-
+        $product = Product::join('productimage', 'productimage.idProduct', '=', 'product.idProduct')
+                ->where('product.idProduct', $this_pro->idProduct)->first();
+        
+       // Tính số lượng sản phẩm đã bán
+        $soldCount = OrderDetail::where('idProduct', $idProduct)->sum('QuantityBuy');
+        $product->Sold = $soldCount;
 
         //danh sách sản phẩm liên quan
         $list_related_products = Product::join('productimage', 'productimage.idProduct', '=', 'product.idProduct')
@@ -787,6 +791,26 @@ class ProductController extends Controller
     
         return $count_brand;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
 
 
 

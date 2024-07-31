@@ -10,7 +10,7 @@ use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\AddressCustomer;
-
+use App\Models\Voucher;
 use App\Models\OrderHistory;
 use App\Models\Order;
 use App\Models\OrderDetail;
@@ -580,6 +580,43 @@ class CartController extends Controller
 
         return response()->json(['success' => false, 'message' => 'Method not allowed'], 405);
     }
+
+
+
+
+     // Áp dụng mã giảm giá
+    public function check_voucher(Request $request){
+        $data = $request->all();
+
+        $check_voucher = Voucher::whereRaw('BINARY `VoucherCode` = ?',[$data['VoucherCode']])->first();
+
+        if($check_voucher){
+            if($check_voucher->VoucherEnd < now()) echo $output = 'Mã giảm giá này đã hết hạn';
+            else if($check_voucher->VoucherStart > now()) echo $output = 'Chưa đến thời gian áp dụng mã giảm giá này';
+            else if($check_voucher->VoucherQuantity <= 0) echo $output = 'Mã giảm giá này đã hết số lần sử dụng';
+            else{
+                echo $output = 'Success-'.$check_voucher->VoucherCondition.'-'.$check_voucher->VoucherNumber.'-'.$check_voucher->idVoucher;
+            }
+        }else echo $output = 'Mã giảm giá không hợp lệ';
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
