@@ -103,7 +103,28 @@
                                             </h6>
                                         </div>
 
-                                     
+                                        @if($address->Voucher != '') 
+                                            <div class="mb-2 col-lg-10">
+                                                <h6>Mã giảm giá</h6>
+                                            </div>
+                                            @php
+                                                $Voucher = explode("-",$address->Voucher);
+                                                $VoucherCondition = $Voucher[1];
+                                                $VoucherNumber = $Voucher[2];
+                                                if($VoucherCondition == 1) $discount = ($Total/100) * $VoucherNumber;
+                                                else{
+                                                    $discount = $VoucherNumber;
+                                                    if($discount > $Total) $discount = $Total;
+                                                } 
+
+                                                $total_bill =  $total_bill - $discount;
+                                                if($total_bill < 0) $total_bill = $ship;
+                                            @endphp
+                                            <div class="mb-2 col-lg-2 text-right">
+                                                <h6>- {{number_format($discount,0,',','.')}}đ</h6>
+                                            </div>
+                                        @endif
+
                                     </div>
                                     <div class="ttl-amt py-2 px-3 d-flex justify-content-between align-items-center">
                                         <h6>Thành tiền</h6>

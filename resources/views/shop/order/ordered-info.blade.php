@@ -92,11 +92,11 @@
                                     </td>
                                 </tr>
 
-                                {{-- @if($address->Voucher != '') 
+                                @if($order->Voucher != '') 
                                 <tr>
                                     <td width="70%">Mã giảm giá</td>
                                     @php
-                                        $Voucher = explode("-",$address->Voucher);
+                                        $Voucher = explode("-",$order->Voucher);
                                         $VoucherCondition = $Voucher[1];
                                         $VoucherNumber = $Voucher[2];
                                         if($VoucherCondition == 1) $discount = ($Total/100) * $VoucherNumber;
@@ -110,7 +110,7 @@
                                     @endphp
                                     <td class="text-right totalBill">- {{number_format($discount,0,',','.')}}đ</td>
                                 </tr>
-                                @endif --}}
+                                @endif
 
                                 <tr>
                                     <td width="70%">Thành tiền</td>

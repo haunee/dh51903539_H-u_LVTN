@@ -379,7 +379,7 @@ class CartController extends Controller
             $vnp_HashSecret = "XNBCJFAKAZQSGTARRLGCHVZWCIOIGSHN";
     
             $vnp_TxnRef = uniqid(); // Mã đơn hàng duy nhất.
-            $vnp_OrderInfo = $data['address_rdo'] . '_' . Session::get('idCustomer');
+            $vnp_OrderInfo = $data['address_rdo'] . '_' . Session::get('idCustomer').'_'.$data['Voucher'].'_'.$data['idVoucher'];
             $vnp_OrderType = 'billpayment';
             $vnp_Amount = $data['TotalBill'] * 100;
             $vnp_Locale = 'vn';
@@ -441,7 +441,7 @@ class CartController extends Controller
             $get_address = AddressCustomer::find($data['address_rdo']);
             $Order->idCustomer = Session::get('idCustomer');
             $Order->TotalBill = $data['TotalBill'];
-    
+            $Order->Voucher = $data['Voucher'];
             $Order->Address = $get_address->Address;
             $Order->PhoneNumber = $get_address->PhoneNumber;
             $Order->CustomerName = $get_address->CustomerName;
@@ -480,6 +480,12 @@ class CartController extends Controller
                     $cart->idProAttr,
                 ]);
             }
+            if (!empty($get_Order->Voucher)) {
+                DB::table('voucher')
+                    ->where('idVoucher', $data['idVoucher'])
+                    ->decrement('VoucherQuantity');
+            }
+            
             //Cart::where('idCustomer', Session::get('idCustomer'))->delete();
             return Redirect::to('success-order')->send();
         }
@@ -504,6 +510,7 @@ class CartController extends Controller
             $get_address = AddressCustomer::find($OrderInfo[0]);
             $Order->idCustomer = $OrderInfo[1];
             $Order->TotalBill = $request->vnp_Amount / 100;
+            $Order->Voucher = $OrderInfo[2];
             $Order->Address = $get_address->Address;
             $Order->PhoneNumber = $get_address->PhoneNumber;
             $Order->CustomerName = $get_address->CustomerName;
@@ -533,6 +540,11 @@ class CartController extends Controller
               
             }
 
+            if (!empty($get_Order->Voucher)) {
+                DB::table('voucher')
+                    ->where('idVoucher', $OrderInfo[3])
+                    ->decrement('VoucherQuantity');
+            }
             Cart::where('idCustomer', $OrderInfo[1])->delete();
             $OrderHistory->idOrder = $get_Order->idOrder;
             $OrderHistory->AdminName = 'System';
@@ -560,6 +572,14 @@ class CartController extends Controller
 
                 // Cập nhật trạng thái đơn hàng
                 $order->update(['Status' => 99]);
+
+
+                if($order->Voucher != ''){
+                    $Voucher = explode("-",$order->Voucher);
+                    $idVoucher = $Voucher[0];
+                    DB::update('update voucher set VoucherQuantity = VoucherQuantity + 1 where idVoucher = ?',[$idVoucher]);
+                } 
+
 
                 // Cập nhật số lượng sản phẩm
                 $OrderDetail = OrderDetail::where('idOrder', $idOrder)->get();

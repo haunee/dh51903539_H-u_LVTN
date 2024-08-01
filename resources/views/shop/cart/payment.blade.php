@@ -102,7 +102,7 @@
                                             <button type="button" style="width:97px;" class="btn btn-primary pl-2 pr-2 check-voucher">Áp dụng</button>
                                         </div>
                                     </div>
-                                    <div class="text-primary alert-voucher"></div>
+                                    <div class="text-danger alert-voucher"></div>
                       
 
                             <div class="container__address-content-hd">
@@ -123,7 +123,7 @@
                                     </label>
                                 </li>
                             </ul>
-                            <div class="text-primary alert-voucher"></div>
+                            {{-- <div class="text-primary alert-voucher"></div> --}}
                         </div>
                     </div>
                     <div class="col-lg-6 container__address-content">

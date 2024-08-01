@@ -547,7 +547,7 @@ class AdminController extends Controller
     }
 
 
-    // Xóa khuyến mãi
+
     public function delete_voucher($idVoucher){
         Voucher::destroy($idVoucher);
         return redirect()->back();
