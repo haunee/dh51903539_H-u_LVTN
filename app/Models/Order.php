@@ -8,7 +8,7 @@ use Illuminate\Support\Carbon;
 class Order extends Model
 {
     public $timestamp = false;
-    protected $fillable = ['idCustomer','Address','Payment','Voucher','PhoneNumber','CustomerName','ReceiveDate','created_at','Status','TotalBill'];
+    protected $fillable = ['idCustomer','Address','Payment','Voucher','idVoucher','PhoneNumber','CustomerName','ReceiveDate','created_at','Status','TotalBill'];
     protected $primaryKey = 'idOrder';
     protected $table = 'order';
 

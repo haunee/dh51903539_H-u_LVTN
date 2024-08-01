@@ -102,7 +102,9 @@
                                             <button type="button" style="width:97px;" class="btn btn-primary pl-2 pr-2 check-voucher">Áp dụng</button>
                                         </div>
                                     </div>
-                                    <div class="text-danger alert-voucher"></div>
+                                    
+
+                                    <div class="text-primary alert-voucher"></div>
                       
 
                             <div class="container__address-content-hd">
@@ -123,7 +125,7 @@
                                     </label>
                                 </li>
                             </ul>
-                            {{-- <div class="text-primary alert-voucher"></div> --}}
+                           
                         </div>
                     </div>
                     <div class="col-lg-6 container__address-content">
@@ -462,11 +464,12 @@
                     },
                     success: function(data) {
                         var array_data = data.split("-");
-
+                      
                         var subtotal = parseInt($('.subtotal').val());
                         var totalBill = parseInt($('.totalBillVal').val());
 
                         if (array_data[0] == 'Success') {
+                          
                             $('.alert-voucher').html("Áp dụng mã giảm giá thành công");
                             $('.check-voucher').before(
                                 '<button type="button" class="unset-voucher btn btn-primary pl-2 pr-2">Hủy chọn</button>'
@@ -488,8 +491,9 @@
                                 format(vouchernumber) + 'đ</td></tr>');
                             $('.totalBill').html(format(totalBill) + 'đ');
                             $('.totalBillVal').val(totalBill);
-                            $('.Voucher').val(array_data[3] + "-" + condition + "-" +
-                                array_data[2]);
+                            $('.Voucher').val( condition + "-" + array_data[2]);
+                                // $('.Voucher').val(array_data[3] + "-" + condition + "-" +
+                                // array_data[2]);
                             $('.idVoucher').val(array_data[3]);
 
                             $('.unset-voucher').on('click', function() {
@@ -498,16 +502,22 @@
                                 $('.unset-voucher').remove();
                                 $('.voucher-confirm').remove();
                                 $('#VoucherCode').val("");
-                                $('.totalBill').html(format(totalBill + vouchernumber) +
-                                    'đ');
+                                $('.totalBill').html(format(totalBill + vouchernumber) +'đ');
                                 $('.totalBillVal').val(totalBill + vouchernumber);
                                 $('.Voucher').val("");
                                 $('.idVoucher').val("0");
                             });
-                        } else $('.alert-voucher').html(data);
+                        } else {
+                            $('.alert-voucher').removeClass('text-primary').addClass('text-danger').html(data).show();
+                        }
                     }
                 });
             });
+
+
+          
+
+
         });
     </script>
 @endsection
