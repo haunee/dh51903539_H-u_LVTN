@@ -176,6 +176,9 @@ class CartController extends Controller
     public static function get_cart_header()
     {
         $sum_cart = Cart::where('idCustomer', Session::get('idCustomer'))->sum('QuantityBuy');
+        // $sum_cart = Cart::where('idCustomer', Session::get('idCustomer'))
+        //             ->distinct('idProduct')
+        //             ->count('idProduct');
 
         $get_cart_header = Cart::join('product', 'product.idProduct', '=', 'cart.idProduct')
             ->join('productimage', 'productimage.idProduct', 'cart.idProduct')
@@ -922,6 +925,7 @@ class CartController extends Controller
         // Lưu lịch sử đơn hàng
         $OrderHistory = new OrderHistory();
         $OrderHistory->idOrder = $idOrder;
+        $OrderHistory->idAdmin= Session::get('idAdmin');
         $OrderHistory->AdminName = Session::get('AdminName');
         $OrderHistory->Status = $request->Status;
         $OrderHistory->save();

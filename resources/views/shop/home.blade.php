@@ -58,56 +58,7 @@
     </div>
     <!--Slider End-->
 
-    <div class="shipping-area section-padding-3">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3 col-sm-6">
-                    <div class="single-shipping">
-                        <div class="shipping-icon">
-                            <img src="/page/images/shipping-icon/Free-Delivery.png" alt="">
-                        </div>
-                        <div class="shipping-content">
-                            <h5 class="title">Miễn Phí Vận Chuyển</h5>
-                            <p>Giao hàng miễn phí cho tất cả các đơn đặt hàng trên 1.000.000đ</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6">
-                    <div class="single-shipping">
-                        <div class="shipping-icon">
-                            <img src="/page/images/shipping-icon/Online-Order.png" alt="">
-                        </div>
-                        <div class="shipping-content">
-                            <h5 class="title">Đặt Hàng Online</h5>
-                            <p>Đừng lo lắng, bạn có thể đặt hàng Trực tuyến trên Trang web của chúng tôi</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6">
-                    <div class="single-shipping">
-                        <div class="shipping-icon">
-                            <img src="/page/images/shipping-icon/Freshness.png" alt="">
-                        </div>
-                        <div class="shipping-content">
-                            <h5 class="title">Hiện Đại</h5>
-                            <p>Cập nhật những sản phẩm mới nhất</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6">
-                    <div class="single-shipping">
-                        <div class="shipping-icon">
-                            <img src="/page/images/shipping-icon/Made-By-Artists.png" alt="">
-                        </div>
-                        <div class="shipping-content">
-                            <h5 class="title">Hỗ Trợ 24/7</h5>
-                            <p>Đội ngũ hỗ trợ trưc tuyến chuyên nghiệp</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+   
 
 
 
@@ -198,7 +149,6 @@
                 <div class="col-lg-6 col-md-9 col-sm-11">
                     <div class="section-title text-center">
                         <h2 class="title">Sản Phẩm đã xem</h2>
-                        <p>A perfect blend of creativity, energy, communication, happiness and love. Let us arrange a smile for you.</p>
                     </div>
                 </div>
             </div>
@@ -262,30 +212,5 @@
 
 
 
-    <!--About Start-->
-    <div class="about-area section-padding-4">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="about-image">
-                        <img src="/page/images/banner/slide-home.png" alt="">
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="about-content">
-                        <h2 class="title">Cùng bé đón gió mùa về với những ưu đãi hấp dẫn.</h2>
-                        <p>Các mã giảm giá hiện có trên cửa hàng:</p>
-                        <ul>
-                            <li> SALE100K: Giảm 100K trên tổng giá trị đơn hàng. </li>
-                            <li> SALE10: Giảm 10% trên tổng giá trị đơn hàng. </li>
-                        </ul>
-                        <div class="about-btn">
-                            <a href="{{ URL::to('/store') }}" class="btn btn-primary btn-round">Mua Ngay</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--About End-->
+
 @endsection

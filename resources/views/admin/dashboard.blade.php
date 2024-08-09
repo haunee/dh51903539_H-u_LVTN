@@ -10,9 +10,7 @@
                 <div class="card card-transparent card-block card-stretch card-height border-none">
                     <div class="card-body p-0 mt-lg-2 mt-0">
                         <h3 class="mb-3">Hi <?php echo Session::get('AdminName'); ?></h3>
-                        <p class="mb-0 mr-4">
-                            Trang tổng quan của bạn cung cấp cho bạn các quan điểm về hiệu suất chính hoặc quy trình kinh doanh.
-                        </p>
+                       
                     </div>
                 </div>
             </div>

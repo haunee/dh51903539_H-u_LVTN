@@ -30,7 +30,6 @@
                            <div class="col-lg-7 align-self-center">
                               <div class="p-3">
                                  <h2 class="mb-2">Đăng Nhập</h2>
-                                 <p>Đăng nhập để giữ kết nối.</p>
                                  <!-- Hiển thị thông báo thành công -->
                                  @if(session('message'))
                                  <div class="alert alert-success">

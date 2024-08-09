@@ -35,7 +35,7 @@
                            
 
                             <div class="form-group mt-15 text-left col-md-8">
-                                <label for="email">Tên tài khoản</label>
+                                <label for="email">Email</label>
                                 <input id="email" type="text" name="email" class="form-control">
                                 @error('email')
                                 <span class="text-danger">{{ $message }}</span>

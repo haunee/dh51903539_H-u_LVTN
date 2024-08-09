@@ -136,7 +136,7 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   font-family: "Rubik", sans-serif;
-  color: #222222;
+  color: #777777;
   font-weight: 600;
   margin-top: 0;
   line-height: 1.5;
@@ -805,8 +805,8 @@ figure {
 }
 
 .btn-primary:hover {
-  background-color: #3E444A;
-  border-color: #3E444A;
+  background-color: #0099FF;
+  border-color: #0099FF;
 }
 
 .btn-secondary {
@@ -876,9 +876,9 @@ figure {
 }
 
 .btn-dark {
-  background-color: #33CCFF;
-  border-color: #33CCFF;
-  color: #ffffff;
+  background-color: #c7cbd3;
+  border-color: #c7cbd3;
+  color: #222222;
 }
 
 .btn-dark:hover {
@@ -7235,7 +7235,7 @@ blockquote p {
 /*  07. Footer CSS
 /*----------------------------------------*/
 .footer-area {
-  background-color: #222222;
+  background-color: #eeeeee;
 }
 
 .footer-widget {
@@ -7248,7 +7248,7 @@ blockquote p {
 
 .footer-widget .footer-widget-text p {
   margin-bottom: 0;
-  color: #ffffff;
+  color: #222222;
 }
 
 .footer-widget .widget-social {
@@ -7281,7 +7281,7 @@ blockquote p {
   display: block;
   text-align: center;
   font-size: 14px;
-  background: #f2f2f2;
+  background: #999999;
   border-radius: 50%;
   -webkit-transition: all 0.3s linear;
   -o-transition: all 0.3s linear;
@@ -7301,7 +7301,7 @@ blockquote p {
   text-transform: uppercase;
   font-weight: 500;
   position: relative;
-  color: #ffffff;
+  color: #222222;
   font-family: 'Coiny', cursive;
 }
 
@@ -7310,7 +7310,7 @@ blockquote p {
   font-weight: 400;
   font-size: 15px;
   line-height: 30px;
-  color: #ffffff;
+  color: #222222;
   -webkit-transition: all 0.3s linear;
   -o-transition: all 0.3s linear;
   transition: all 0.3s linear;
