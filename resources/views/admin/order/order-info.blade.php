@@ -10,7 +10,12 @@
                         <div class="iq-header-title">
                             <h4 class="card-title mb-0">Đơn hàng #{{$order->idOrder}}</h4>
                         </div>
-                   
+                        <div class="invoice-btn">
+                            <a href="{{ route('order.pdf', ['idOrder' => $order->idOrder]) }}" class="btn btn-primary-dark">
+                                <i class="las la-file-download"></i> PDF
+                            </a>
+                        </div>
+                        
                     </div>
                     <div class="card-body">
                         <div class="row">

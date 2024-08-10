@@ -16,6 +16,7 @@ use App\Models\Order;
 use App\Models\OrderDetail;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class CartController extends Controller
 {
@@ -949,4 +950,82 @@ class CartController extends Controller
             DB::update('update product set QuantityTotal = QuantityTotal + ? where idProduct = ?', [$bi->QuantityBuy, $bi->idProduct]);
         }
     }
+
+
+
+
+
+    
+    
+  
+
+   
+   // Controller method
+   public function exportPDF($idOrder)
+   {
+       $this->checkLogin_Admin();
+   
+       $order = Order::where('idOrder', $idOrder)->first();
+       $list_order_info = OrderDetail::join('product', 'product.idProduct', '=', 'orderdetail.idProduct')
+           ->join('productimage', 'productimage.idProduct', '=', 'orderdetail.idProduct')
+           ->where('orderdetail.idOrder', $idOrder)
+           ->select('product.ProductName', 'product.idProduct', 'productimage.ImageName', 'orderdetail.*')->get();
+       
+       // Tính toán tổng tiền hàng, phí vận chuyển, giảm giá và tổng hóa đơn
+       $Total = $list_order_info->sum(function($item) {
+           return $item->Price * $item->QuantityBuy;
+       });
+   
+       $ship = ($Total < 1000000) ? 30000 : 0;
+       $discount = 0;
+       $total_bill = $Total + $ship;
+   
+       if ($order->Voucher != '') {
+           $Voucher = explode("-", $order->Voucher);
+           $VoucherCondition = $Voucher[0];
+           $VoucherNumber = $Voucher[1];
+           if ($VoucherCondition == 1) {
+               $discount = ($Total / 100) * $VoucherNumber;
+           } else {
+               $discount = $VoucherNumber;
+               if ($discount > $Total) $discount = $Total;
+           }
+           $total_bill -= $discount;
+           if ($total_bill < 0) $total_bill = $ship;
+       }
+   
+       // Tạo dữ liệu để truyền vào view
+       $data = [
+           'order' => $order,
+           'list_order_info' => $list_order_info,
+           'Total' => $Total,
+           'ship' => $ship,
+           'discount' => $discount,
+           'total_bill' => $total_bill,
+       ];
+   
+       // Tải view và tạo PDF
+       $pdf = PDF::loadView('admin.pdf.orderpdf', $data);
+   
+       // Trả về file PDF để tải xuống
+       return $pdf->download('order_' . $idOrder . '.pdf');
+   }
+   
+    
+
+
+
+
+    
+
 }
+
+
+
+
+
+
+
+
+
+

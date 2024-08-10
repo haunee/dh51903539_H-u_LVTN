@@ -305,3 +305,9 @@ Route::post('/submit-add-voucher',[AdminController::class, 'submit_add_voucher']
 Route::post('/submit-edit-voucher/{idVoucher}',[AdminController::class, 'submit_edit_voucher']);
 
 
+
+
+
+
+Route::get('/order/{idOrder}/pdf', [CartController::class, 'exportPDF'])->name('order.pdf');
+
