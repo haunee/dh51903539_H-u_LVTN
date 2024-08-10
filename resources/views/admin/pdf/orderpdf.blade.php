@@ -65,7 +65,7 @@
                 <li><strong>Số Điện Thoại:</strong> {{ $order->PhoneNumber }}</li>
                 <li><strong>Địa Chỉ:</strong> {{ $order->Address }}</li>
                 <li><strong>Ngày Đặt Hàng:</strong> {{ Carbon::parse($order->created_at)->format('d/m/Y') }}</li>
-                <li><strong>Trạng Thái:</strong> {{ $order->Status == '2' ? 'Đã thanh toán' : 'Chưa thanh toán' }}</li>
+                <li><strong>Trạng Thái:</strong> {{$order->Payment=='vnpay' || $order->Status == '2' ? 'Đã thanh toán' : 'Chưa thanh toán' }}</li>
             </ul>
         </div>
 

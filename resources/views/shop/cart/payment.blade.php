@@ -174,7 +174,9 @@
                                         <input type="hidden" class="subtotal" value="{{ $Total }}">
                                         <input type="hidden" name="TotalBill" class="totalBillVal" value="{{ $total_bill }}">
                                         <input type="hidden" name="Voucher" class="Voucher" value="">
-                                        <input type="hidden" name="idVoucher" class="idVoucher" value="0">
+                                        <input type="hidden" name="idVoucher" class="idVoucher" value="{{ old('idVoucher', $idVoucher ?? '') }}">
+
+                                        {{-- <input type="hidden" name="idVoucher" class="idVoucher" value="0"> --}}
                                     </tbody>
                                 </table>
                             </div>
@@ -442,82 +444,68 @@
     </script>
 
     <script>
-        $(document).ready(function() {
-            APP_URL = '{{ url('/') }}';
+    $(document).ready(function() {
+    var APP_URL = '{{ url('/') }}';
 
-            function format(n) {
-                return n.toFixed(0).replace(/./g, function(c, i, a) {
-                    return i > 0 && c !== "." && (a.length - i) % 3 === 0 ? "." + c : c;
-                });
-            }
-
-            $('.check-voucher').on('click', function() {
-                var VoucherCode = $('#VoucherCode').val();
-                var _token = $('input[name="_token"]').val();
-
-                $.ajax({
-                    url: APP_URL + '/check-voucher',
-                    method: 'POST',
-                    data: {
-                        VoucherCode: VoucherCode,
-                        _token: _token
-                    },
-                    success: function(data) {
-                        var array_data = data.split("-");
-                      
-                        var subtotal = parseInt($('.subtotal').val());
-                        var totalBill = parseInt($('.totalBillVal').val());
-
-                        if (array_data[0] == 'Success') {
-                          
-                            $('.alert-voucher').html("Áp dụng mã giảm giá thành công");
-                            $('.check-voucher').before(
-                                '<button type="button" class="unset-voucher btn btn-primary pl-2 pr-2">Hủy chọn</button>'
-                                );
-                            $('.check-voucher').css('display', 'none');
-
-                            var condition = array_data[1];
-                            var vouchernumber = parseInt(array_data[2]);
-
-                            if (condition == '1') vouchernumber = (subtotal / 100) *
-                                vouchernumber;
-
-                            if (vouchernumber > subtotal) vouchernumber = subtotal;
-
-                            totalBill = totalBill - vouchernumber;
-
-                            $('.shipping').after(
-                                '<tr class="voucher-confirm"><td width="70%">Mã giảm giá</td><td class="text-right">- ' +
-                                format(vouchernumber) + 'đ</td></tr>');
-                            $('.totalBill').html(format(totalBill) + 'đ');
-                            $('.totalBillVal').val(totalBill);
-                            $('.Voucher').val( condition + "-" + array_data[2]);
-                                // $('.Voucher').val(array_data[3] + "-" + condition + "-" +
-                                // array_data[2]);
-                            $('.idVoucher').val(array_data[3]);
-
-                            $('.unset-voucher').on('click', function() {
-                                $('.alert-voucher').html("");
-                                $('.check-voucher').css('display', 'block');
-                                $('.unset-voucher').remove();
-                                $('.voucher-confirm').remove();
-                                $('#VoucherCode').val("");
-                                $('.totalBill').html(format(totalBill + vouchernumber) +'đ');
-                                $('.totalBillVal').val(totalBill + vouchernumber);
-                                $('.Voucher').val("");
-                                $('.idVoucher').val("0");
-                            });
-                        } else {
-                            $('.alert-voucher').removeClass('text-primary').addClass('text-danger').html(data).show();
-                        }
-                    }
-                });
-            });
-
-
-          
-
-
+    function formatCurrency(n) {
+        return n.toFixed(0).replace(/./g, function(c, i, a) {
+            return i > 0 && c !== "." && (a.length - i) % 3 === 0 ? "." + c : c;
         });
+    }
+
+    $('.check-voucher').on('click', function() {
+        var voucherCode = $('#VoucherCode').val();
+        var _token = $('input[name="_token"]').val();
+
+        $.ajax({
+            url: APP_URL + '/check-voucher',
+            method: 'POST',
+            data: { VoucherCode: voucherCode, _token: _token },
+            success: function(response) {
+                var subtotal = parseInt($('.subtotal').val());
+                var totalBill = parseInt($('.totalBillVal').val());
+
+                if (response.status === 'success') {
+                    $('.alert-voucher').removeClass('text-danger').addClass('text-primary').html(response.message);
+                    $('.check-voucher').before('<button type="button" class="unset-voucher btn btn-primary pl-2 pr-2">Hủy chọn</button>');
+                    $('.check-voucher').hide();
+
+                    var vouchernumber = parseInt(response.vouchernumber);
+                    if (response.condition == '1') { // Điều kiện 1 là giảm theo %
+                        vouchernumber = (subtotal / 100) * vouchernumber;
+                    }
+
+                    if (vouchernumber > subtotal) {
+                        vouchernumber = subtotal;
+                    }
+
+                    totalBill -= vouchernumber;
+
+                    $('.shipping').after('<tr class="voucher-confirm"><td width="70%">Mã giảm giá</td><td class="text-right">- ' + formatCurrency(vouchernumber) + 'đ</td></tr>');
+                    $('.totalBill').html(formatCurrency(totalBill) + 'đ');
+                    $('.totalBillVal').val(totalBill);
+                    $('.Voucher').val(response.condition + "-" + response.vouchernumber);
+                    $('.idVoucher').val(response.idVoucher);
+
+                    // Hủy mã giảm giá
+                    $('.unset-voucher').on('click', function() {
+                        $('.alert-voucher').html("");
+                        $('.check-voucher').show();
+                        $('.unset-voucher').remove();
+                        $('.voucher-confirm').remove();
+                        $('#VoucherCode').val("");
+                        $('.totalBill').html(formatCurrency(totalBill + vouchernumber) + 'đ');
+                        $('.totalBillVal').val(totalBill + vouchernumber);
+                        $('.Voucher').val("");
+                        $('.idVoucher').val("0");
+                    });
+                } else {
+                    $('.alert-voucher').removeClass('text-success').addClass('text-danger').html(response.message);
+                }
+            }
+        });
+    });
+});
+
     </script>
 @endsection
