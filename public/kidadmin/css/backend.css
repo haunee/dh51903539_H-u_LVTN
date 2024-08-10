@@ -3342,7 +3342,7 @@ textarea.form-control {
 
 .badge-warning {
   color: #fff;
-  background-color: #FF9770; }
+  background-color: #33CCFF; }
   a.badge-warning:hover, a.badge-warning:focus {
     color: #fff;
     background-color: #ff723d; }
@@ -9182,17 +9182,17 @@ fieldset:disabled a.btn {
 
 .btn-warning {
   color: #fff;
-  background-color: #FF9770;
-  border-color: #FF9770;
+  background-color: #33CCFF;
+  border-color: #33CCFF;
   box-shadow: unset; }
   .btn-warning:hover {
     color: #fff;
-    background-color: #ff7b4a;
-    border-color: #ff723d; }
+    background-color: #3366FF;
+    border-color: #3366FF; }
   .btn-warning:focus, .btn-warning.focus {
     color: #fff;
-    background-color: #ff7b4a;
-    border-color: #ff723d;
+    background-color: #33CCFF;
+    border-color: #33CCFF;
     box-shadow: unset, 0 0 0 0.2rem rgba(255, 167, 133, 0.5); }
   .btn-warning.disabled, .btn-warning:disabled {
     color: #fff;
@@ -11003,7 +11003,7 @@ button.bg-warning:focus {
 
 .badge-warning {
   color: #fff !important;
-  background-color: #FF9770 !important; }
+  background-color: #33CCFF !important; }
 
 a.badge-warning:hover, a.badge-warning:focus,
 button.badge-warning:hover,

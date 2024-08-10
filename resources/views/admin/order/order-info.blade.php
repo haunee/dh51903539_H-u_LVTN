@@ -8,13 +8,9 @@
                 <div class="card card-block card-stretch card-height print rounded">
                     <div class="card-header d-flex justify-content-between bg-primary header-invoice">
                         <div class="iq-header-title">
-                            <h4 class="card-title mb-0">Đơn hàng #{{$address->idOrder}}</h4>
+                            <h4 class="card-title mb-0">Đơn hàng #{{$order->idOrder}}</h4>
                         </div>
-                        <!-- <div class="invoice-btn">
-                            <button type="button" class="btn btn-primary-dark mr-2"><i class="las la-print"></i> Print
-                                Print</button>
-                            <button type="button" class="btn btn-primary-dark"><i class="las la-file-download"></i>PDF</button>
-                        </div> -->
+                   
                     </div>
                     <div class="card-body">
                         <div class="row">
@@ -30,9 +26,9 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td style="padding-left:12px !important;">{{$address->CustomerName}}</td>
-                                                <td style="padding-left:12px !important;">{{$address->PhoneNumber}}</td>
-                                                <td style="padding-left:12px !important;">{{$address->Address}}</td>
+                                                <td style="padding-left:12px !important;">{{$order->CustomerName}}</td>
+                                                <td style="padding-left:12px !important;">{{$order->PhoneNumber}}</td>
+                                                <td style="padding-left:12px !important;">{{$order->Address}}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -103,14 +99,14 @@
                                             </h6>
                                         </div>
 
-                                        @if($address->Voucher != '') 
+                                        @if($order->Voucher != '') 
                                             <div class="mb-2 col-lg-10">
                                                 <h6>Mã giảm giá</h6>
                                             </div>
                                             @php
-                                                $Voucher = explode("-",$address->Voucher);
-                                                $VoucherCondition = $Voucher[1];
-                                                $VoucherNumber = $Voucher[2];
+                                                $Voucher = explode("-",$order->Voucher);
+                                                $VoucherCondition = $Voucher[0];
+                                                $VoucherNumber = $Voucher[1];
                                                 if($VoucherCondition == 1) $discount = ($Total/100) * $VoucherNumber;
                                                 else{
                                                     $discount = $VoucherNumber;
@@ -131,7 +127,7 @@
                                         <h3 class="text-primary font-weight-700">{{number_format($total_bill,0,',','.')}}đ</h3>
                                     </div>
                                 </div>
-                                @if($address->Payment == 'vnpay'|| $address->Status == '2')
+                                @if($order->Payment == 'vnpay'|| $order->Status == '2')
                                 <div class="col-lg-3 paid_tag">
                                     <div class="h3 p-3 mb-0 text-primary">Đã thanh toán</div>
                                 </div>

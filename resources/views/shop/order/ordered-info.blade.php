@@ -97,8 +97,8 @@
                                     <td width="70%">Mã giảm giá</td>
                                     @php
                                         $Voucher = explode("-",$order->Voucher);
-                                        $VoucherCondition = $Voucher[1];
-                                        $VoucherNumber = $Voucher[2];
+                                        $VoucherCondition = $Voucher[0];
+                                        $VoucherNumber = $Voucher[1];
                                         if($VoucherCondition == 1) $discount = ($Total/100) * $VoucherNumber;
                                         else{
                                             $discount = $VoucherNumber;
@@ -108,6 +108,10 @@
                                         $total_bill =  $total_bill - $discount;
                                         if($total_bill < 0) $total_bill = $ship;
                                     @endphp
+
+        
+
+
                                     <td class="text-right totalBill">- {{number_format($discount,0,',','.')}}đ</td>
                                 </tr>
                                 @endif

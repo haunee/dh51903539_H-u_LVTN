@@ -834,14 +834,14 @@ class CartController extends Controller
     {
         $this->checkLogin_Admin();
 
-        $address = Order::where('idOrder', $idOrder)->first();
+        $order = Order::where('idOrder', $idOrder)->first();
 
         $list_order_info = OrderDetail::join('product', 'product.idProduct', '=', 'orderdetail.idProduct')
             ->join('productimage', 'productimage.idProduct', '=', 'orderdetail.idProduct')
             ->where('orderdetail.idOrder', $idOrder)
             ->select('product.ProductName', 'product.idProduct', 'productimage.ImageName', 'orderdetail.*')->get();
 
-        return view("admin.order.order-info")->with(compact('address', 'list_order_info'));
+        return view("admin.order.order-info")->with(compact('order', 'list_order_info'));
     }
 
     // Hiện tất cả đơn đặt hàng đang chờ xác nhận

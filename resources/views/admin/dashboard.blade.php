@@ -13,6 +13,7 @@
                        
                     </div>
                 </div>
+                
             </div>
             <div class="col-lg-8">
                 <div class="row">
@@ -28,12 +29,25 @@
                                         <h4>{{number_format($total_revenue,0,',','.')}}đ</h4>
                                     </div>
                                 </div>                                
-                                <div class="iq-progress-bar mt-2">
-                                    <span class="bg-info iq-progress progress-1" data-percent="70">
-                                    </span>
+                               
+                            </div>
+
+
+                            <div class="card-body">
+                                <div class="d-flex align-items-center mb-4 card-total-sale">
+                                    <div class="icon iq-icon-box-2 bg-success-light">
+                                        <img src="/kidadmin/images/product/icon9.png" class="img-fluid" alt="image">
+                                    </div>
+                                    <div>
+                                        <p class="mb-2">Tổng Đơn hàng </p>
+                                        <h4>{{number_format($total_orders,0,',','.')}} đơn hàng</h4>
+                                    </div>
                                 </div>
+                               
                             </div>
                         </div>
+                        
+                        
                     </div>
                     
                     <div class="col-lg-6 col-md-4">
@@ -48,13 +62,14 @@
                                         <h4>{{number_format($total_sell,0,',','.')}} sản phẩm</h4>
                                     </div>
                                 </div>
-                                <div class="iq-progress-bar mt-2">
-                                    <span class="bg-success iq-progress progress-1" data-percent="75">
-                                    </span>
-                                </div>
+                               
                             </div>
                         </div>
                     </div>
+
+                   
+
+
                 </div>
             </div>
 

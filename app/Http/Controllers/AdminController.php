@@ -284,6 +284,8 @@ class AdminController extends Controller
         //sản phẩm đã bán
         $total_sell = OrderDetail::join('order', 'order.idOrder', '=', 'orderdetail.idOrder')->whereNotIn('Status', [99])->sum('QuantityBuy');
        
+        // Tổng số đơn hàng
+        $total_orders = Order::whereNotIn('Status', [99])->count();
 
         //danh sách sp bán chạy
         
@@ -310,7 +312,7 @@ class AdminController extends Controller
             ->take(5)
             ->get();
 
-        return view("admin.dashboard")->with(compact('total_revenue', 'total_sell', 'list_topProduct', 'list_topProduct_AllTime'));
+        return view("admin.dashboard")->with(compact('total_revenue', 'total_orders','total_sell', 'list_topProduct', 'list_topProduct_AllTime'));
     }
 
 

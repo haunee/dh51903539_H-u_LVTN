@@ -45,72 +45,7 @@ class ProductController extends Controller
     }
 
 
-    // //them san pham
-    // public function submit_add_product(Request $request)
-    // {
-    //     $data = $request->all();
-
-    //     $select_product = Product::where('ProductName', $data['ProductName'])->first();
-
-
-
-    //     if ($select_product) {
-    //         return redirect()->back()->with('error', 'Sản phẩm này đã tồn tại');
-    //     } else {
-
-    //         $product = new Product();
-    //         $product_image = new ProductImage();
-
-    //         $product->ProductName = $data['ProductName'];
-    //         $product->idCategory = $data['idCategory'];
-    //         $product->idBrand = $data['idBrand'];
-    //         $product->Price = $data['Price'];
-    //         $product->QuantityTotal = $data['QuantityTotal'];
-    //         $product->ShortDes = $data['ShortDes'];
-    //         $product->DesProduct = $data['DesProduct'];
-    //         $get_image = $request->file('ImageName');
-    //         $timestamp = now();
-
-    //         $product->save();
-    //         $get_pd = Product::where('created_at', $timestamp)->first();
-
-    //         // Thêm phân loại vào Product_Attribute
-    //         if ($request->qty_attr) {
-    //             foreach ($data['qty_attr'] as $key => $qty_attr) {
-    //                 $data_all = array(
-    //                     'idProduct' => $get_pd->idProduct,
-    //                     'idAttriValue' => $data['chk_attr'][$key],
-    //                     'Quantity' => $qty_attr,
-    //                     'created_at' => now(),
-    //                     'updated_at' => now()
-    //                 );
-    //                 ProductAttriBute::insert($data_all);
-    //             }
-    //         } else {
-    //             $data_all = array(
-    //                 'idProduct' => $get_pd->idProduct,
-    //                 'Quantity' => $data['QuantityTotal'],
-    //                 'created_at' => now(),
-    //                 'updated_at' => now()
-    //             );
-    //             ProductAttriBute::insert($data_all);
-    //         }
-
-    //         // Thêm hình ảnh vào table ProductImage
-    //         foreach ($get_image as $image) {
-    //             $get_name_image = $image->getClientOriginalName();
-    //             $name_image = current(explode('.', $get_name_image));
-    //             $new_image = $name_image . rand(0, 99) . '.' . $image->getClientOriginalExtension();
-    //             $image->storeAs('public/kidadmin/images/product', $new_image);
-    //             $images[] = $new_image;
-    //         }
-
-    //         $product_image->ImageName = json_encode($images);
-    //         $product_image->idProduct = $get_pd->idProduct;
-    //         $product_image->save();
-    //         return redirect()->back()->with('message', 'Thêm sản phẩm thành công');
-    //     }
-    // }
+    
     public function submit_add_product(Request $request)
     {
         $data = $request->all();
