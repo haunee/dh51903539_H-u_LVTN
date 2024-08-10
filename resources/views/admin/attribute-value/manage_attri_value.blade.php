@@ -8,14 +8,16 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="d-flex flex-wrap align-items-center justify-content-between mb-4">
-                  
+                    <div>
+                        
+                    </div>
                     <a href="{{URL::to('/add-attri-value')}}" class="btn btn-primary add-list"><i class="las la-plus mr-3"></i>Thêm Phân Loại</a>
                 </div>
             </div>
 
             <div class="col-lg-12">
                 <div class="table-responsive rounded mb-3">
-                    <table class="data-tables table mb-0 tbl-server-info">
+                    <table class="table mb-0 tbl-server-info">
                         <thead class="bg-white text-uppercase">
                             <tr class="ligth ligth-data">
                                 <th>Mã phân loại</th>

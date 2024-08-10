@@ -129,26 +129,7 @@
                                             </ul>
                                         </div>
                                     </div>
-                                    {{-- <div class="product-content">
-
-                                        <h4 class="product-name"><a
-                                                href="{{ URL::to('/shop-single/' . $product->idProduct) }}">{{ $product->ProductName }}</a>
-                                        </h4>
-                                        <div class="price-box">
-                                            <span
-                                                class="current-price">{{ number_format($product->Price, 0, ',', '.') }}đ</span>
-                                        </div>
-                                        <p>{!! $product->ShortDes !!}</p>
-
-                                        <ul class="action-links">
-
-                                            <li><a class="add-to-wishlist" data-id="{{ $product->idProduct }}"
-                                                    data-tooltip="tooltip" data-placement="left"
-                                                    title="Thêm vào danh sách yêu thích"><i class="icon-heart"></i></a>
-                                            </li>
-                                           
-                                        </ul>
-                                    </div> --}}
+                                   
                                 </div>
                             @endforeach
                         </div>
@@ -276,14 +257,14 @@
                             <h3 class="widget-title">Theo giá</h3>
                             <div class="d-flex justify-content-between">
                                 <input class="input-filter-price min" type="number" min="0" maxlength="13"
-                                    placeholder="đ TỪ" onkeypress="return /[0-9]/i.test(event.key)" <?php
+                                    placeholder="TỪ" onkeypress="return /[0-9]/i.test(event.key)" <?php
                                     if (isset($_GET['priceMin'])) {
                                         echo 'value=' . $_GET['priceMin'];
                                     }
                                     ?>>
                                 <span style="line-height: 240%;"> - </span>
                                 <input class="input-filter-price max" type="number" min="0" maxlength="13"
-                                    placeholder="đ ĐẾN" onkeypress="return /[0-9]/i.test(event.key)" <?php
+                                    placeholder="ĐẾN" onkeypress="return /[0-9]/i.test(event.key)" <?php
                                     if (isset($_GET['priceMax'])) {
                                         echo 'value=' . $_GET['priceMax'];
                                     }

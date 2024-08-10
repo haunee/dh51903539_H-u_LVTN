@@ -36,6 +36,10 @@
                                 </div>
                                 <div class="ml-3">
                                     <h4 class="mb-1"> <?php echo Session::get('AdminUser'); ?></h4>
+                                    <div class="ml-auto">
+                                        <a href="{{ URL::to('/edit-profile') }}" class="btn btn-primary">Sửa hồ sơ</a>
+                                        <a href="{{ URL::to('/change-adpassword') }}" class="btn btn-warning">Đổi mật khẩu</a>
+                                    </div>
                                 </div>
                             </div>
 

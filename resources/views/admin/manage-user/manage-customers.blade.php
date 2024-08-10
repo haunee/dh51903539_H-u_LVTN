@@ -6,9 +6,9 @@
                 <div class="col-lg-12">
                     <div class="d-flex flex-wrap align-items-center justify-content-between mb-4">
                         <div>
-                            <h4 class="mb-3">Danh Sách Tài Khoản Khách Hàng ( Tổng: {{ $count_customer }} khách hàng )</h4>
-                            <p class="mb-0">Trang hiển thị danh sách tài khoản khách hàng, cung cấp thông tin về khách
-                                hàng, các chức năng và điều khiển. </p>
+                           
+                            <h4 class="mb-3">Tổng: {{ $count_customer }} khách hàng</h4>
+                        
                         </div>
                     </div>
                 </div>

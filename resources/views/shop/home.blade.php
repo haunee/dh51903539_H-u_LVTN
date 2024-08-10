@@ -71,8 +71,7 @@
                 <div class="col-lg-6 col-md-9 col-sm-11">
                     <div class="section-title text-center">
                         <h2 class="title">Sản Phẩm Mới</h2>
-                        <p>A perfect blend of creativity, energy, communication, happiness and love. Let us arrange a smile
-                            for you.</p>
+                        
                     </div>
                 </div>
             </div>

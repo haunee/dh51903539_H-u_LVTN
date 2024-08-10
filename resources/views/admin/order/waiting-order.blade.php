@@ -10,9 +10,7 @@ use Carbon\Carbon;
             <div class="col-lg-12">
                 <div class="d-flex flex-wrap align-items-center justify-content-between mb-4">
                     <div>
-                        <h4 class="mb-3">Danh Sách Đơn Chờ Xác Nhận ( Tổng: {{$list_order->count()}} đơn hàng )</h4>
-                        <p class="mb-0">Trang tổng quan mua hàng cho phép người quản lý mua hàng theo dõi, đánh giá một cách hiệu quả,<br>
-                            và tối ưu hóa tất cả các quy trình mua lại trong một công ty.</p>
+                        <h4 class="mb-3"> Tổng: {{$list_order->count()}} đơn hàng </h4>
                     </div>
                 </div>
             </div>

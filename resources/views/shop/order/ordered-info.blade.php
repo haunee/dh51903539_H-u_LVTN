@@ -20,22 +20,7 @@
 <!--Cart Start-->
 <div class="cart-page section-padding-5">
     <div class="container">
-        <div class="container__address">
-            <div class="container__address-css"></div>
-            <div class="container__address-content">
-                <div class="container__address-content-hd justify-content-between">
-                    <div><i class="container__address-content-hd-icon fa fa-map-marker"></i>Địa Chỉ Nhận Hàng</div>
-                </div>
-                <ul class="shipping-list list-address">
-                    <li class="cus-radio align-items-center" style="font-size:20px;">
-                        <span class="mr-2">{{$order->CustomerName}}</span>
-                        <span class="mr-2">{{$order->PhoneNumber}}</span>
-                        <span>{{$order->Address}}</span>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
+        
         <div class="cart-table table-responsive">
             <table class="table">
                 <thead>
@@ -68,6 +53,23 @@
                     @endforeach
                 </tbody>
             </table>
+
+
+            <div class="container__address">
+                <div class="container__address-content">
+                    <div class="container__address-content-hd justify-content-between">
+                        <div><i class="container__address-content-hd-icon fa fa-map-marker"></i>Địa Chỉ Nhận Hàng</div>
+                    </div>
+                    <ul class="shipping-list list-address">
+                        <li class="cus-radio align-items-center" style="font-size:20px;">
+                            <span class="mr-2">{{$order->CustomerName}}</span>
+                            <span class="mr-2">{{$order->PhoneNumber}}</span>
+                            <span>{{$order->Address}}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+    
         </div>
 
         <div class="row">
@@ -83,7 +85,7 @@
                                     <td>Tổng tiền hàng</td>
                                     <td class="text-right">{{number_format($Total,0,',','.')}}đ</td>
                                 </tr>
-                                @if($Total < 1000000) @php $ship = '30000'; $total_bill = $Total + $ship; @endphp
+                                @if($Total < 1000000) @php $ship = '50000'; $total_bill = $Total + $ship; @endphp
                                 @else @php $ship = 'Miễn phí'; $total_bill = $Total; @endphp @endif
                                 <tr class="shipping">
                                     <td>Phí vận chuyển (Miễn phí vận chuyển cho đơn hàng trên 1.000.000đ)</td>

@@ -22,25 +22,7 @@
         <div class="cart-page section-padding-5">
             <div class="container">
              
-                <div class="container__address">
-                    <div class="container__address-css"></div>
-                    <div class="container__address-content">
-                        <div class="container__address-content-hd justify-content-between">
-                            <div><i class="container__address-content-hd-icon fa fa-map-marker"></i>Thông Tin Địa Chỉ Nhận
-                                Hàng</div>
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#AddressModal">+
-                                Thêm Thông Tin/Địa Chỉ</button>
-                        </div>
-                        @if(session('error'))
-                        <div class="alert alert-danger">
-                            {{ session('error') }}
-                        </div>
-                        @endif
-                        <ul class="shipping-list list-address">
-
-                        </ul>
-                    </div>
-                </div>
+                
 
                 <div class="cart-table table-responsive">
                     <table class="table">
@@ -92,11 +74,10 @@
 
                                     <div class="cart-title">
                                         <h4 class="title">Mã giảm giá</h4>
-                                        <p>Nhập mã giảm giá của bạn nếu có.</p>
                                     </div>
                                     <div class="cart-form mt-25 d-flex">
                                         <div class="single-form flex-fill mr-30">
-                                            <input type="text" id="VoucherCode" placeholder="Nhập mã giảm giá (chỉ áp dụng 1 lần)">
+                                            <input type="text" id="VoucherCode" placeholder="Nhập mã giảm giá ">
                                         </div>
                                         <div class="cart-form-btn d-flex">
                                             <button type="button" style="width:97px;" class="btn btn-primary pl-2 pr-2 check-voucher">Áp dụng</button>
@@ -108,7 +89,11 @@
                       
 
                             <div class="container__address-content-hd">
-                                <i class="container__address-content-hd-icon fa fa-money"></i>
+                                <svg class="w-[48px] h-[48px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="none" viewBox="0 0 24 24">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 10h18M6 14h2m3 0h5M3 7v10a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1Z"/>
+                                  </svg>
+                                  
+                                  
                                 <div>Phương thức thanh toán</div>
                             </div>
                             <ul class="shipping-list checkout-payment">
@@ -125,12 +110,39 @@
                                     </label>
                                 </li>
                             </ul>
-                           
+                            <div class="container__address-content-hd justify-content-between">
+                                <div>
+                                    <svg class="w-[48px] h-[48px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 13a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.8 13.938h-.011a7 7 0 1 0-11.464.144h-.016l.14.171c.1.127.2.251.3.371L12 21l5.13-6.248c.194-.209.374-.429.54-.659l.13-.155Z"/>
+                                      </svg>
+                                      
+                                    Thông Tin Địa Chỉ Nhận Hàng
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                  
+
+                    <div class="container__address">
+                               
+                        <div class="container__address-content">
+                        
+                            @if(session('error'))
+                            <div class="alert alert-danger">
+                                {{ session('error') }}
+                            </div>
+                            @endif
+                            <ul class="shipping-list list-address"></ul>
                         </div>
                     </div>
-                    <div class="col-lg-6 container__address-content">
-                       
-                    </div>
+
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#AddressModal">Thêm Địa Chỉ</button>
+
+
+
                     <div class="col-lg-12">
                         <div class="cart-totals shop-single-content">
                             <div class="cart-title">
@@ -145,7 +157,7 @@
                                         </tr>
                                         @if ($Total < 1000000)
                                             @php
-                                                $ship = '30000';
+                                                $ship = '50000';
                                                 $total_bill = $Total + $ship;
                                             @endphp
                                         @else
@@ -180,11 +192,8 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="dynamic-checkout-button disabled ">
-                                <div class="checkout-checkbox">
-                                    <input type="checkbox" id="disabled">
-                                    <label for="disabled"><span></span> Tôi đồng ý với các điều khoản và điều kiện </label>
-                                </div>
+                            <div class="dynamic-checkout-button  ">
+                             
                                 <div class="cart-total-btn checkout-btn">
                                     <button type="submit" name="redirect" class="btn btn-primary btn-block btnorder"
                                         style="max-width:100%;">Đặt hàng</button>

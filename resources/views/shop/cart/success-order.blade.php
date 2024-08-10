@@ -23,10 +23,9 @@
             <div class="empty-cart-img">
                 <i class="fa fa-check-circle text-primary" style="font-size:100px;"></i>
             </div>
-            <p>Cảm ơn bạn đã mua sắm tại trang web của chúng tôi</p>
-            <!-- <div>@ echo $test @endphp</div> -->
-            <!-- <div>$test</div> -->
-            <a href="{{URL::to('/ordered')}}" class="btn btn-primary"><i class="fa fa-angle-left"></i> Xem đơn đã đặt</a>
+           
+          
+            <a href="{{URL::to('/ordered')}}" class="btn btn-primary"></i> Xem đơn đã đặt</a>
         </div>
     </div>
 </div>

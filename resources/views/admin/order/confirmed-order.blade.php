@@ -9,9 +9,7 @@
             <div class="col-lg-12">
                 <div class="d-flex flex-wrap align-items-center justify-content-between mb-4">
                     <div>
-                        <h4 class="mb-3">Danh Sách Đơn Đã Xác Nhận ( Tổng: {{$list_order->count()}} đơn hàng )</h4>
-                        <p class="mb-0">Trang tổng quan mua hàng cho phép người quản lý mua hàng theo dõi, đánh giá một cách hiệu quả,<br>
-                            và tối ưu hóa tất cả các quy trình mua lại trong một công ty.</p>
+                        <h4 class="mb-3">Tổng: {{$list_order->count()}} đơn hàng </h4>
                     </div>
                 </div>
             </div>
@@ -24,10 +22,10 @@
                                 <th>Mã ĐH</th>
                                 <th>Tên Tài Khoản</th>
                                 <th>SĐT</th>
-                                <th>Thanh Toán</th>
                                 <th>Ngày Đặt Hàng</th>
-                                <th>NV Xác Nhận</th>
                                 <th>Ngày Xác Nhận</th>
+                                <th>Thanh Toán</th>
+                                <th>NV Xác Nhận</th>
                                 <th>Thao tác</th>
                             </tr>
                         </thead>
@@ -37,11 +35,10 @@
                                 <td>{{$order->idOrder}}</td>
                                 <td>{{$order->username}}</td>
                                 <td>{{$order->CusPhone}}</td>
-                                <td>@if($order->Payment == 'vnpay') VNPay @else Khi nhận hàng @endif</td>
                                 <td>{{ Carbon::parse($order->created_at)->setTimezone('Asia/Ho_Chi_Minh')->format('d/m/Y H:i:s') }}</td>
-                                <td><div class=" align-items-center badge badge-warning">{{$order->AdminName}}</div></td>
                                 <td>{{ Carbon::parse($order->TimeConfirm)->setTimezone('Asia/Ho_Chi_Minh')->format('d/m/Y H:i:s') }}</td>
-
+                                <td>@if($order->Payment == 'vnpay') VNPay @else Khi nhận hàng @endif</td>
+                                <td><div class=" align-items-center badge badge-warning">{{$order->AdminName}}</div></td>
                                 <td>
                                     <div class="d-flex align-items-center list-action">
                                         <a class="badge badge-success mr-2" data-toggle="tooltip" data-placement="top" title="" data-original-title="Xem chi tiết" 

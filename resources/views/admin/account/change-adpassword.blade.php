@@ -6,21 +6,7 @@
 <div class="content-page">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-12">
-                <div class="card">
-                    <div class="card-body p-0">
-                        <div class="iq-edit-list usr-edit">
-                            <ul class="iq-edit-profile d-flex nav nav-pills">
-                                <li class="col-md-12 p-0">
-                                    <a class="nav-link active text-white" data-toggle="pill" href="#personal-information">
-                                        Đổi Mật Khẩu
-                                    </a>
-                                </li> 
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
+           
             <div class="col-lg-12">
                 <div class="iq-edit-list-data">
                     <div class="tab-content">
@@ -69,6 +55,7 @@
                                             <input type="password" name="newpassword_confirmation" class="form-control" id="newpassword_confirmation" required>
                                         </div>
                                         <button type="submit" class="btn btn-primary">Đổi Mật Khẩu</button>
+                                        <a href="{{URL::to('/my-adprofile')}}" class="btn btn-light">Trở về</a>
                                     </form>
                                 </div>
                             </div>

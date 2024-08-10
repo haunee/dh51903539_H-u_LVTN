@@ -7,9 +7,8 @@
             <div class="col-lg-12">
                 <div class="d-flex flex-wrap align-items-center justify-content-between mb-4">
                     <div>
-                        <h4 class="mb-3">Danh Sách Mã Giảm Giá ( Tổng: {{$count_voucher}} mã giảm giá )</h4>
-                        <p class="mb-0">Danh sách các mã giảm giá hợp tác với cửa hàng<br>
-                            Bảng điều khiên thực hiện chức năng.</p>
+                        <h4 class="mb-3"> Tổng: {{$count_voucher}} mã giảm giá </h4>
+                    
                     </div>
                     <a href="{{URL::to('/add-voucher')}}" class="btn btn-primary add-list"><i class="las la-plus mr-3"></i>Thêm Mã Giảm Giá</a>
                 </div>
@@ -17,7 +16,7 @@
 
             <div class="col-lg-12">
                 <div class="table-responsive rounded mb-3">
-                    <table class="data-tables table mb-0 tbl-server-info">
+                    <table class=" table mb-0 tbl-server-info">
                         <thead class="bg-white text-uppercase">
                             <tr class="ligth ligth-data">
                                 <th>Mã giảm giá</th>

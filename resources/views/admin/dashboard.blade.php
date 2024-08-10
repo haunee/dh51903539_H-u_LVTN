@@ -6,18 +6,10 @@
 <div class="content-page">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-4">
-                <div class="card card-transparent card-block card-stretch card-height border-none">
-                    <div class="card-body p-0 mt-lg-2 mt-0">
-                        <h3 class="mb-3">Hi <?php echo Session::get('AdminName'); ?></h3>
-                       
-                    </div>
-                </div>
-                
-            </div>
-            <div class="col-lg-8">
+            
+            <div class="col-lg-12">
                 <div class="row">
-                    <div class="col-lg-6 col-md-4">
+                    <div class="col-lg-4 col-md-4">
                         <div class="card card-block card-stretch card-height">
                             <div class="card-body">
                                 <div class="d-flex align-items-center mb-4 card-total-sale">
@@ -29,28 +21,13 @@
                                         <h4>{{number_format($total_revenue,0,',','.')}}đ</h4>
                                     </div>
                                 </div>                                
-                               
                             </div>
-
-
-                            <div class="card-body">
-                                <div class="d-flex align-items-center mb-4 card-total-sale">
-                                    <div class="icon iq-icon-box-2 bg-success-light">
-                                        <img src="/kidadmin/images/product/icon9.png" class="img-fluid" alt="image">
-                                    </div>
-                                    <div>
-                                        <p class="mb-2">Tổng Đơn hàng </p>
-                                        <h4>{{number_format($total_orders,0,',','.')}} đơn hàng</h4>
-                                    </div>
-                                </div>
-                               
-                            </div>
+            
+                            
                         </div>
-                        
-                        
                     </div>
                     
-                    <div class="col-lg-6 col-md-4">
+                    <div class="col-lg-4 col-md-4">
                         <div class="card card-block card-stretch card-height">
                             <div class="card-body">
                                 <div class="d-flex align-items-center mb-4 card-total-sale">
@@ -62,16 +39,30 @@
                                         <h4>{{number_format($total_sell,0,',','.')}} sản phẩm</h4>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+            
+                    <div class="col-lg-4 col-md-4">
+                        <div class="card card-block card-stretch card-height">
+                            <div class="card-body">
+                                
+                                    <div class="d-flex align-items-center mb-4 card-total-sale">
+                                        <div class="icon iq-icon-box-2 bg-success-light">
+                                            <img src="/kidadmin/images/product/icon9.png" class="img-fluid" alt="image">
+                                        </div>
+                                        <div>
+                                            <p class="mb-2">Tổng Đơn hàng </p>
+                                            <h4>{{number_format($total_orders,0,',','.')}} đơn hàng</h4>
+                                        </div>
+                                    </div>
                                
                             </div>
                         </div>
                     </div>
-
-                   
-
-
                 </div>
             </div>
+            
 
             <div class="col-lg-12">
                 <div class="card card-block card-stretch card-height">
@@ -82,9 +73,7 @@
                      
                         <form class="col-lg-3 p-0"> @csrf
                         <div class="input-group">
-                            <div class="input-group-prepend">
-                                <label class="input-group-text" for="chart-by-days">Lọc </label>
-                            </div>
+                         
                             <select class="custom-select" id="chart-by-days">
                                 
                                 <option value="lastweek">7 ngày qua</option>
@@ -101,67 +90,39 @@
                     </div>
                 </div>
             </div>  
-            <div class="col-lg-8">
-                <div class="card card-block card-stretch card-height">
-                    <div class="card-header d-flex align-items-center justify-content-between">
-                        <div class="header-title">
-                            <h4 class="card-title">Top Sản Phẩm Bán Chạy</h4>
-                        </div>
-                        <div class="card-header-toolbar d-flex align-items-center">
-                            
-                        </div>
-                    </div>
-                    <div class="card-body list-topPro" style="padding-bottom:4px;">
-                        <ul class="list-unstyled row mb-0">
-                            @foreach($list_topProduct as $key => $topProduct)
-                            <li class="col-lg-4 topPro-item">
-                                <div class="card card-block card-stretch mb-0">
-                                    <div class="card-body">
-                                        <div class="bg-warning-light rounded">
-                                            <?php $image = json_decode($topProduct->ImageName)[0];?>
-                                            <img src="{{asset('/storage/kidadmin/images/product/'.$image)}}" class="style-img img-fluid m-auto p-3" alt="image">
-                                        </div>
-                                        <div class="style-text text-left mt-3">
-                                            <h5 class="mb-1 limit-2-lines">{{$topProduct->ProductName}}</h5>
-                                            <p class="mb-0">Đã bán: {{number_format($topProduct->Sold,0,',','.')}}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            @endforeach
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">  
-                <div class="card card-transparent card-block card-stretch mb-4">
-                    <div class="card-header d-flex align-items-center justify-content-between p-0">
-                        <div class="header-title">
-                            {{-- <h4 class="card-title mb-0">Best Product All Time</h4> --}}
-                        </div>
-                    </div>
-                </div>
-                <div class="card card-block card-stretch card-height-helf">
-                    @foreach($list_topProduct_AllTime as $key => $topProduct_AllTime)
-                    <div class="card-body--AllTime card-item-right">
-                        <div class="d-flex align-items-top">
-                            <div class="iq-avatar d-flex align-items-center">
-                                <?php $image = json_decode($topProduct_AllTime->ImageName)[0];?>
-                                <img src="{{asset('/storage/kidadmin/images/product/'.$image)}}" class="p-0 avatar-100 style-img img-fluid m-auto rounded" alt="image">
+                <div class="col-lg-12">
+                    <div class="card card-block card-stretch card-height">
+                        <div class="card-header d-flex align-items-center justify-content-between">
+                            <div class="header-title">
+                                <h4 class="card-title"> Sản Phẩm Bán Chạy</h4>
                             </div>
-                            <div class="style-text text-left">
-                                <h5 class="mb-2 limit-2-lines">{{$topProduct_AllTime->ProductName}}</h5>
-                                <span class="mb-2">Tổng đã bán: {{number_format($topProduct_AllTime->Sold,0,',','.')}}</span>
-                                <p class="mb-0">Giá: {{number_format($topProduct_AllTime->Price,0,',','.')}}đ</p>
-                                <p class="mb-0">Tổng doanh thu: {{number_format($topProduct_AllTime->Sold * $topProduct_AllTime->Price,0,',','.')}}đ</p>
-                            </div>
+                        
+                        </div>
+                        <div class="card-body list-topPro" style="padding-bottom:4px;">
+                            <ul class="list-unstyled row mb-0">
+                                @foreach($list_topProduct as $key => $topProduct)
+                                    <li class="col-lg-3 topPro-item">
+                                        <div class="card card-block card-stretch mb-0">
+                                            <div class="card-body">
+                                                <div class="bg-warning-light rounded">
+                                                    <?php $image = json_decode($topProduct->ImageName)[0];?>
+                                                    <img src="{{asset('/storage/kidadmin/images/product/'.$image)}}" class="style-img img-fluid m-auto p-3" alt="image">
+                                                </div>
+                                                <div class="style-text text-left mt-3">
+                                                    <h5 class="mb-1 limit-2-lines">{{$topProduct->ProductName}}</h5>
+                                                    <p class="mb-0">Đã bán: {{number_format($topProduct->Sold,0,',','.')}}</p>
+                                                    <p class="mb-0">Giá: {{number_format($topProduct->Price,0,',','.')}}đ</p>
+                                                    <p class="mb-0">Tổng doanh thu: {{number_format($topProduct->Sold * $topProduct->Price,0,',','.')}}đ</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                @endforeach
+                            </ul>
                         </div>
                     </div>
-                    @endforeach
                 </div>
-            </div>   
-            
-        </div>
+      </div>
     </div>
 </div>
 <!-- Page end  -->
@@ -174,7 +135,7 @@
        
 
         chart_7days();
-        var chart = new Morris.Bar({
+        var chart = new Morris.Line({
             element: 'chart-sale',
             barColors: ['orange','#32BDEA','#FF9DBE'],
             gridTextColor: ['orange','#32BDEA','#FF9DBE'],

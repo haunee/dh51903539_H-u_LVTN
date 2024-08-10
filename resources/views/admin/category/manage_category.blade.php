@@ -10,16 +10,17 @@
             <div class="col-lg-12">
                 <div class="d-flex flex-wrap align-items-center justify-content-between mb-4">
                     <div>
-                        <h4 class="mb-3">Danh Sách Danh Mục ( Tổng: {{$count_category}} danh mục )</h4>
+                        <h4 class="mb-3"> Tổng: {{$count_category}} danh mục </h4>
                     </div>
+                    <a href="{{URL::to('/add-category')}}" class="btn btn-primary add-list"><i class="las la-plus mr-3"></i>Thêm Danh Mục</a>
+
                 </div>
-                <a href="{{URL::to('/add-category')}}" class="btn btn-primary add-list"><i class="las la-plus mr-3"></i>Thêm Danh Mục</a>
 
             </div>
 
             <div class="col-lg-12">
                 <div class="table-responsive rounded mb-3">
-                    <table class="data-tables table mb-0 tbl-server-info">
+                    <table class=" table mb-0 tbl-server-info">
                         <thead class="bg-white text-uppercase">
                             <tr class="ligth ligth-data">
                                 <th>Mã danh mục</th>

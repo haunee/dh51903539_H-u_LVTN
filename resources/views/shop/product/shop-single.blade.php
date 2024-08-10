@@ -145,12 +145,7 @@
                             </div>
                             <div class="text-primary alert-add-to-cart"></div>
 
-                            <div class="dynamic-checkout-button">
-                                <div class="checkout-btn">
-                                    <input type="submit" formaction="{{ url('/payment') }}"
-                                        class="btn btn-primary buy-now" value="Mua ngay" />
-                                </div>
-                            </div>
+                        
 
                             <div class="text-primary alert-buy-now"></div>
                             <?php
@@ -211,109 +206,7 @@
                                 <p>{!! $product->DesProduct !!}</p>
                             </div>
                         </div>
-                        {{-- <div class="tab-pane fade" id="tab2" role="tabpanel">
-                            <div class="reviews">
-                                <h3 class="review-title">Customer Reviews</h3>
-        
-                                <ul class="reviews-items">
-                                    <li>
-                                        <div class="single-review">
-                                            <h6 class="name">Rosie Silva</h6>
-                                            <div class="rating-date">
-                                                <ul class="rating">
-                                                    <li class="rating-on"><i class="fa fa-star"></i></li>
-                                                    <li class="rating-on"><i class="fa fa-star"></i></li>
-                                                    <li class="rating-on"><i class="fa fa-star"></i></li>
-                                                    <li class="rating-on"><i class="fa fa-star"></i></li>
-                                                    <li class="rating-on"><i class="fa fa-star"></i></li>
-                                                </ul>
-                                                <span class="date">Oct 20, 2020</span>
-                                            </div>
-        
-                                            <p>Proin bibendum dolor vitae neque ornare, vel mollis est venenatis. Orci varius natoque penatibus et magnis dis parturient montes, nascet</p>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="single-review">
-                                            <h6 class="name">Rosie Silva</h6>
-                                            <div class="rating-date">
-                                                <ul class="rating">
-                                                    <li class="rating-on"><i class="fa fa-star"></i></li>
-                                                    <li class="rating-on"><i class="fa fa-star"></i></li>
-                                                    <li class="rating-on"><i class="fa fa-star"></i></li>
-                                                    <li class="rating-on"><i class="fa fa-star"></i></li>
-                                                    <li class="rating-on"><i class="fa fa-star"></i></li>
-                                                </ul>
-                                                <span class="date">Oct 20, 2020</span>
-                                            </div>
-        
-                                            <p>Proin bibendum dolor vitae neque ornare, vel mollis est venenatis. Orci varius natoque penatibus et magnis dis parturient montes, nascet</p>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="single-review">
-                                            <h6 class="name">Rosie Silva</h6>
-                                            <div class="rating-date">
-                                                <ul class="rating">
-                                                    <li class="rating-on"><i class="fa fa-star"></i></li>
-                                                    <li class="rating-on"><i class="fa fa-star"></i></li>
-                                                    <li class="rating-on"><i class="fa fa-star"></i></li>
-                                                    <li class="rating-on"><i class="fa fa-star"></i></li>
-                                                    <li class="rating-on"><i class="fa fa-star"></i></li>
-                                                </ul>
-                                                <span class="date">Oct 20, 2020</span>
-                                            </div>
-        
-                                            <p>Proin bibendum dolor vitae neque ornare, vel mollis est venenatis. Orci varius natoque penatibus et magnis dis parturient montes, nascet</p>
-                                        </div>
-                                    </li>
-                                </ul>
-        
-                                <div class="reviews-form">
-                                    <form action="{{ route('submitReview', $product->idProduct) }}" method="POST">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="single-form">
-                                                    <label>Name</label>
-                                                    <input type="text" name="username" value="{{ Auth::customer()->username }}" readonly>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="single-form">
-                                                    <label>Email</label>
-                                                    <input type="email" name="email" value="{{ Auth::customer()->email }}" readonly>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="reviews-rating">
-                                                    <label>Rating</label>
-                                                    <ul id="rating" class="rating">
-                                                        <li class="star" title='Poor' data-value='1'><i class="fa fa-star-o"></i></li>
-                                                        <li class="star" title='Poor' data-value='2'><i class="fa fa-star-o"></i></li>
-                                                        <li class="star" title='Poor' data-value='3'><i class="fa fa-star-o"></i></li>
-                                                        <li class="star" title='Poor' data-value='4'><i class="fa fa-star-o"></i></li>
-                                                        <li class="star" title='Poor' data-value='5'><i class="fa fa-star-o"></i></li>
-                                                    </ul>
-                                                    <input type="hidden" name="rating" id="rating-value" required>
-
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="single-form">
-                                                    <label>Body of Review (1500)</label>
-                                                    <textarea placeholder="Write your comments here"></textarea>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="single-form">
-                                                    <button class="btn btn-dark">Submit Review</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div> --}}
+                       
                     </div>
                 </div>
                 <!--Shop Single info End-->
@@ -328,8 +221,7 @@
                         <div class="col-lg-6 col-md-9 col-sm-11">
                             <div class="section-title text-center">
                                 <h2 class="title">Sản Phẩm Liên Quan</h2>
-                                <p>A perfect blend of creativity, energy, communication, happiness and love. Let us arrange
-                                    a smile for you.</p>
+                                
                             </div>
                         </div>
                     </div>

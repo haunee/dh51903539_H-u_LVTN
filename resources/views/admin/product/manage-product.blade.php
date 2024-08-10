@@ -7,11 +7,11 @@
                 <div class="col-lg-12">
                     <div class="d-flex flex-wrap flex-wrap align-items-center justify-content-between mb-4">
                         <div>
-                            <h4 class="mb-3">Danh Sách Sản Phẩm ( Tổng: {{$count_product}} sản phẩm )</h4>
+                            <h4 class="mb-3"> Tổng: {{$count_product}} sản phẩm </h4>
                         </div>
                        
                     </div>
-                    <a href="{{ URL::to('/add-product') }}" class="btn btn-primary add-list"><i class="las la-plus mr-3"></i>Thêm sản phẩm</a>
+                    {{-- <a href="{{ URL::to('/add-product') }}" class="btn btn-primary add-list"><i class="las la-plus mr-3"></i>Thêm sản phẩm</a> --}}
 
                 </div>
                 

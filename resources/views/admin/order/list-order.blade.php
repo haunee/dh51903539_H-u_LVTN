@@ -12,9 +12,8 @@
             <div class="col-lg-12">
                 <div class="d-flex flex-wrap align-items-center justify-content-between mb-4">
                     <div>
-                        <h4 class="mb-3">Danh Sách Đơn Hàng ( Tổng: {{$list_order->count()}} đơn hàng )</h4>
-                        <p class="mb-0">Trang tổng quan mua hàng cho phép người quản lý mua hàng theo dõi, đánh giá một cách hiệu quả,<br>
-                            và tối ưu hóa tất cả các quy trình mua lại trong một công ty.</p>
+                        <h4 class="mb-3">Tổng: {{$list_order->count()}} đơn hàng </h4>
+                       
                     </div>
                 </div>
             </div>
@@ -27,9 +26,10 @@
                                 <th>Mã ĐH</th>
                                 <th>Tên Tài Khoản</th>
                                 <th>SĐT</th>
-                                <th>Thanh Toán</th>
+                               
                                 <th>Ngày Đặt Hàng</th>
                                 <th>Ngày Giao Hàng</th>
+                                <th>Thanh Toán</th>
                                 <th>Trạng Thái</th>
                                 <th>Thao tác</th>
                             </tr>
@@ -40,12 +40,14 @@
                                 <td>{{$order->idOrder}}</td>
                                 <td>{{$order->username}}</td>
                                 <td>{{$order->CusPhone}}</td>
-                                <td>@if($order->Payment == 'vnpay') VNPay @else Khi nhận hàng @endif</td>
                                 <td>{{ Carbon::parse($order->created_at)->setTimezone('Asia/Ho_Chi_Minh')->format('d/m/Y H:i:s') }}</td>
 
+                                
 
                                 @if($order->ReceiveDate != null)<td>{{ Carbon::parse($order->ReceiveDate)->setTimezone('Asia/Ho_Chi_Minh')->format('d/m/Y H:i:s') }}</td>
                                 @else <td class="text-center"><div class="align-items-center badge badge-warning">Chưa giao</div></td> @endif
+                               
+                                <td>@if($order->Payment == 'vnpay') VNPay @else Khi nhận hàng @endif</td>
                                 
                                 @if($order->Status == 0) <td><div class=" align-items-center badge badge-warning">Chờ xác nhận</div></td>
                                 @elseif($order->Status == 1) <td><div class=" align-items-center badge badge-info">Đang giao</div></td>

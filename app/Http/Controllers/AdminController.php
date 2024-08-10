@@ -287,32 +287,21 @@ class AdminController extends Controller
         // Tổng số đơn hàng
         $total_orders = Order::whereNotIn('Status', [99])->count();
 
-        //danh sách sp bán chạy
-        
+        //danh sách sp bán chạy    
         $list_topProduct = Product::join('productimage', 'productimage.idProduct', '=', 'product.idProduct')
-            ->join('orderdetail', 'orderdetail.idProduct', '=', 'product.idProduct')
-            ->join('order', 'order.idOrder', '=', 'orderdetail.idOrder')
-            ->whereNotIn('Status', [99])
-            ->select('ProductName', 'ImageName') 
-            ->selectRaw('sum(QuantityBuy) as Sold')//tính tổng sl sp đặt tên sold
-            ->groupBy('ProductName', 'ImageName')//nhóm kết quả tên và ảnh lại 
-            ->orderBy('Sold', 'DESC')
-            ->take(6)->get();
-       
-
+        ->join('orderdetail', 'orderdetail.idProduct', '=', 'product.idProduct')
+        ->join('order', 'order.idOrder', '=', 'orderdetail.idOrder')
+        ->whereNotIn('order.Status', [99])
+        ->select('product.ProductName', 'productimage.ImageName', 'product.Price')//lấy tên hình giá sản phẩm 
+        ->selectRaw('sum(orderdetail.QuantityBuy) as Sold')//lấy tổng sl sp đã bán 
+        ->groupBy('product.ProductName', 'productimage.ImageName', 'product.Price')//nhóm kq theo tên hình giá
+        ->orderBy('Sold', 'DESC')//sắp xếp theo sold giảm dần
+        ->take(8)
+        ->get();
         
-        $list_topProduct_AllTime = Product::join('productimage', 'productimage.idProduct', '=', 'product.idProduct')
-            ->join('orderdetail', 'orderdetail.idProduct', '=', 'product.idProduct')
-            ->join('order', 'order.idOrder', '=', 'orderdetail.idOrder')
-            ->whereNotIn('order.Status', [99])
-            ->select('product.ProductName', 'productimage.ImageName', 'product.Price')//lấy tên hình giá sản phẩm 
-            ->selectRaw('sum(orderdetail.QuantityBuy) as Sold')//lấy tổng sl sp đã bán 
-            ->groupBy('product.ProductName', 'productimage.ImageName', 'product.Price')//nhóm kq theo tên hình giá
-            ->orderBy('Sold', 'DESC')//sắp xếp theo sold giảm dần
-            ->take(5)
-            ->get();
+   
 
-        return view("admin.dashboard")->with(compact('total_revenue', 'total_orders','total_sell', 'list_topProduct', 'list_topProduct_AllTime'));
+        return view("admin.dashboard")->with(compact('total_revenue', 'total_orders','total_sell', 'list_topProduct'));
     }
 
 
