@@ -58,6 +58,7 @@
 
 
 
+
 .pagination-wrapper {
   margin: 20px 0;
 }
@@ -2220,7 +2221,7 @@ blockquote p {
 
 .site-main-nav .site-nav ul > li > a {
   position: relative;
-  font-size: 20px;
+  font-size: 14px;
   text-transform: uppercase;
   color: #222222;
   font-weight: 500;
@@ -2558,6 +2559,12 @@ blockquote p {
   -moz-align-items: center;
   align-items: center;
 }
+
+.header-account-list .username {
+  font-size: 14px; /* Kích thước chữ phù hợp */
+  line-height: 24px; /* Căn giữa theo chiều dọc với ảnh */
+}
+
 
 .header-meta-info .header-account .header-account-list + .header-account-list {
   margin-left: 27px;
@@ -4583,13 +4590,9 @@ blockquote p {
   color: #ffffff;
 }
 
-.shop-image .shop-single-preview-image .sticker-new.label-sale {
-  background-color: #222222;
-  color: #ffffff;
-}
-
 .shop-image .shop-single-thumb-image {
   margin-top: 20px;
+ 
 }
 
 .shop-image .shop-single-thumb-image .single-product-thumb a {
@@ -4597,11 +4600,29 @@ blockquote p {
   -webkit-transition: all 0.3s linear;
   -o-transition: all 0.3s linear;
   transition: all 0.3s linear;
+
 }
 
 .shop-image .shop-single-thumb-image .single-product-thumb a.active {
   border-color: #33CCFF;
 }
+
+.shop-image .shop-single-thumb-image .single-product-thumb a img {
+  width: 100%; /* Đảm bảo ảnh nằm gọn trong khối a */
+  height: auto; /* Đảm bảo ảnh nằm gọn trong khối a */
+  object-fit: cover; /* Đảm bảo ảnh không bị méo */
+}
+
+.shop-image .shop-single-thumb-image .single-product-thumb a.active img {
+  width: 80px !important;
+  height: auto !important;
+}
+
+
+.shop-image .shop-single-thumb-image .single-product-thumb {
+  margin-bottom: 15px; /* Điều chỉnh khoảng cách giữa các ảnh phụ */
+}
+
 
 .shop-thumb-active .swiper-thumb-next,
 .shop-thumb-active .swiper-thumb-prev {
@@ -4643,6 +4664,7 @@ blockquote p {
 
 .shop-single-content {
   margin-top: 50px;
+  margin-left: 100px;
 }
 
 .shop-single-content .title {
@@ -7304,7 +7326,7 @@ blockquote p {
   font-weight: 500;
   position: relative;
   color: #222222;
-  font-family: 'Coiny', cursive;
+  font-family: 'Roboto', sans-serif;
 }
 
 .footer-widget .footer-widget-menu ul li a {

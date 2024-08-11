@@ -24,13 +24,13 @@
                 <div class="my-account-menu mt-30">
                     <ul class="nav account-menu-list flex-column">
                         <li>
-                            <a href="{{URL::to('/profile')}}"><i class="fa fa-user"></i> Hồ Sơ</a>
+                            <a href="{{URL::to('/profile')}}"> Hồ Sơ</a>
                         </li>
                         <li>
-                            <a class="active"><i class="fa fa-key"></i> Đổi Mật Khẩu</a>
+                            <a class="active"> Đổi Mật Khẩu</a>
                         </li>
                         <li>
-                            <a href="{{URL::to('/ordered')}}"><i class="fa fa-shopping-cart"></i> Đơn Đặt Hàng</a>
+                            <a href="{{URL::to('/ordered')}}"> Đơn Hàng</a>
                         </li>
                     </ul>
                 </div>
@@ -42,7 +42,6 @@
                             <div class="row">
                                 <div class="col-md-12" style="border-bottom: solid 1px #efefef;">
                                     <h4 class="account-title" style="margin-bottom: 0;">Đổi Mật Khẩu</h4>
-                                    <h5 style="color: #666;">Quản lý thông tin hồ sơ để bảo mật tài khoản</h5>
                                 </div>
                                 @if(session('success'))
                                 <div class="alert alert-success">

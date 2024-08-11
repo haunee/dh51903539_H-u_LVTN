@@ -258,20 +258,20 @@ Route::post('/submit-edit-product/{idProduct}', [ProductController::class, 'subm
 
 
 //ORDER BILL
-Route::get('/list-order', [CartController::class, 'list_order']);
+Route::get('/orderad-list', [CartController::class, 'list_order']);
 
 Route::get('/order-info/{idOrder}', [CartController::class, 'order_info']);
 
-Route::get('/waiting-order', [CartController::class, 'waiting_order']);
+Route::get('/orderad-wait', [CartController::class, 'waiting_order']);
 
-Route::get('/shipping-order', [CartController::class, 'shipping_order']);
+Route::get('/orderad-shiping', [CartController::class, 'shipping_order']);
 
-Route::get('/shipped-order', [CartController::class, 'shipped_order']);
+Route::get('/orderad-shiped', [CartController::class, 'shipped_order']);
 
 
-Route::get('/cancelled-order', [CartController::class, 'cancelled_order']);
+Route::get('/oderad-cancelled', [CartController::class, 'cancelled_order']);
 
-Route::get('/confirmed-order', [CartController::class, 'confirmed_order']);
+Route::get('/orderad-confirm', [CartController::class, 'confirmed_order']);
 
 
 Route::post('/delete-bill/{idOrder}',[CartController::class, 'delete_bill']);
@@ -311,3 +311,10 @@ Route::post('/submit-edit-voucher/{idVoucher}',[AdminController::class, 'submit_
 
 Route::get('/order/{idOrder}/pdf', [CartController::class, 'exportPDF'])->name('order.pdf');
 
+
+
+
+
+// web.php
+Route::post('/save-product-attributes', [ProductController::class, 'saveProductAttributes'])->name('saveProductAttributes');
+Route::get('/get-attribute-values/{idAttribute}', [ProductController::class, 'getAttriValue']);

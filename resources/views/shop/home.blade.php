@@ -14,10 +14,10 @@
                             <h2 class="main-title">Ngày Ngày Siêu Sale Sập Sàn</h2>
                             <p>Nhập: <span class="text-primary">KM50</span> để được giảm 50%, thời gian có hạn!</p>
 
-                            <ul class="slider-btn">
+                            {{-- <ul class="slider-btn">
                                 <li><a href="{{ URL::to('/store') }}" class="btn btn-round btn-primary">Bắt đầu mua sắm</a>
                                 </li>
-                            </ul>
+                            </ul> --}}
                         </div>
                     </div>
                 </div>

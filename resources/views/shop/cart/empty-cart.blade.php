@@ -23,7 +23,7 @@
                 <img src="/page/images/cart.png" alt="">
             </div>
             <p>Giỏ hàng của bạn chưa có sản phẩm!</p>
-            <a href="{{URL::to('/store')}}" class="btn btn-primary"><i class="fa fa-angle-left"></i> Tiếp tục mua sắm</a>
+          <a href="{{URL::to('/store')}}" class="btn btn-primary"> Đến Cửa Hàng</a> 
         </div>
     </div>
 </div>

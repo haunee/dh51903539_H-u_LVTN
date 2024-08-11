@@ -174,6 +174,7 @@ class CustomerController extends Controller
             }
 
             Session::put('idCustomer', $customer->idCustomer);//lưu thuộc tính id của đối tượng cus vào session
+            Session::put('username', $customer->username);
             Session::put('AvatarCus', $customer->Avatar);
             return Redirect::to('/home');
         } else {

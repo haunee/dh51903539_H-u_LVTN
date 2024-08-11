@@ -11,8 +11,24 @@
                     <div>
                         
                     </div>
-                    <a href="{{URL::to('/add-attri-value')}}" class="btn btn-primary add-list"><i class="las la-plus mr-3"></i>Thêm Phân Loại</a>
+                    <a href="{{URL::to('/add-attri-value')}}" class="btn btn-primary add-list">Thêm Phân Loại</a>
                 </div>
+                @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
+<!-- Hiển thị thông báo thành công -->
+@if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
             </div>
 
             <div class="col-lg-12">

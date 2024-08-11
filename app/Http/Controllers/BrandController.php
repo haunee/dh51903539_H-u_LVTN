@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Brand;
+use App\Models\Product;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
 
@@ -47,12 +48,25 @@ class BrandController extends Controller
 
 
 
-    public function delete_brand( $idBrand)  {
+ 
+
+    public function delete_brand($idBrand)
+    {
+        // Kiểm tra xem có sản phẩm nào đang sử dụng thương hiệu này không
+        $hasProducts = Product::where('idBrand', $idBrand)->exists();
+    
+        if ($hasProducts) {
+            // Nếu có sản phẩm, không cho phép xóa và trả về thông báo lỗi
+            return redirect()->back()->withErrors('Không thể xóa thương hiệu vì nó đang được sử dụng trong một hoặc nhiều sản phẩm.');
+        }
+    
+        // Nếu không có sản phẩm liên kết, thực hiện xóa thương hiệu
         Brand::where('idBrand', $idBrand)->delete();
-        return redirect()->back();
+    
+        // Trả về thông báo thành công
+        return redirect()->back()->with('success', 'Thương hiệu đã được xóa thành công.');
     }
-
-
+    
 
 
 

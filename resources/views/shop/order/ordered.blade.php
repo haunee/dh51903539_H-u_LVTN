@@ -25,9 +25,9 @@
                 <div class="col-xl-3 col-md-4">
                     <div class="my-account-menu mt-30">
                         <ul class="nav account-menu-list flex-column">
-                            <li><a href="{{ URL::to('/profile') }}"><i class="fa fa-user"></i> Hồ Sơ</a></li>
-                            <li><a href="{{ URL::to('/change-password') }}"><i class="fa fa-key"></i> Đổi Mật Khẩu</a></li>
-                            <li><a class="active"><i class="fa fa-shopping-cart"></i> Đơn Đặt Hàng</a></li>
+                            <li><a href="{{ URL::to('/profile') }}"></i> Hồ Sơ</a></li>
+                            <li><a href="{{ URL::to('/change-password') }}"> Đổi Mật Khẩu</a></li>
+                            <li><a class="active"> Đơn Hàng</a></li>
                         </ul>
                     </div>
                 </div>
@@ -121,7 +121,13 @@
                                                     <a class="view-hover h3 mr-2"
                                                         href="{{ URL::to('/ordered-info/' . $order->idOrder) }}"
                                                         data-toggle="tooltip" data-placement="top" title=""
-                                                        data-original-title="Xem chi tiết"><i class="fa fa-eye"></i></a>
+                                                        data-original-title="Xem chi tiết">
+                                                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                                            <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm9.408-5.5a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2h-.01ZM10 10a1 1 0 1 0 0 2h1v3h-1a1 1 0 1 0 0 2h4a1 1 0 1 0 0-2h-1v-4a1 1 0 0 0-1-1h-2Z" clip-rule="evenodd"/>
+                                                          </svg>
+                                                          
+                                                    
+                                                    </a>
                                                     @if ($order->Status == 0)
                                                         <meta name="csrf-token" content="{{ csrf_token() }}">
                                                         <a class="view-hover h3 ml-2 delete-order-btn"

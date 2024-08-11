@@ -23,20 +23,14 @@
 
     <!--Shop Single Start-->
     <div class="shop-single-page section-padding-4">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-6 col-md-8">
-                    <div class="shop-image">
-                        <div class="shop-single-preview-image">
-                            <img class="product-zoom" src="{{ asset('/storage/kidadmin/images/product/' . $image) }}"
-                                alt="">
-
-                            @if ($product->QuantityTotal == '0')
-                                <span class="sticker-new label-sale">HẾT HÀNG</span>
-                            @endif
-                        </div>
+                    <div class="shop-image d-flex">
+                        <!-- Hình ảnh phụ nằm bên trái -->
                         <div id="gallery_01" class="shop-single-thumb-image shop-thumb-active swiper-container">
-                            <div class="swiper-wrapper">
+                            <div>
                                 @foreach (json_decode($product->ImageName) as $img)
                                     <div class="swiper-slide single-product-thumb">
                                         <a class="active" href="#"
@@ -47,33 +41,27 @@
                                     </div>
                                 @endforeach
                             </div>
+                        </div>
 
-                            <!-- Add Arrows -->
-                            <div class="swiper-thumb-next"><i class="fa fa-angle-right"></i></div>
-                            <div class="swiper-thumb-prev"><i class="fa fa-angle-left"></i></div>
+                        <!-- Hình ảnh chính nằm bên phải -->
+                        <div class="shop-single-preview-image">
+                            <img class="product-zoom" src="{{ asset('/storage/kidadmin/images/product/' . $image) }}"
+                                alt="">
+
+                            @if ($product->QuantityTotal == '0')
+                                <span class="sticker-new label-sale">HẾT HÀNG</span>
+                            @endif
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6">
+
+                <div class="col-lg-6 col-md-8">
                     <div class="shop-single-content">
                         <h3 class="title">{{ $product->ProductName }}</h3>
-                        <span class="product-sku">Mã sản phẩm: <span>{{ $product->idProduct }}</span></span>
                         <div class="text-primary">Đã Bán: {{ $product->Sold }} sản phẩm</div>
                         <div class="text-primary">Còn Lại: {{ $product->QuantityTotal }} sản phẩm</div>
-                        
-                        {{-- @php
-                            $averageRating = $product->rating_count ? round($product->rating_sum / $product->rating_count) : 0;
-                        @endphp
-                        <div class="product-rating">
-                            <ul class="rating-star">
-                                @for ($i = 1; $i <= 5; $i++)
-                                    <li class="{{ $i <= $averageRating ? 'rating-on' : '' }}">
-                                        <i class="fa fa-star-o"></i>
-                                    </li>
-                                @endfor
-                            </ul>
-                            
-                        </div> --}}
+
+
                         <div class="thumb-price">
                             <span class="current-price">{{ number_format(round($product->Price, -3), 0, ',', '.') }}đ</span>
                         </div>
@@ -145,7 +133,7 @@
                             </div>
                             <div class="text-primary alert-add-to-cart"></div>
 
-                        
+
 
                             <div class="text-primary alert-buy-now"></div>
                             <?php
@@ -157,24 +145,7 @@
                             ?>
                         </form>
 
-                        <div class="custom-payment-options">
-                            <p>Phương thức thanh toán</p>
 
-                            <ul class="payment-options">
-                                <li><img src="{{ asset('/page/images/payment-icon/payment-1.svg') }}" alt="">
-                                </li>
-                                <li><img src="{{ asset('/page/images/payment-icon/payment-2.svg') }}" alt="">
-                                </li>
-                                <li><img src="{{ asset('/page/images/payment-icon/payment-3.svg') }}" alt="">
-                                </li>
-                                <li><img src="{{ asset('/page/images/payment-icon/payment-4.svg') }}" alt="">
-                                </li>
-                                <li><img src="{{ asset('/page/images/payment-icon/payment-5.svg') }}" alt="">
-                                </li>
-                                <li><img src="{{ asset('/page/images/payment-icon/payment-7.svg') }}" alt="">
-                                </li>
-                            </ul>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -196,7 +167,7 @@
                                     role="tab">Mô tả/Chi tiết</a>
                             </li>
                             {{-- <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab2" role="tab">Nhận xét</a></li> --}}
-                          
+
                         </ul>
                     </div>
 
@@ -206,7 +177,7 @@
                                 <p>{!! $product->DesProduct !!}</p>
                             </div>
                         </div>
-                       
+
                     </div>
                 </div>
                 <!--Shop Single info End-->
@@ -221,7 +192,7 @@
                         <div class="col-lg-6 col-md-9 col-sm-11">
                             <div class="section-title text-center">
                                 <h2 class="title">Sản Phẩm Liên Quan</h2>
-                                
+
                             </div>
                         </div>
                     </div>
@@ -277,6 +248,10 @@
             </div>
         @endif
 
+
+
+
+
         <!-- Validate QuantityBuy & Add To Cart & Buy Now -->
         <script>
             $(document).ready(function() {
@@ -321,23 +296,17 @@
                     (currentValue == 1) ? currentValue: $input.val(currentValue - 1);
                 });
 
-                $('.buy-now').on('click', function(e) {
-                    if ($(".qty-buy").val() > $Quantity) {
-                        $('.alert-buy-now').html("Vượt quá số lượng sản phẩm hiện có!");
-                        e.preventDefault();
-                    }
-                });
+
 
                 $('.add-to-cart').on('click', function() {
                     if (idCustomer == "") {
                         window.location.href = '../login';
-                    } else if ($(".qty-buy").val() > $Quantity) {
-                        $('.alert-add-to-cart').html("Vượt quá số lượng sản phẩm hiện có!");
                     } else {
+                        // Thực hiện thêm vào giỏ hàng
                         var idProduct = $('#idProduct').val();
                         var AttributeProduct = $('#AttributeProduct').val();
                         var QuantityBuy = $('.qty-buy').val();
-                        var Price = $('input[name="Price"]').val(); // Lấy giá trị từ trường ẩn
+                        var Price = $('input[name="Price"]').val();
                         var _token = $('input[name="_token"]').val();
                         var qty_of_attr = $('.qty-of-attr').val();
                         var idProAttr = $('#idProAttr').val();
@@ -355,14 +324,21 @@
                                 _token: _token
                             },
                             success: function(data) {
-                                // Hiển thị modal nếu có dữ liệu trả về
+                                // Hiển thị modal thông báo
                                 if (data) {
-                                    $('#modal-AddToCart').html(data);
+                                    $('body').append(data); // Thêm modal vào body
                                     $('.modal-AddToCart').modal('show');
+                                    $('.text-primary').on('click', function() {
+                                        location
+                                    .reload(); // Tải lại trang khi nhấp "Tiếp tục mua sắm"
+                                    });
                                 } else {
                                     $('.alert-add-to-cart').html(
-                                        "Có lỗi xảy ra. Vui lòng thử lại.");
+                                    "Có lỗi xảy ra. Vui lòng thử lại.");
                                 }
+
+                                // Cập nhật giỏ hàng sau khi thêm sản phẩm
+                                updateCartHeader();
                             },
                             error: function() {
                                 $('.alert-add-to-cart').html("Có lỗi xảy ra. Vui lòng thử lại.");
@@ -371,6 +347,8 @@
                     }
                 });
 
-         });
+
+            });
         </script>
+
     @endsection

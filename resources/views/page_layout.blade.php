@@ -52,11 +52,11 @@
     <div class="main-wrapper">
 
         <div class="preloader js-preloader flex-center">
-            <div class="dots">
+            {{-- <div class="dots">
                 <div class="dot"></div>
                 <div class="dot"></div>
                 <div class="dot"></div>
-            </div>
+            </div> --}}
         </div>
 
         <!--Header Section Start-->
@@ -78,9 +78,27 @@
                         </div>
                         <div class="col-lg-7 position-static">
                             <div class="site-main-nav">
+                                <div class="header-container">
+                                    <div class="header-search">
+                                        <form type="GET" action="{{ route('search') }}">
+                                            <input type="text" name="keyword" id="search-input" placeholder="Tìm kiếm sản phẩm" autocomplete="off">
+                                            {{-- <i class="icon-search"></i> --}}
+                                        </form>  
+                                        
+                                    </div>
+                                   
+                                    <ul class="search-product"></ul>
+                                </div>
+                                
+
+                             
                                 <nav class="site-nav">
+                                    
+                                
                                     <ul>
-                                        <li><a href="{{ URL::to('/home') }}">Trang chủ</a></li>
+                                        <li><a href="{{ URL::to('/home') }}">Trang chủ</a>
+                                        
+                                        </li>
                                         <li>
                                             <a href="{{ URL::to('/store') }}">Cửa hàng </a>
 
@@ -135,48 +153,9 @@
                         </div>
                         <div class="col-lg-3">
                             <div class="header-meta-info" style="position:relative;">
-                                <div class="header-search">
-                                    <form type="GET" action="{{ route('search') }}">
-                                        <input type="text" name="keyword" id="search-input"
-                                            placeholder="Tìm kiếm sản phẩm " autocomplete="off">
-                                        <button class="search-btn"><i class="icon-search"></i></button>
-                                    </form>
-                                </div>
-
-                                <ul class="search-product">
-
-                                </ul>
-
+                                <div class="header-search"></div>
                                 <div class="header-account">
-                                    <div class="header-account-list dropdown top-link">
-                                        @if (Session::get('idCustomer'))
-                                            @if (Session::get('AvatarCus') != '')
-                                                <a href="#" role="button" data-toggle="dropdown"><img
-                                                        style="border-radius:50%;" width="70px" height="24px"
-                                                        src="{{ asset('/storage/page/images/customer/' . Session::get('AvatarCus')) }}"
-                                                        alt=""></a>
-                                            @else
-                                                <a href="#" role="button" data-toggle="dropdown"><i
-                                                        class="icon-users"></i></a>
-                                            @endif
-                                            <ul class="dropdown-menu">
-                                                <li><a href="{{ URL::to('/profile') }}">Tài khoản của tôi</a></li>
-                                                <li><a href="{{ URL::to('/wishlist') }}">Sản phẩm yêu thích</a></li>
-                                                <li><a href="{{ URL::to('/ordered') }}">Đơn hàng</a></li>
-                                                <li><a href="{{ URL::to('/logout') }}">Đăng xuất</a></li>
-                                            </ul>
-                                            <input type="hidden" id="idCustomer"
-                                                value="{{ Session::get('idCustomer') }}">
-                                        @else
-                                            <a href="#" role="button" data-toggle="dropdown"><i
-                                                    class="icon-users"></i></a>
-                                            <ul class="dropdown-menu">
-                                                <li><a href="{{ URL::to('/register') }}">Đăng ký</a></li>
-                                                <li><a href="{{ URL::to('/login') }}">Đăng nhập</a></li>
-                                            </ul>
-                                            <input type="hidden" id="idCustomer" value="">
-                                        @endif
-                                    </div>
+                                    
                                     <div class="header-account-list dropdown mini-cart">
                                         <?php
                                         $get_cart_header = CartController::get_cart_header();
@@ -186,7 +165,9 @@
                                         ?>
                                         @if ($sum_cart > 0)
                                             <a href="#" role="button" data-toggle="dropdown">
-                                                <i class="icon-shopping-bag"></i>
+                                                <svg class="w-[30px] h-[30px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24">
+                                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 10V6a3 3 0 0 1 3-3v0a3 3 0 0 1 3 3v4m3-2 .917 11.923A1 1 0 0 1 17.92 21H6.08a1 1 0 0 1-.997-1.077L6 8h12Z"/>
+                                                </svg>
                                                 <span class="item-count">{{ $sum_cart }}</span>
                                             </a>
                                             <ul class="dropdown-menu">
@@ -229,7 +210,10 @@
                                             </ul>
                                         @else
                                             <a href="#" role="button" data-toggle="dropdown">
-                                                <i class="icon-shopping-bag"></i>
+                                                <svg class="w-[30px] h-[30px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24">
+                                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 10V6a3 3 0 0 1 3-3v0a3 3 0 0 1 3 3v4m3-2 .917 11.923A1 1 0 0 1 17.92 21H6.08a1 1 0 0 1-.997-1.077L6 8h12Z"/>
+                                                </svg>
+                                                  
                                             </a>
                                             <ul class="dropdown-menu" style="height:250px; width:250px;">
                                                 <li
@@ -241,6 +225,52 @@
                                             </ul>
                                         @endif
                                     </div>
+
+
+
+
+                                    <div class="header-account-list dropdown top-link">
+                                        @if (Session::get('idCustomer'))
+                                            <a href="#" role="button" data-toggle="dropdown" class="dropdown-toggle">
+                                                @if (Session::get('AvatarCus') != '')
+                                                    <img
+                                                        style="border-radius:20%;"
+                                                        width="30px"
+                                                        height="30px"
+                                                        src="{{ asset('/storage/page/images/customer/' . Session::get('AvatarCus')) }}"
+                                                        alt=""
+                                                    >
+                                                @else
+                                                    <svg class="w-[30px] h-[30px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24">
+                                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Zm0 0a8.949 8.949 0 0 0 4.951-1.488A3.987 3.987 0 0 0 13 16h-2a3.987 3.987 0 0 0-3.951 3.512A8.948 8.948 0 0 0 12 21Zm3-11a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                                                    </svg>
+                                                @endif
+                                                <span class="username">{{ Session::get('username') }}</span>
+
+                                            </a>
+
+                                            <ul class="dropdown-menu">
+                                                <li><a href="{{ URL::to('/profile') }}">Tài khoản của tôi</a></li>
+                                                <li><a href="{{ URL::to('/wishlist') }}">Sản phẩm yêu thích</a></li>
+                                                <li><a href="{{ URL::to('/ordered') }}">Đơn hàng</a></li>
+                                                <li><a href="{{ URL::to('/logout') }}">Đăng xuất</a></li>
+                                            </ul>
+                                            <input type="hidden" id="idCustomer" value="{{ Session::get('idCustomer') }}">
+                                        @else
+                                            <a href="#" role="button" data-toggle="dropdown" class="dropdown-toggle">
+                                                <svg class="w-[30px] h-[30px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24">
+                                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Zm0 0a8.949 8.949 0 0 0 4.951-1.488A3.987 3.987 0 0 0 13 16h-2a3.987 3.987 0 0 0-3.951 3.512A8.948 8.948 0 0 0 12 21Zm3-11a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                                                </svg>
+                                              
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                <li><a href="{{ URL::to('/login') }}">Đăng nhập</a></li>
+                                                <li><a href="{{ URL::to('/register') }}">Đăng ký</a></li>
+                                            </ul>
+                                            <input type="hidden" id="idCustomer" value="">
+                                        @endif
+                                    </div>
+                                    
 
                                 </div>
                             </div>
@@ -268,8 +298,8 @@
                                         src="{{ asset('/page/images/logo/logo2.png') }}" alt=""></a> --}}
                                 <div class="footer-widget-text">
                                     <p>Địa chỉ: 123 Đường ABC, Phường XYZ, Quận 1, TP. Hồ Chí Minh </p>
-                                    <p><strong>Số điện thoại:</strong> (012) 345-6789</p>
-                                    <p><strong>Email:</strong> info@example.com</p>
+                                    <p>Số điện thoại:(012) 345-6789</p>
+                                    <p>Email: info@example.com</p>
                                 </div>
                                 <div class="widget-social">
                                     <ul>
@@ -285,7 +315,7 @@
 
                         <div class="col-lg-2 col-md-4 col-sm-6">
                             <div class="footer-widget">
-                                <h4 class="footer-widget-title">Liên Kết</h4>
+                                <h4 class="footer-widget-title">Giới Thiệu</h4>
 
                                 <div class="footer-widget-menu">
                                     <ul>
@@ -303,13 +333,14 @@
 
                         <div class="col-lg-2 col-md-4 col-sm-6">
                             <div class="footer-widget">
-                                <h4 class="footer-widget-title">Help</h4>
+                                <h4 class="footer-widget-title">Chính Sách</h4>
 
                                 <div class="footer-widget-menu">
                                     <ul>
-                                        <li><a href="#">FAQ’s</a></li>
-                                        <li><a href="#">Your Order</a></li>
-                                        <li><a href="#">Returns</a></li>
+                                        <li><a href="#">Chính Sách Đổi Trả</a></li>
+                                        <li><a href="#">Chính Sách Vận Chuyển</a></li>
+                                        <li><a href="#">Chính Sách Bảo Hành</a></li>
+                                        <li><a href="#">Điều Kiện & Điều Khoản</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -317,14 +348,14 @@
 
                         <div class="col-lg-2 col-md-4 col-sm-6">
                             <div class="footer-widget">
-                                <h4 class="footer-widget-title">Customer Service</h4>
+                                <h4 class="footer-widget-title">Hỗ Trợ Khách Hàng</h4>
 
                                 <div class="footer-widget-menu">
                                     <ul>
-                                        <li><a href="{{ URL::to('/account') }}">My Account</a></li>
-                                        <li><a href="#">Terms of Use</a></li>
-                                        <li><a href="#">Deliveries & Returns</a></li>
-                                      
+                                        <li><a href="#">Hướng Dẫn Đặt Hàng</a></li>
+                                        <li><a href="#">Phương Thức Thanh Toán</a></li>
+                                        <li><a href="#">Hệ Thống Cửa Hàng</a></li>
+                                        <li><a href="#">Hướng Dẫn Chọn Size</a></li>
                                         
                                     </ul>
                                 </div>

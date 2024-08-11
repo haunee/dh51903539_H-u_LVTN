@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Redirect;
 use App\Models\Attribute;
 use Illuminate\Support\Facades\Log;
 use App\Models\AttributeValue;
+use App\Models\ProductAttriBute;
+
 //NHÓM PHÂN LOẠI
 class AttributeController extends Controller
 {
@@ -78,14 +80,24 @@ class AttributeController extends Controller
     }
 
 
-
     public function delete_attribute($idAttribute)
     {
+        // Kiểm tra xem có sản phẩm nào đang sử dụng thuộc tính này không
+        $hasProducts = AttributeValue::where('idAttribute', $idAttribute)->exists();
+    
+        if ($hasProducts) {
+            // Nếu có sản phẩm, không cho phép xóa và trả về thông báo lỗi
+            return redirect()->back()->withErrors('Không thể xóa nhóm phân loại vì có phân loại được lưu vào');
+        }
+    
+        // Nếu không có sản phẩm liên kết, thực hiện xóa thuộc tính
         Attribute::where('idAttribute', $idAttribute)->delete();
-        return redirect()->back();
+    
+        // Trả về thông báo thành công
+        return redirect()->back()->with('success', 'Thuộc tính đã được xóa thành công.');
     }
-
-
+    
+    
 
 
     // Hiện checkbox chọn phân loại sản phẩm

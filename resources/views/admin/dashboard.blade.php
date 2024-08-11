@@ -102,7 +102,7 @@
                             <ul class="list-unstyled row mb-0">
                                 @foreach($list_topProduct as $key => $topProduct)
                                     <li class="col-lg-3 topPro-item">
-                                        <div class="card card-block card-stretch mb-0">
+                                        <div class="card-block card-stretch mb-0">
                                             <div class="card-body">
                                                 <div class="bg-warning-light rounded">
                                                     <?php $image = json_decode($topProduct->ImageName)[0];?>

@@ -10,7 +10,7 @@
                         <h4 class="mb-3"> Tổng: {{$count_voucher}} mã giảm giá </h4>
                     
                     </div>
-                    <a href="{{URL::to('/add-voucher')}}" class="btn btn-primary add-list"><i class="las la-plus mr-3"></i>Thêm Mã Giảm Giá</a>
+                    <a href="{{URL::to('/add-voucher')}}" class="btn btn-primary add-list">Thêm Mã Giảm Giá</a>
                 </div>
             </div>
 

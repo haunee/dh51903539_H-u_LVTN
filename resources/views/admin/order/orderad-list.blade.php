@@ -23,23 +23,27 @@
                                             Trạng thái đơn hàng
                                         </button>
                                         <div class="dropdown-menu" aria-labelledby="orderStatusDropdown">
-                                            <a class="dropdown-item" href="{{ URL::to('/list-order') }}"
+                                            <a class="dropdown-item" href="{{ URL::to('/orderad-list') }}"
                                                 onclick="updateDropdownText('Tất cả'); return false;">
                                                 Tất cả
                                             </a>
-                                            <a class="dropdown-item" href="{{ URL::to('/waiting-order') }}"
+                                            <a class="dropdown-item" href="{{ URL::to('/orderad-wait') }}"
                                                 onclick="updateDropdownText('Chờ xác nhận'); return false;">
                                                 Chờ xác nhận
                                             </a>
-                                            <a class="dropdown-item" href="{{ URL::to('/shipping-order') }}"
+                                            <a class="dropdown-item" href="{{ URL::to('/orderad-confirm') }}"
+                                                onclick="updateDropdownText('Chờ xác nhận'); return false;">
+                                                Đã xác nhận
+                                            </a>
+                                            <a class="dropdown-item" href="{{ URL::to('/orderad-shiping') }}"
                                                 onclick="updateDropdownText('Đang giao'); return false;">
                                                 Đang giao
                                             </a>
-                                            <a class="dropdown-item" href="{{ URL::to('/shipped-order') }}"
+                                            <a class="dropdown-item" href="{{ URL::to('/orderad-shiped') }}"
                                                 onclick="updateDropdownText('Đã giao'); return false;">
                                                 Đã giao
                                             </a>
-                                            <a class="dropdown-item" href="{{ URL::to('/cancelled-order') }}"
+                                            <a class="dropdown-item" href="{{ URL::to('/oderad-cancelled') }}"
                                                 onclick="updateDropdownText('Đã hủy'); return false;">
                                                 Đã hủy
                                             </a>
@@ -58,12 +62,12 @@
                         <table class="data-tables table mb-0 tbl-server-info">
                             <thead class="bg-white text-uppercase">
                                 <tr class="ligth ligth-data">
-                                    <th>Mã ĐH</th>
+                                    <th>Mã </th>
                                     <th>Tên Tài Khoản</th>
                                     <th>SĐT</th>
 
-                                    <th>Ngày Đặt Hàng</th>
-                                    <th>Ngày Giao Hàng</th>
+                                    <th>Ngày Đặt </th>
+                                    <th>Ngày Giao </th>
                                     <th>Thanh Toán</th>
                                     <th>Trạng Thái</th>
                                     <th>Thao tác</th>

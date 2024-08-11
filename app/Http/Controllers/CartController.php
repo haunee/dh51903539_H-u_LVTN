@@ -74,8 +74,29 @@ class CartController extends Controller
 
             Log::info('Dữ liệu giỏ hàng', ['cart' => $cart]);
 
-            $output = '<div class="modal fade modal-AddToCart" id="successAddToCart" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true"><div class="modal-dialog modal-dialog-centered" role="document"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="exampleModalCenterTitle">Thông báo</h5></div><button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" aria-hidden="true"></span></button><div class="modal-body text-center p-3 h4"><div class="mb-3"><i class="fa fa-check-circle text-primary" style="font-size:50px;"></i></div>Đã thêm sản phẩm vào giỏ hàng</div><div class="modal-footer justify-content-center"><button type="button" class="btn btn-secondary" data-dismiss="modal">Tiếp tục mua sắm</button><a href="../cart" type="button" class="btn btn-primary">Đi đến giỏ hàng</a></div></div></div></div>';
-
+            $output = '
+            <div class="modal fade modal-AddToCart" id="successAddToCart" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalCenterTitle">Thông báo</h5>
+                            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body text-center p-3 h4">
+                            <div class="mb-3">
+                                <i class="fa fa-check-circle text-primary" style="font-size:50px;"></i>
+                            </div>
+                            Đã thêm sản phẩm vào giỏ hàng
+                        </div>
+                        <div class="modal-footer justify-content">
+                            <button type="text" class="text text-primary" data-dismiss="modal">OK</button>
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+            ';
+            
             //truy vấn đến bảng cart với điều kiện id= id
             $find_pd = Cart::where('idProduct', $data['idProduct'])//gtri lấy từ request
                 ->where('idCustomer', Session::get('idCustomer'))//id = id trong session
@@ -113,7 +134,6 @@ class CartController extends Controller
 
 
 
-
     public function show_cart()
     {
         $this->checkLogin();
@@ -131,9 +151,6 @@ class CartController extends Controller
 
         return view('shop.cart.cart')->with(compact('list_category', 'list_brand', 'list_pd_cart'));
     }
-
-
-
 
 
 
@@ -238,29 +255,6 @@ class CartController extends Controller
 
 
     // Hiện danh sách địa chỉ nhận hàng
-    // public function fetch_address()
-    // {
-    //     $list_address = AddressCustomer::where('idCustomer', Session::get('idCustomer'))->get();
-    //     $output = '';
-
-    //     foreach ($list_address as $key => $address) {
-    //         $output .= '<li class="cus-radio align-items-center justify-content-between">
-    //                         <input type="radio" name="address_rdo" value="' . $address->idAddress . '" id="radio' . $address->idAddress . '" checked>
-    //                         <label for="radio' . $address->idAddress . '">
-    //                             <span>' . $address->CustomerName . '</span>
-    //                             <span>' . $address->PhoneNumber . '</span>
-    //                             <span>' . $address->Address . '</span>
-    //                         </label>
-    //                         <div>
-    //                             <button type="button" data-toggle="modal" data-target="#EditAddressModal" class="edit-address btn btn-outline-primary" data-id="' . $address->idAddress . '" data-name="' . $address->CustomerName . '" data-phone="' . $address->PhoneNumber . '" data-address="' . $address->Address . '">Sửa</button>
-    //                             <button type="button" class="dlt-address btn btn-outline-primary ml-2" data-id="' . $address->idAddress . '">Xóa</button>
-    //                         </div>     
-    //                     </li>';
-    //     }
-    //     echo $output;
-    // }
-
-
     public function fetch_address()
     {
         $list_address = AddressCustomer::where('idCustomer', Session::get('idCustomer'))->get();
@@ -752,7 +746,7 @@ class CartController extends Controller
         $this->checkLogin_Admin();
         $list_order = Order::join('customer', 'order.idCustomer', '=', 'customer.idCustomer')->whereNotIn('Status', [99])
             ->select('customer.username', 'customer.PhoneNumber as CusPhone', 'order.*')->get();
-        return view("admin.order.list-order")->with(compact('list_order'));
+        return view("admin.order.orderad-list")->with(compact('list_order'));
     }
 
 
@@ -778,7 +772,7 @@ class CartController extends Controller
 
         $list_order = Order::join('customer', 'order.idCustomer', '=', 'customer.idCustomer')->where('Status', '0')
             ->select('order.*', 'customer.username', 'customer.PhoneNumber as CusPhone')->get();
-        return view("admin.order.waiting-order")->with(compact('list_order'));
+        return view("admin.order.orderad-wait")->with(compact('list_order'));
     }
 
     // Hiện tất cả đơn đặt hàng đang giao
@@ -789,7 +783,7 @@ class CartController extends Controller
         $list_order = Order::join('customer', 'order.idCustomer', '=', 'customer.idCustomer')
             ->join('orderhistory', 'orderhistory.idOrder', '=', 'order.idOrder')->where('order.Status', '1')
             ->select('order.*', 'customer.username', 'customer.PhoneNumber as CusPhone', 'orderhistory.AdminName', 'orderhistory.created_at AS TimeConfirm')->get();
-        return view("admin.order.shipping-order")->with(compact('list_order'));
+        return view("admin.order.orderad-shiping")->with(compact('list_order'));
     }
 
 
@@ -800,7 +794,7 @@ class CartController extends Controller
 
         $list_order = Order::join('customer', 'order.idCustomer', '=', 'customer.idCustomer')->where('order.Status', '2')
             ->select('order.*', 'customer.username', 'customer.PhoneNumber as CusPhone')->get();
-        return view("admin.order.shipped-order")->with(compact('list_order'));
+        return view("admin.order.orderad-shiped")->with(compact('list_order'));
     }
 
     // Hiện tất cả đơn đặt hàng đã hủy
@@ -811,7 +805,7 @@ class CartController extends Controller
         $list_order = Order::join('customer', 'order.idCustomer', '=', 'customer.idCustomer')
             ->join('orderhistory', 'orderhistory.idOrder', '=', 'order.idOrder')->where('order.Status', '99')
             ->select('order.*', 'customer.username', 'customer.PhoneNumber as CusPhone', 'orderhistory.AdminName', 'orderhistory.created_at AS TimeConfirm')->get();
-        return view("admin.order.cancelled-order")->with(compact('list_order'));
+        return view("admin.order.oderad-cancelled")->with(compact('list_order'));
     }
     // Hiện tất cả đơn đặt hàng đã xác nhận
     public function confirmed_order()
@@ -821,7 +815,7 @@ class CartController extends Controller
         $list_order = Order::join('customer', 'order.idCustomer', '=', 'customer.idCustomer')
             ->join('orderhistory', 'orderhistory.idOrder', '=', 'order.idOrder')->where('orderhistory.Status', '1')
             ->select('order.*', 'customer.username', 'customer.PhoneNumber as CusPhone', 'orderhistory.AdminName', 'orderhistory.created_at AS TimeConfirm')->get();
-        return view("admin.order.confirmed-order")->with(compact('list_order'));
+        return view("admin.order.orderad-confirm")->with(compact('list_order'));
     }
 
 

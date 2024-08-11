@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Support\Facades\Redirect;
 
 class CategoryController extends Controller
@@ -39,34 +40,49 @@ class CategoryController extends Controller
 
 
 
-    public function delete_category($idCategory)  {
+
+
+    public function delete_category($idCategory)
+    {
+        // Kiểm tra xem có sản phẩm nào đang sử dụng danh mục này không
+        $hasProducts = Product::where('idCategory', $idCategory)->exists();
+
+        if ($hasProducts) {
+            // Nếu có sản phẩm, không cho phép xóa và trả về thông báo lỗi
+            return redirect()->back()->withErrors('Không thể xóa danh mục vì nó đang được sử dụng trong một hoặc nhiều sản phẩm.');
+        }
+
+        // Nếu không có sản phẩm liên kết, thực hiện xóa danh mục
         Category::where('idCategory', $idCategory)->delete();
-        return redirect()->back();
-        
+
+        // Trả về thông báo thành công
+        return redirect()->back()->with('success', 'Danh mục đã được xóa thành công.');
     }
 
 
 
 
-    public function  edit_category($idCategory)  {
+
+
+    public function  edit_category($idCategory)
+    {
         $select_category = Category::where('idCategory', $idCategory)->first();
         return view("admin.category.edit_category")->with(compact('select_category'));
-        
     }
-    public function submit_edit_category(Request $request,$idCategory){
+    public function submit_edit_category(Request $request, $idCategory)
+    {
         $data = $request->all();
         $category = Category::find($idCategory);
         //whereNotIn không so sánh với tên hiện tại của danh mục
-        $select_category = Category::where('CategoryName', $data['CategoryName'])->where('idCategory','<>',[$idCategory])->first();
+        $select_category = Category::where('CategoryName', $data['CategoryName'])->where('idCategory', '<>', [$idCategory])->first();
 
-        if($select_category){
+        if ($select_category) {
             return redirect()->back()->with('error', 'Tên thương hiệu này đã tồn tại');
-        }else{
+        } else {
             $category->CategoryName = $data['CategoryName'];
-          
+
             $category->save();
             return redirect()->back()->with('message', 'Sửa thương hiệu thành công');
         }
-
     }
 }

@@ -93,8 +93,8 @@ use Illuminate\Support\Facades\Session;
                                
                             </a>
                             <ul id="purchase" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
-                                <li class="{{ Request::is('list-order') ? 'active' : '' }}">
-                                    <a href="{{ URL::to('/list-order') }}">
+                                <li class="{{ Request::is('orderad-list') ? 'active' : '' }}">
+                                    <a href="{{ URL::to('/orderad-list') }}">
                                         <i class="las la-minus"></i><span>Danh Sách Đơn Hàng</span>
                                     </a>
                                 </li>
@@ -123,11 +123,7 @@ use Illuminate\Support\Facades\Session;
                                         <i class="las la-minus"></i><span>Danh Sách Sản Phẩm</span>
                                     </a>
                                 </li>
-                                <li class="{{ Request::is('add-product') ? 'active' : '' }}">
-                                    <a href="{{ URL::to('/add-product') }}">
-                                        <i class="las la-minus"></i><span>Thêm Sản Phẩm</span>
-                                    </a>
-                                </li>
+                           
 
 
 
@@ -151,11 +147,7 @@ use Illuminate\Support\Facades\Session;
                                         <i class="las la-minus"></i><span>Danh Sách Thương Hiệu</span>
                                     </a>
                                 </li>
-                                <li class="{{ Request::is('add-brand') ? 'active' : '' }}">
-                                    <a href="{{ URL::to('/add-brand') }}">
-                                        <i class="las la-minus"></i><span>Thêm Thương Hiệu</span>
-                                    </a>
-                                </li>
+                               
                             </ul>
                         </li>
 
@@ -175,11 +167,7 @@ use Illuminate\Support\Facades\Session;
                                         <i class="las la-minus"></i><span>Danh Sách Danh Mục</span>
                                     </a>
                                 </li>
-                                <li class="{{ Request::is('add-category') ? 'active' : '' }}">
-                                    <a href="{{ URL::to('/add-category') }}">
-                                        <i class="las la-minus"></i><span>Thêm Danh Mục</span>
-                                    </a>
-                                </li>
+                               
                             </ul>
                         </li>
 
@@ -250,11 +238,7 @@ use Illuminate\Support\Facades\Session;
                                         <i class="las la-minus"></i><span>Danh Sách Mã</span>
                                     </a>
                                 </li>
-                                <li class="{{ Request::is('add-voucher') ? 'active' : '' }}">
-                                    <a href="{{URL::to('/add-voucher')}}">
-                                        <i class="las la-minus"></i><span>Thêm Mã</span>
-                                    </a>
-                                </li>
+                               
                             </ul>
                         </li>
 

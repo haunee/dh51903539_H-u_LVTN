@@ -186,7 +186,6 @@
                 <div class="col-lg-3">
                     <div class="shop-sidebar">
 
-                        <h4><i class="fa fa-filter"></i> BỘ LỌC TÌM KIẾM</h4>
 
                         <!--Sidebar Categories Start-->
                         <div class="sidebar-categories">
