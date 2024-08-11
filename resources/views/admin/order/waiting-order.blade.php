@@ -11,6 +11,45 @@ use Carbon\Carbon;
                 <div class="d-flex flex-wrap align-items-center justify-content-between mb-4">
                     <div>
                         <h4 class="mb-3"> Tổng: {{$list_order->count()}} đơn hàng </h4>
+
+                        <div class="row pt-30 pb-30 mb-25"
+                        style="border-top: 1px solid #e5e5e5; border-bottom: 1px solid #e5e5e5; justify-content: flex-start;">
+
+                        <div class="col-xl-2 col-md-2 text-left" style="margin-left: 0;">
+                            <div class="dropdown">
+                                <button class="btn btn-primary dropdown-toggle" type="button"
+                                    id="orderStatusDropdown" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false">
+                                    Trạng thái đơn hàng
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="orderStatusDropdown">
+                                    <a class="dropdown-item" href="{{ URL::to('/list-order') }}"
+                                        onclick="updateDropdownText('Tất cả'); return false;">
+                                        Tất cả
+                                    </a>
+                                    <a class="dropdown-item" href="{{ URL::to('/waiting-order') }}"
+                                        onclick="updateDropdownText('Chờ xác nhận'); return false;">
+                                        Chờ xác nhận
+                                    </a>
+                                    <a class="dropdown-item" href="{{ URL::to('/shipping-order') }}"
+                                        onclick="updateDropdownText('Đang giao'); return false;">
+                                        Đang giao
+                                    </a>
+                                    <a class="dropdown-item" href="{{ URL::to('/shipped-order') }}"
+                                        onclick="updateDropdownText('Đã giao'); return false;">
+                                        Đã giao
+                                    </a>
+                                    <a class="dropdown-item" href="{{ URL::to('/cancelled-order') }}"
+                                        onclick="updateDropdownText('Đã hủy'); return false;">
+                                        Đã hủy
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
                     </div>
                 </div>
             </div>

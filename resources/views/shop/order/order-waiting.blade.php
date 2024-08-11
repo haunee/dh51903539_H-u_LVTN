@@ -40,52 +40,44 @@
                             <div class="my-account-order account-wrapper">
                                 <h4 class="account-title mb-15">Đơn Đặt Hàng</h4>
                                 <div class="row pt-30 pb-30 mb-25"
-                                    style="border-top: 1px solid #e5e5e5; border-bottom: 1px solid #e5e5e5; justify-content: space-evenly;">
-                                    <a href="{{ URL::to('/ordered') }}" class="col-xl-2 col-md-2 text-center view-hover"
-                                        style="position:relative;">
-                                        <i class="fa fa-envelope" style="font-size:24px;"></i>
-                                        <div>Tất cả</div>
-                                        @if (App\Models\Order::where('idCustomer', Session::get('idCustomer'))->count() > 0)
-                                            <span
-                                                class="qty-ordered">{{ App\Models\Order::where('idCustomer', Session::get('idCustomer'))->count() }}</span>
-                                        @endif
-                                    </a>
-                                    <a class="col-xl-2 col-md-2 text-center view-hover text-primary"
-                                        style="position:relative;">
-                                        <i class="fa fa-inbox" style="font-size:24px;"></i>
-                                        <div>Chờ xác nhận</div>
-                                        @if (App\Models\Order::where('idCustomer', Session::get('idCustomer'))->where('Status', '0')->count() > 0)
-                                            <span
-                                                class="qty-ordered">{{ App\Models\Order::where('idCustomer', Session::get('idCustomer'))->where('Status', '0')->count() }}</span>
-                                        @endif
-                                    </a>
-                                    <a href="{{ URL::to('/order-shipping') }}"
-                                        class="col-xl-2 col-md-2 text-center view-hover" style="position:relative;">
-                                        <i class="fa fa-plane" style="font-size:24px;"></i>
-                                        <div>Đang giao</div>
-                                        @if (App\Models\Order::where('idCustomer', Session::get('idCustomer'))->where('Status', '1')->count() > 0)
-                                            <span
-                                                class="qty-ordered">{{ App\Models\Order::where('idCustomer', Session::get('idCustomer'))->where('Status', '1')->count() }}</span>
-                                        @endif
-                                    </a>
-                                    <a href="{{ URL::to('/order-shipped') }}"
-                                        class="col-xl-2 col-md-2 text-center view-hover" style="position:relative;">
-                                        <i class="fa fa-check-circle" style="font-size:24px;"></i>
-                                        <div>Đã giao</div>
-                                        @if (App\Models\Order::where('idCustomer', Session::get('idCustomer'))->where('Status', '2')->count() > 0)
-                                            <span
-                                                class="qty-ordered">{{ App\Models\Order::where('idCustomer', Session::get('idCustomer'))->where('Status', '2')->count() }}</span>
-                                        @endif
-                                    </a>
-                                    <a href="{{ URL::to('/order-cancelled') }}"
-                                        class="col-xl-2 col-md-2 text-center view-hover" style="position:relative;">
-                                        <i class="fa fa-times" style="font-size:24px;"></i>
-                                        <div>Đã hủy</div>
-                                        @if (App\Models\Order::where('idCustomer', Session::get('idCustomer'))->where('Status', '99')->count() > 0)
-                                            <span
-                                                class="qty-ordered">{{ App\Models\Order::where('idCustomer', Session::get('idCustomer'))->where('Status', '99')->count() }}</span>
-                                        @endif
-                                    </a>
+                                    style="border-top: 1px solid #e5e5e5; border-bottom: 1px solid #e5e5e5; justify-content: flex-start;">
+
+                                    <div class="col-xl-2 col-md-2 text-left" style="margin-left: 0;">
+                                        <div class="dropdown">
+                                            <button class="btn btn-primary dropdown-toggle" type="button"
+                                                id="orderStatusDropdown" data-toggle="dropdown" aria-haspopup="true"
+                                                aria-expanded="false">
+                                                Trạng thái đơn hàng
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="orderStatusDropdown">
+                                                <!-- All Orders -->
+                                                <a class="dropdown-item" href="{{ URL::to('/ordered') }}">
+                                                    <i style="font-size:24px;"></i> Tất cả
+
+                                                </a>
+                                                <!-- Waiting Orders -->
+                                                <a class="dropdown-item" href="{{ URL::to('/order-waiting') }}">
+                                                    <i style="font-size:24px;"></i> Chờ xác nhận
+
+                                                </a>
+                                                <!-- Shipping Orders -->
+                                                <a class="dropdown-item" href="{{ URL::to('/order-shipping') }}">
+                                                    <i style="font-size:24px;"></i> Đang giao
+
+                                                </a>
+                                                <!-- Shipped Orders -->
+                                                <a class="dropdown-item" href="{{ URL::to('/order-shipped') }}">
+                                                    <i style="font-size:24px;"></i> Đã giao
+
+                                                </a>
+                                                <!-- Cancelled Orders -->
+                                                <a class="dropdown-item" href="{{ URL::to('/order-cancelled') }}">
+                                                    <i style="font-size:24px;"></i> Đã hủy
+
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <!-- <div class="account-table text-center mt-25 table-responsive"> -->
                                 <table id="example" class="table table-striped table-bordered dt-responsive nowrap"

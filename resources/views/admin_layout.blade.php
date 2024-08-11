@@ -98,31 +98,7 @@ use Illuminate\Support\Facades\Session;
                                         <i class="las la-minus"></i><span>Danh Sách Đơn Hàng</span>
                                     </a>
                                 </li>
-                                <li class="{{ Request::is('waiting-order') ? 'active' : '' }}">
-                                    <a href="{{ URL::to('/waiting-order') }}">
-                                        <i class="las la-minus"></i><span>Đơn Chờ Xác Nhận</span>
-                                    </a>
-                                </li>
-                                <li class="{{ Request::is('confirmed-order') ? 'active' : '' }}">
-                                    <a href="{{ URL::to('/confirmed-order') }}">
-                                        <i class="las la-minus"></i><span>Đơn Đã Xác Nhận</span>
-                                    </a>
-                                </li>
-                                <li class="{{ Request::is('shipping-order') ? 'active' : '' }}">
-                                    <a href="{{ URL::to('/shipping-order') }}">
-                                        <i class="las la-minus"></i><span>Đơn Đang Giao</span>
-                                    </a>
-                                </li>
-                                <li class="{{ Request::is('shipped-order') ? 'active' : '' }}">
-                                    <a href="{{ URL::to('/shipped-order') }}">
-                                        <i class="las la-minus"></i><span>Đơn Đã Giao</span>
-                                    </a>
-                                </li>
-                                <li class="{{ Request::is('cancelled-order') ? 'active' : '' }}">
-                                    <a href="{{ URL::to('/cancelled-order') }}">
-                                        <i class="las la-minus"></i><span>Đơn Đã Hủy</span>
-                                    </a>
-                                </li>
+                               
                              
                             </ul>
                         </li>

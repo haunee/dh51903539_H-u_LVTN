@@ -6,15 +6,13 @@
         <div class="swiper-container slider-active">
             <div class="swiper-wrapper">
                 <!--Single Slider Start-->
-                <div class="single-slider swiper-slide animation-style-01"
-                    {{-- style="background-image: url('/page/images/KIDOLBanner.png');"> --}}
+                <div class="single-slider swiper-slide animation-style-01" {{-- style="background-image: url('/page/images/KIDOLBanner.png');"> --}}
                     style="background-image: url('/page/images/banner/banner-4.jpg');">
                     <div class="container">
                         <div class="slider-content">
-                            <h5 class="sub-title">Nhập: <span class="text-primary">SALE100K</span> <br> Giảm 100K cho mọi đơn
-                                hàng</h5>
-                            <h2 class="main-title">Ngày đặc biệt!</h2>
-                            <p>Nhập: <span class="text-primary">SALE10</span> để được giảm 10%, số lượng có hạn!</p>
+
+                            <h2 class="main-title">Ngày Ngày Siêu Sale Sập Sàn</h2>
+                            <p>Nhập: <span class="text-primary">KM50</span> để được giảm 50%, thời gian có hạn!</p>
 
                             <ul class="slider-btn">
                                 <li><a href="{{ URL::to('/store') }}" class="btn btn-round btn-primary">Bắt đầu mua sắm</a>
@@ -30,10 +28,9 @@
                     style="background-image: url('/page/images/KIDOLBanner.png');">
                     <div class="container" style="text-align:right;">
                         <div class="slider-content">
-                            <h5 class="sub-title sub-title-right">Nhập: <span class="text-info">SALE100K</span> <br> Giảm
-                                100K cho mọi đơn hàng</h5>
-                            <h2 class="main-title">Ngày đặc biệt!</h2>
-                            <p>Nhập: <span class="text-info">SALE10</span> để được giảm 10%, số lượng có hạn!</p>
+
+                            <h2 class="main-title">Ngày Siêu Sale Sập Sàn</h2>
+                            <p>Nhập: <span class="text-info">KM50</span> để được giảm 50%, thời gian có hạn!</p>
 
                             <ul class="slider-btn">
                                 <li><a href="{{ URL::to('/store') }}" class="btn btn-round btn-primary">Bắt đầu mua sắm</a>
@@ -58,7 +55,7 @@
     </div>
     <!--Slider End-->
 
-   
+
 
 
 
@@ -71,71 +68,70 @@
                 <div class="col-lg-6 col-md-9 col-sm-11">
                     <div class="section-title text-center">
                         <h2 class="title">Sản Phẩm Mới</h2>
-                        
+
                     </div>
                 </div>
             </div>
             <div class="product-wrapper">
-                <div class="swiper-container product-active">
-                    <div class="swiper-wrapper">
-                        @foreach ($newestProducts as $product)
-                            <div class="swiper-slide">
-                                <div class="single-product">
-                                    <div class="product-image">
-                                        <?php $images = json_decode($product->ImageName); ?>
-                                        @if ($images && isset($images[0]))
-                                            <a href="{{ URL::to('/shop-single/' . $product->idProduct) }}">
-                                                <img src="{{ asset('storage/kidadmin/images/product/' . $images[0]) }}"
-                                                    alt="{{ $product->ProductName }}">
-                                            </a>
-                                        @else
-                                            <a href="{{ URL::to('/shop-single/' . $product->idProduct) }}">
-                                                <img src="{{ asset('path/to/default-image.jpg') }}"
-                                                    alt="No image available">
-                                            </a>
-                                        @endif
+                <div class="row">
+                    @foreach ($newestProducts as $product)
+                       
+                        <div class="col-lg-3 col-md-4 col-sm-6">
+                            <div class="single-product">
+                                <div class="product-image">
+                                    <?php $images = json_decode($product->ImageName); ?>
+                                    @if ($images && isset($images[0]))
+                                        <a href="{{ URL::to('/shop-single/' . $product->idProduct) }}">
+                                            <img src="{{ asset('storage/kidadmin/images/product/' . $images[0]) }}"
+                                                alt="{{ $product->ProductName }}">
+                                        </a>
+                                    @else
+                                        <a href="{{ URL::to('/shop-single/' . $product->idProduct) }}">
+                                            <img src="{{ asset('path/to/default-image.jpg') }}" alt="No image available">
+                                        </a>
+                                    @endif
 
 
-                                        <?php
-                                        $isInWishlist = in_array($product->idProduct, $wishlistProducts);
-                                        ?>
+                                    <?php
+                                    $isInWishlist = in_array($product->idProduct, $wishlistProducts);
+                                    ?>
 
-                                        <div class="action-links">
-                                            <ul>
+                                    <div class="action-links">
+                                        <ul>
 
-                                                <li>
-                                                    <a class="add-to-wishlist {{ $isInWishlist ? 'in-wishlist' : 'not-in-wishlist' }}"
-                                                        data-id="{{ $product->idProduct }}" data-tooltip="tooltip"
-                                                        data-placement="left" title="Thêm vào danh sách yêu thích">
-                                                        <i class="fa fa-heart"></i>
-                                                    </a>
+                                            <li>
+                                                <a class="add-to-wishlist {{ $isInWishlist ? 'in-wishlist' : 'not-in-wishlist' }}"
+                                                    data-id="{{ $product->idProduct }}" data-tooltip="tooltip"
+                                                    data-placement="left" title="Thêm vào danh sách yêu thích">
+                                                    <i class="fa fa-heart"></i>
+                                                </a>
 
-                                                </li>
+                                            </li>
 
-                                            </ul>
-                                        </div>
+                                        </ul>
                                     </div>
-                                    <div class="product-content text-center">
+                                </div>
+                                <div class="product-content text-center">
 
-                                        <h4 class="product-name"><a
-                                                href="{{ URL::to('/shop-single/' . $product->idProduct) }}">{{ $product->ProductName }}</a>
-                                        </h4>
-                                        <div class="price-box">
-                                            <span
-                                                class="current-price">{{ number_format($product->Price, 0, ',', '.') }}đ</span>
-                                        </div>
+                                    <h4 class="product-name"><a
+                                            href="{{ URL::to('/shop-single/' . $product->idProduct) }}">{{ $product->ProductName }}</a>
+                                    </h4>
+                                    <div class="price-box">
+                                        <span
+                                            class="current-price">{{ number_format($product->Price, 0, ',', '.') }}đ</span>
                                     </div>
                                 </div>
                             </div>
-                        @endforeach
-                    </div>
-
-                    <!-- Add Arrows -->
-                    <div class="swiper-next"><i class="fa fa-angle-right"></i></div>
-                    <div class="swiper-prev"><i class="fa fa-angle-left"></i></div>
+                        </div>
+                    @endforeach
                 </div>
+
+                <!-- Add Arrows -->
+                <div class="swiper-next"><i class="fa fa-angle-right"></i></div>
+                <div class="swiper-prev"><i class="fa fa-angle-left"></i></div>
             </div>
         </div>
+    </div>
     </div>
     <!--New Product End-->
 
@@ -158,7 +154,7 @@
                             $uniqueProducts = $recentlyViewedProducts->unique('idProduct'); // Đảm bảo loại bỏ sản phẩm trùng lặp
                         @endphp
                         @foreach ($uniqueProducts as $product)
-                        <div class="swiper-slide">
+                            <div class="swiper-slide">
                                 <div class="single-product">
                                     <div class="product-image">
                                         @php
@@ -166,24 +162,26 @@
                                         @endphp
                                         @if ($images && isset($images[0]))
                                             <a href="{{ URL::to('/shop-single/' . $product->idProduct) }}">
-                                                <img src="{{ asset('storage/kidadmin/images/product/' . $images[0]) }}" alt="{{ $product->ProductName }}">
+                                                <img src="{{ asset('storage/kidadmin/images/product/' . $images[0]) }}"
+                                                    alt="{{ $product->ProductName }}">
                                             </a>
                                         @else
                                             <a href="{{ URL::to('/shop-single/' . $product->idProduct) }}">
-                                                <img src="{{ asset('path/to/default-image.jpg') }}" alt="No image available">
+                                                <img src="{{ asset('path/to/default-image.jpg') }}"
+                                                    alt="No image available">
                                             </a>
                                         @endif
-    
+
                                         @php
                                             $isInWishlist = in_array($product->idProduct, $wishlistProducts);
                                         @endphp
-    
+
                                         <div class="action-links">
                                             <ul>
                                                 <li>
                                                     <a class="add-to-wishlist {{ $isInWishlist ? 'in-wishlist' : 'not-in-wishlist' }}"
-                                                       data-id="{{ $product->idProduct }}" data-tooltip="tooltip"
-                                                       data-placement="left" title="Thêm vào danh sách yêu thích">
+                                                        data-id="{{ $product->idProduct }}" data-tooltip="tooltip"
+                                                        data-placement="left" title="Thêm vào danh sách yêu thích">
                                                         <i class="fa fa-heart"></i>
                                                     </a>
                                                 </li>
@@ -191,9 +189,12 @@
                                         </div>
                                     </div>
                                     <div class="product-content text-center">
-                                        <h4 class="product-name"><a href="{{ URL::to('/shop-single/' . $product->idProduct) }}">{{ $product->ProductName }}</a></h4>
+                                        <h4 class="product-name"><a
+                                                href="{{ URL::to('/shop-single/' . $product->idProduct) }}">{{ $product->ProductName }}</a>
+                                        </h4>
                                         <div class="price-box">
-                                            <span class="current-price">{{ number_format($product->Price, 0, ',', '.') }}đ</span>
+                                            <span
+                                                class="current-price">{{ number_format($product->Price, 0, ',', '.') }}đ</span>
                                         </div>
                                     </div>
                                 </div>
@@ -204,12 +205,4 @@
             </div>
         </div>
     </div>
-    
-
-
-
-
-
-
-
 @endsection

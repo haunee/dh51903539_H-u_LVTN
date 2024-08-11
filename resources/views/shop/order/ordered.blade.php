@@ -1,8 +1,8 @@
 @extends('page_layout')
 @section('content')
-@php
-    use Carbon\Carbon;
-@endphp
+    @php
+        use Carbon\Carbon;
+    @endphp
     <!--Page Banner Start-->
     <div class="page-banner" style="background-image: url(/page/images/banner/banner5.jpg);">
         <div class="container">
@@ -41,53 +41,50 @@
                                 <div id="delete-bill-notification" class="alert" style="display:none;"></div>
 
                                 <div class="row pt-30 pb-30 mb-25"
-                                    style="border-top: 1px solid #e5e5e5; border-bottom: 1px solid #e5e5e5; justify-content: space-evenly;">
-                                    <a class="col-xl-2 col-md-2 text-center view-hover text-primary"
-                                        style="position:relative;">
-                                        <i class="fa fa-envelope" style="font-size:24px;"></i>
-                                        <div>Tất cả</div>
-                                        @if (App\Models\Order::where('idCustomer', Session::get('idCustomer'))->count() > 0)
-                                            <span
-                                                class="qty-ordered">{{ App\Models\Order::where('idCustomer', Session::get('idCustomer'))->count() }}</span>
-                                        @endif
-                                    </a>
-                                    <a href="{{ URL::to('/order-waiting') }}"
-                                        class="col-xl-2 col-md-2 text-center view-hover" style="position:relative;">
-                                        <i class="fa fa-inbox" style="font-size:24px;"></i>
-                                        <div>Chờ xác nhận</div>
-                                        @if (App\Models\Order::where('idCustomer', Session::get('idCustomer'))->where('Status', '0')->count() > 0)
-                                            <span
-                                                class="qty-ordered">{{ App\Models\Order::where('idCustomer', Session::get('idCustomer'))->where('Status', '0')->count() }}</span>
-                                        @endif
-                                    </a>
-                                    <a href="{{ URL::to('/order-shipping') }}"
-                                        class="col-xl-2 col-md-2 text-center view-hover" style="position:relative;">
-                                        <i class="fa fa-plane" style="font-size:24px;"></i>
-                                        <div>Đang giao</div>
-                                        @if (App\Models\Order::where('idCustomer', Session::get('idCustomer'))->where('Status', '1')->count() > 0)
-                                            <span
-                                                class="qty-ordered">{{ App\Models\Order::where('idCustomer', Session::get('idCustomer'))->where('Status', '1')->count() }}</span>
-                                        @endif
-                                    </a>
-                                    <a href="{{ URL::to('/order-shipped') }}"
-                                        class="col-xl-2 col-md-2 text-center view-hover" style="position:relative;">
-                                        <i class="fa fa-check-circle" style="font-size:24px;"></i>
-                                        <div>Đã giao</div>
-                                        @if (App\Models\Order::where('idCustomer', Session::get('idCustomer'))->where('Status', '2')->count() > 0)
-                                            <span
-                                                class="qty-ordered">{{ App\Models\Order::where('idCustomer', Session::get('idCustomer'))->where('Status', '2')->count() }}</span>
-                                        @endif
-                                    </a>
-                                    <a href="{{ URL::to('/order-cancelled') }}"
-                                        class="col-xl-2 col-md-2 text-center view-hover" style="position:relative;">
-                                        <i class="fa fa-times" style="font-size:24px;"></i>
-                                        <div>Đã hủy</div>
-                                        @if (App\Models\Order::where('idCustomer', Session::get('idCustomer'))->where('Status', '99')->count() > 0)
-                                            <span
-                                                class="qty-ordered">{{ App\Models\Order::where('idCustomer', Session::get('idCustomer'))->where('Status', '99')->count() }}</span>
-                                        @endif
-                                    </a>
+                                    style="border-top: 1px solid #e5e5e5; border-bottom: 1px solid #e5e5e5; justify-content: flex-start;">
+                                    <div class="col-xl-2 col-md-2 text-left" style="margin-left: 0;">
+                                        <div class="dropdown">
+                                            <button class="btn btn-primary dropdown-toggle" type="button"
+                                                id="orderStatusDropdown" data-toggle="dropdown" aria-haspopup="true"
+                                                aria-expanded="false">
+                                                Trạng thái đơn hàng
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="orderStatusDropdown">
+                                                <!-- All Orders -->
+                                                <a class="dropdown-item" href="{{ URL::to('/ordered') }}"
+                                                    onclick="updateDropdownText('Tất cả'); return false;">
+                                                    Tất cả
+                                                </a>
+                                                <!-- Waiting Orders -->
+                                                <a class="dropdown-item" href="{{ URL::to('/order-waiting') }}"
+                                                    onclick="updateDropdownText('Chờ xác nhận'); return false;">
+                                                    Chờ xác nhận
+                                                </a>
+                                                <!-- Shipping Orders -->
+                                                <a class="dropdown-item" href="{{ URL::to('/order-shipping') }}"
+                                                    onclick="updateDropdownText('Đang giao'); return false;">
+                                                    Đang giao
+                                                </a>
+                                                <!-- Shipped Orders -->
+                                                <a class="dropdown-item" href="{{ URL::to('/order-shipped') }}"
+                                                    onclick="updateDropdownText('Đã giao'); return false;">
+                                                    Đã giao
+                                                </a>
+                                                <!-- Cancelled Orders -->
+                                                <a class="dropdown-item" href="{{ URL::to('/order-cancelled') }}"
+                                                    onclick="updateDropdownText('Đã hủy'); return false;">
+                                                    Đã hủy
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
+
+
+
+
+
+
                                 <table id="example" class="table table-striped table-bordered dt-responsive nowrap"
                                     style="width:100%;">
                                     <thead>
@@ -105,7 +102,8 @@
                                             <tr>
                                                 <td>{{ $order->idOrder }}</td>
                                                 <td>{{ $order->CustomerName }}</td>
-                                                <td>{{ Carbon::parse($order->created_at)->setTimezone('Asia/Ho_Chi_Minh')->format('d/m/Y H:i:s') }}</td>
+                                                <td>{{ Carbon::parse($order->created_at)->setTimezone('Asia/Ho_Chi_Minh')->format('d/m/Y H:i:s') }}
+                                                </td>
 
                                                 @if ($order->Status == 0)
                                                     <td>Chờ xác nhận...</td>
@@ -155,7 +153,7 @@
                 var idOrder = $(this).data("id");
                 var button = $(this);
 
-                if (confirm('Bạn có chắc chắn muốn hủy đơn hàng #' + idOrder+ ' không?')) {
+                if (confirm('Bạn có chắc chắn muốn hủy đơn hàng #' + idOrder + ' không?')) {
                     var _token = $('meta[name="csrf-token"]').attr('content');
 
                     $.ajax({
@@ -183,6 +181,13 @@
 
                 }
             });
+
+            function updateDropdownText(text) {
+                document.getElementById('orderStatusDropdown').innerText = text;
+            }
+
+
+
         });
     </script>
 @endsection

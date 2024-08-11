@@ -47,7 +47,9 @@
                                     </select>
                                     <div class="help-block with-errors"></div>
                                 </div> 
-                            </div>    
+                            </div>  
+                            
+                            
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="idBrand" class="required">Thương hiệu</label>
@@ -60,18 +62,34 @@
                                     <div class="help-block with-errors"></div>
                                 </div>
                             </div>
+
+
+
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="idBrand" class="required">Phân loại hàng</label>
                                     <button class="btn btn-primary d-block col-md-12" type="button" data-toggle="modal" data-target="#modal-attributes">Chọn phân loại</button>
                                 </div>
                             </div>
+
+
+                            
+                           
+
+
+
+
+
                             <div class="col-md-12 d-flex flex-wrap input-attrs">
                                 <div class="col-md-12 d-flex flex-wrap attr-title">
                                     <div class="attr-title-1 col-md-6 text-center d-none"></div>
                                     <div class="attr-title-2 col-md-6 text-center d-none">Số lượng</div>
                                 </div>
                             </div>
+
+
+
+
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="Price" class="required">Giá</label>
@@ -390,7 +408,47 @@
 
     
 
-    
+// $(document).ready(function() {
+//     // Xử lý khi phân loại hàng được chọn
+//     $('#idClassification').on('change', function() {
+//         var selectedClassification = $(this).val();
+//         var classificationHtml = '';
+
+//         // Tùy thuộc vào phân loại hàng được chọn, hiển thị các ô tương ứng
+//         if (selectedClassification === 'color') {
+//             classificationHtml = `
+//                 <div class="col-md-4">
+//                     <div class="form-group">
+//                         <label for="Color">Màu sắc</label>
+//                         <input id="Color" name="Color" type="text" class="form-control" placeholder="Nhập màu sắc">
+//                     </div>
+//                 </div>
+//             `;
+//         } else if (selectedClassification === 'size') {
+//             classificationHtml = `
+//                 <div class="col-md-4">
+//                     <div class="form-group">
+//                         <label for="Size">Kích thước</label>
+//                         <input id="Size" name="Size" type="text" class="form-control" placeholder="Nhập kích thước">
+//                     </div>
+//                 </div>
+//             `;
+//         } else if (selectedClassification === 'quantity') {
+//             classificationHtml = `
+//                 <div class="col-md-4">
+//                     <div class="form-group">
+//                         <label for="Quantity">Số lượng</label>
+//                         <input id="Quantity" name="Quantity" type="number" min="0" class="form-control" placeholder="Nhập số lượng">
+//                     </div>
+//                 </div>
+//             `;
+//         }
+
+//         // Cập nhật phần hiển thị phân loại hàng
+//         $('.input-classifications').html(classificationHtml);
+//     });
+// });
+
 </script>
 
 @endsection

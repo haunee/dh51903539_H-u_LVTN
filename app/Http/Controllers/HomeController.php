@@ -30,7 +30,7 @@ class HomeController extends Controller
         $newestProducts = Product::join('productimage', 'productimage.idProduct', '=', 'product.idProduct')
             ->select('product.*', 'productimage.ImageName')
             ->orderBy('product.created_at', 'desc')
-            ->take(6)
+            ->take(8)
             ->get();
 
 
