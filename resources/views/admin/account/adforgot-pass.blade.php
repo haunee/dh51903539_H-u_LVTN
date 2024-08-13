@@ -22,7 +22,7 @@
                                 <div class="d-flex align-items-center auth-content">
                                     <div class="col-lg-6 align-self-center">
                                         <div class="p-3">
-                                            <h2 class="mb-2">Quên Mật Khẩu</h2>
+                                            <h3 class="mb-2">Quên Mật Khẩu</h2>
                                             <p>Nhập email để nhận mã xác nhận.</p>
                                             @if ($errors->any())
                                             <div class="alert alert-danger">
@@ -52,8 +52,8 @@
                                                 <div class="row">
                                                     <div class="col-lg-12">
                                                         <div class="floating-label form-group">
-                                                            <input class="floating-input form-control" type="email" placeholder=" " name="email" required>
-                                                            <label>Email</label>
+                                                            <input class="floating-input form-control" type="email" placeholder="Email " name="email" required>
+                                                          
                                                         </div>
                                                     </div>
                                                 </div>
@@ -71,22 +71,22 @@
                                                 <div class="row">
                                                     <div class="col-lg-12">
                                                         <div class="floating-label form-group">
-                                                            <input class="floating-input form-control" type="text" placeholder=" " name="reset_code" required>
-                                                            <label>Mã Xác Nhận</label>
+                                                            <input class="floating-input form-control" type="text" placeholder="Mã Xác Nhận " name="reset_code" required>
+                                                            
                                                           
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-12">
                                                         <div class="floating-label form-group">
-                                                            <input class="floating-input form-control" type="password" placeholder=" " name="password" required>
-                                                            <label>Mật Khẩu Mới</label>
+                                                            <input class="floating-input form-control" type="password" placeholder=" Mật Khẩu Mới" name="password" required>
+                                                            
                                                  
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-12">
                                                         <div class="floating-label form-group">
-                                                            <input class="floating-input form-control" type="password" placeholder=" " name="password_confirmation" required>
-                                                            <label>Xác Nhận Mật Khẩu</label>
+                                                            <input class="floating-input form-control" type="password" placeholder=" Xác Nhận Mật Khẩu" name="password_confirmation" required>
+                                                            
                                                            
                                                         </div>
                                                     </div>

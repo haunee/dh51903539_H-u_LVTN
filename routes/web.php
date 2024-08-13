@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\AttributeController;
-use App\Http\Controllers\AttributeValueController;
+use App\Http\Controllers\PropertyController;
+use App\Http\Controllers\PropertyValueController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
@@ -201,17 +201,17 @@ Route::get('/delete-category/{idCategory}', [CategoryController::class, 'delete_
 
 //Attribute-value
 
-Route::get('/add-attri-value', [AttributeValueController::class, 'add_attri_value'])->name('admin.add_attrival');
+Route::get('/add-attri-value', [PropertyValueController::class, 'add_attri_value'])->name('admin.add_attrival');
 
-Route::post('/submit-add-attri-value', [AttributeValueController::class, 'submit_add_attrival']);
+Route::post('/submit-add-attri-value', [PropertyValueController::class, 'submit_add_attrival']);
 
-Route::get('/manage-attri-value', [AttributeValueController::class, 'manage_attri_value'])->name('admin.manage_attrival');
+Route::get('/manage-attri-value', [PropertyValueController::class, 'manage_attri_value'])->name('admin.manage_attrival');
 
-Route::get('/edit-attri-value/{idAttriValue}', [AttributeValueController::class, 'edit_at_value'])->name('admin.edit_attrival');
+Route::get('/edit-attri-value/{idProVal}', [PropertyValueController::class, 'edit_at_value'])->name('admin.edit_attrival');
 
-Route::post('/submit-edit-attri-value/{idAttriValue}', [AttributeValueController::class, 'submit_edit_attri_value']);
+Route::post('/submit-edit-attri-value/{idProVal}', [PropertyValueController::class, 'submit_edit_attri_value']);
 
-Route::get('/delete-attri-value/{idAttriValue}', [AttributeValueController::class, 'delete_attr_value']);
+Route::get('/delete-attri-value/{idProVal}', [PropertyValueController::class, 'delete_attr_value']);
 
 
 
@@ -220,19 +220,19 @@ Route::get('/delete-attri-value/{idAttriValue}', [AttributeValueController::clas
 
 //Attribute
 
-Route::get('/add-attribute', [AttributeController::class, 'add_attribute'])->name('admin.add_attribute');
+Route::get('/add-attribute', [PropertyController::class, 'add_attribute'])->name('admin.add_attribute');
 
-Route::post('/submit-add-attribute', [AttributeController::class, 'submit_add_attribute']);
+Route::post('/submit-add-attribute', [PropertyController::class, 'submit_add_attribute']);
 
-Route::get('/manage-attribute', [AttributeController::class, 'manage_attribute'])->name('admin.manage_attribute');
+Route::get('/manage-attribute', [PropertyController::class, 'manage_attribute'])->name('admin.manage_attribute');
 
-Route::get('/edit-attribute/{idAttribute}', [AttributeController::class, 'edit_attribute'])->name('admin.edit_attribute');
+Route::get('/edit-attribute/{idProperty}', [PropertyController::class, 'edit_attribute'])->name('admin.edit_attribute');
 
-Route::post('/submit-edit-attribute/{idAttribute}', [AttributeController::class, 'submit_edit_attribute']);
+Route::post('/submit-edit-attribute/{idProperty}', [PropertyController::class, 'submit_edit_attribute']);
 
-Route::get('/delete-attribute/{idAttribute}', [AttributeController::class, 'delete_attribute']);
+Route::get('/delete-attribute/{idProperty}', [PropertyController::class, 'delete_attribute']);
 
-Route::post('/select-attribute', [AttributeController::class, 'select_attribute']);
+Route::post('/select-attribute', [PropertyController::class, 'select_attribute']);
 
 
 
@@ -316,5 +316,5 @@ Route::get('/order/{idOrder}/pdf', [CartController::class, 'exportPDF'])->name('
 
 
 // web.php
-Route::post('/save-product-attributes', [ProductController::class, 'saveProductAttributes'])->name('saveProductAttributes');
-Route::get('/get-attribute-values/{idAttribute}', [ProductController::class, 'getAttriValue']);
+Route::post('/save-product-attributes', [ProductController::class, 'savePropertyPros'])->name('savePropertyPros');
+Route::get('/get-attribute-values/{idProperty}', [ProductController::class, 'getAttriValue']);

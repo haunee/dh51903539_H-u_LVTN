@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('orderdetail', function (Blueprint $table) {
             $table->integer('idOrder');
             $table->integer('idProduct');
-            $table->string('AttributeProduct', 50);
+            $table->string('PropertyPro', 50);
             $table->integer('Price');
             $table->integer('QuantityBuy');
-            $table->integer('idProAttr'); // Thêm cột idProAttr
+            $table->integer('idProperPro'); // Thêm cột idProperPro
             $table->timestamps();
         });
     }

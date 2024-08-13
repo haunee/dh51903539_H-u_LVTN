@@ -1,7 +1,7 @@
 @extends('page_layout')
 @section('content')
     <!--Page Banner Start-->
-    <div class="page-banner" style="background-image: url(/page/images/oso.png);">
+    <div class="page-banner" style="background-image: url(/page/images/banner/banner5.jpg);">
         <div class="container">
             <div class="page-banner-content text-center">
                 <h2 class="title">Đơn đặt hàng</h2>
@@ -62,17 +62,17 @@
                                                 </a>
                                                 <!-- Shipping Orders -->
                                                 <a class="dropdown-item" href="{{ URL::to('/order-shipping') }}">
-                                                    <i style="font-size:24px;"></i> Đang giao
+                                                    <i style="font-size:24px;"></i> Đang vận chuyển
 
                                                 </a>
                                                 <!-- Shipped Orders -->
                                                 <a class="dropdown-item" href="{{ URL::to('/order-shipped') }}">
-                                                    <i style="font-size:24px;"></i> Đã giao
+                                                    <i style="font-size:24px;"></i> Đã nhận hàng
 
                                                 </a>
                                                 <!-- Cancelled Orders -->
                                                 <a class="dropdown-item" href="{{ URL::to('/order-cancelled') }}">
-                                                    <i style="font-size:24px;"></i> Đã hủy
+                                                    <i style="font-size:24px;"></i> Đơn hủy
 
                                                 </a>
                                             </div>
@@ -100,7 +100,7 @@
 
                                                 <td>{{ number_format($order ->TotalBill, 0, ',', '.') }}đ</td>
                                                 <td class="d-flex justify-content-center">
-                                                    <a class="view-hover h3 mr-2"
+                                                    <a class="view-hover  mr-2"
                                                         href="{{ URL::to('/ordered-info/' . $order ->idOrder) }}"
                                                         data-toggle="tooltip" data-placement="top" title=""
                                                         data-original-title="Xem chi tiết">
@@ -110,8 +110,12 @@
                                                           
                                                     </a>
                                                         
-                                                        <a class="view-hover h3 ml-2 delete-order-btn" data-id="{{ $order ->idOrder }}" href="#" title="Xóa đơn hàng">
-                                                            <i class="fa fa-trash"></i>
+                                                        <a class="view-hover  ml-2 delete-order-btn" data-id="{{ $order ->idOrder }}" href="#" title="Xóa đơn hàng">
+                                                            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"/>
+                                                              </svg>
+                                                              
+                                                              
                                                             <meta name="csrf-token" content="{{ csrf_token() }}">
                                                         </a>
                                                         

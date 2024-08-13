@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('attribute', function (Blueprint $table) {
-            $table->increments('idAttribute');
-            $table->string('AttributeName');
+            $table->increments('idProperty');
+            $table->string('ProValName');
             $table->timestamps();
         });
     }

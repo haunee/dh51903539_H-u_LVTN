@@ -67,9 +67,7 @@
             <div class="col-lg-12">
                 <div class="card card-block card-stretch card-height">
                     <div class="card-header d-flex align-items-center justify-content-between">
-                        <div class="header-title">
-                            <h4 class="card-title">Doanh Thu Cửa Hàng</h4>
-                        </div>
+                       
                      
                         <form class="col-lg-3 p-0"> @csrf
                         <div class="input-group">
@@ -86,7 +84,8 @@
 
                     
                     <div class="card-body">
-                        <div id="chart-sale" style="height: 280px;"></div>
+
+                        <div id="chart-sale" style="height:300px;"></div>
                     </div>
                 </div>
             </div>  
@@ -94,14 +93,14 @@
                     <div class="card card-block card-stretch card-height">
                         <div class="card-header d-flex align-items-center justify-content-between">
                             <div class="header-title">
-                                <h4 class="card-title"> Sản Phẩm Bán Chạy</h4>
+                                <h4 class="card-title"> Sản Phẩm Chạy Nhất</h4>
                             </div>
                         
                         </div>
-                        <div class="card-body list-topPro" style="padding-bottom:4px;">
+                        <div class="card-body list-topPro" style="padding-bottom:20px;">
                             <ul class="list-unstyled row mb-0">
                                 @foreach($list_topProduct as $key => $topProduct)
-                                    <li class="col-lg-3 topPro-item">
+                                    <li class="col-lg-4 topPro-item">
                                         <div class="card-block card-stretch mb-0">
                                             <div class="card-body">
                                                 <div class="bg-warning-light rounded">
@@ -184,5 +183,7 @@
       
     });
 </script>
+
+
 
 @endsection

@@ -78,8 +78,8 @@
                                             <select id="product-attributes" name="attributes[]" class="form-control">
                                                 <option value="" disabled selected>Chọn thuộc tính</option>
                                                 @foreach ($list_attribute as $attribute)
-                                                    <option value="{{ $attribute->idAttribute }}">
-                                                        {{ $attribute->AttributeName }}</option>
+                                                    <option value="{{ $attribute->idProperty }}">
+                                                        {{ $attribute->PropertyName }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -194,7 +194,7 @@
                                     @endforeach
                                 </select>
 
-                                <div class="pb-3 d-flex flex-wrap" id="attributevalue">
+                                <div class="pb-3 d-flex flex-wrap" id="PropertyValue">
 
                                 </div>
                                 <div class="col-lg-12 mt-4">
@@ -246,218 +246,88 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
-    $('#product-attributes').change(function() {
-        var attributeId = $(this).val();
+            $('#product-attributes').change(function() {
+                var attributeId = $(this).val();
 
-        $.ajax({
-            url: '/get-attribute-values/' + attributeId,
-            method: 'GET',
-            data: { idAttribute: attributeId },
-            success: function(response) {
-                $('#attribute_value').empty();
+                $.ajax({
+                    url: '/get-attribute-values/' + attributeId,
+                    method: 'GET',
+                    data: {
+                        idProperty: attributeId
+                    },
+                    success: function(response) {
+                        $('#attribute_value').empty();
 
-                $.each(response, function(index, attrival) {
-                    $('#attribute_value').append(
-                        $('<option>').val(attrival.idAttriValue).text(attrival.AttriValName)
-                    );
+                        $.each(response, function(index, attrival) {
+                            $('#attribute_value').append(
+                                $('<option>').val(attrival.idProVal).text(attrival
+                                    .ProValName)
+                            );
+                        });
+                    },
+                    error: function(xhr) {
+                        console.log('Có lỗi xảy ra khi gửi yêu cầu AJAX');
+                        console.log(xhr.responseText);
+                    }
                 });
-            },
-            error: function(xhr) {
-                console.log('Có lỗi xảy ra khi gửi yêu cầu AJAX');
-                console.log(xhr.responseText);
-            }
-        });
-    });
-
-    $('#attribute_value').change(function() {
-        var selectedSizes = $(this).val();
-
-        if (selectedSizes) {
-            $('#sizes-container').empty();
-
-            var sizeNames = {};
-            $('#attribute_value option').each(function() {
-                var value = $(this).val();
-                var text = $(this).text();
-                sizeNames[value] = text;
             });
 
-            selectedSizes.forEach(function(sizeId) {
-                var sizeName = sizeNames[sizeId] || sizeId;
-                var sizeInput = `
+            $('#attribute_value').change(function() {
+                var selectedSizes = $(this).val();
+
+                if (selectedSizes) {
+                    $('#sizes-container').empty();
+
+                    var sizeNames = {};
+                    $('#attribute_value option').each(function() {
+                        var value = $(this).val();
+                        var text = $(this).text();
+                        sizeNames[value] = text;
+                    });
+
+                    selectedSizes.forEach(function(sizeId) {
+                        var sizeName = sizeNames[sizeId] || sizeId;
+                        var sizeInput = `
                     <div class="form-group">
                         <label for="size_quantity_${sizeId}">Số lượng cho kích thước ${sizeName}:</label>
                         <input type="number" id="size_quantity_${sizeId}" name="size_quantities[${sizeId}]" class="form-control size-quantity" min="0" />
                         <div id="error_${sizeId}" class="text-danger" style="display:none;">Số lượng không thể âm!</div>
                     </div>
                 `;
-                $('#sizes-container').append(sizeInput);
+                        $('#sizes-container').append(sizeInput);
+                    });
+
+                    updateTotalQuantity();
+                }
             });
 
-            updateTotalQuantity();
-        }
-    });
+            $(document).on('input', '.size-quantity', function() {
+                var input = $(this);
+                var quantity = parseInt(input.val(), 10);
+                var errorDiv = $('#error_' + input.attr('id'));
 
-    $(document).on('input', '.size-quantity', function() {
-        var input = $(this);
-        var quantity = parseInt(input.val(), 10);
-        var errorDiv = $('#error_' + input.attr('id'));
+                if (quantity < 0 || isNaN(quantity)) {
+                    errorDiv.show();
+                    input.addClass('is-invalid');
+                } else {
+                    errorDiv.hide();
+                    input.removeClass('is-invalid');
+                }
 
-        if (quantity < 0 || isNaN(quantity)) {
-            errorDiv.show();
-            input.addClass('is-invalid');
-        } else {
-            errorDiv.hide();
-            input.removeClass('is-invalid');
-        }
+                updateTotalQuantity();
+            });
 
-        updateTotalQuantity();
-    });
+            function updateTotalQuantity() {
+                var totalQuantity = 0;
+                $('.size-quantity').each(function() {
+                    var quantity = parseInt($(this).val(), 10);
+                    if (!isNaN(quantity) && quantity >= 0) {
+                        totalQuantity += quantity;
+                    }
+                });
 
-    function updateTotalQuantity() {
-        var totalQuantity = 0;
-        $('.size-quantity').each(function() {
-            var quantity = parseInt($(this).val(), 10);
-            if (!isNaN(quantity) && quantity >= 0) {
-                totalQuantity += quantity;
+                $('#Quantity').val(totalQuantity);
             }
         });
-
-        $('#Quantity').val(totalQuantity);
-    }
-});
-
-    </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <script>
-        // $(document).ready(function() {
-        //     function validateQuantityInput(input) {
-        //         var inputVal = parseInt($(input).val());
-        //         if (inputVal < 0) {
-        //             alert("Số lượng không được âm");
-        //             $(input).val(0); // Reset giá trị về 0 nếu người dùng nhập số âm
-        //         }
-        //         var total_qty = 0;
-        //         $(".qty-attr").each(function() {
-        //             if (!isNaN(parseInt($(this).val()))) {
-        //                 total_qty += parseInt($(this).val());
-        //             }
-        //         });
-        //         $("#Quantity").val(total_qty);
-        //     }
-
-        //     // Add event listener for input and change events on quantity inputs
-        //     $(document).on("input change", ".qty-attr", function() {
-        //         validateQuantityInput(this);
-        //     });
-
-        //     // AJAX call and other logic remain the same
-        //     $('.choose-attr').on('change', function() {
-        //         var action = $(this).attr('id');
-        //         var idAttribute = $(this).val();
-        //         var attr_group_name = $("#attr-group-" + idAttribute).data("attr-group-name");
-        //         var _token = $('input[name="_token"]').val();
-        //         var result = '';
-
-        //         if (action == 'attribute') result = 'attributevalue';
-
-        //         $.ajax({
-        //             url: '{{ url('/select-attribute') }}',
-        //             method: 'POST',
-        //             data: {
-        //                 action: action,
-        //                 idAttribute: idAttribute,
-        //                 _token: _token
-        //             },
-        //             success: function(data) {
-        //                 $('#' + result).html(data);
-
-        //                 $("input[type=checkbox]").on("click", function() {
-        //                     var attr_id = $(this).data("id");
-        //                     var attr_name = $(this).data("name");
-
-        //                     if ($(this).is(":checked")) {
-        //                         $("#attr-name-" + attr_id).addClass("text-primary");
-
-        //                         $("#confirm-attrs").click(function() {
-        //                             var input_attrs_item =
-        //                                 '<div id="input-attrs-item-' + attr_id +
-        //                                 '" class="col-md-12 d-flex flex-wrap input_attrs_items"><div class="col-md-6"><input class="form-control text-center" type="text" value="' +
-        //                                 attr_name +
-        //                                 '" disabled></div><div class="form-group col-md-6"><input id="qty-attr-' +
-        //                                 attr_id +
-        //                                 '" class="form-control text-center qty-attr" name="qty_attr[]" placeholder="Nhập số lượng phân loại" type="number" min="0" required></div></div>';
-        //                             if ($('#input-attrs-item-' + attr_id)
-        //                                 .length < 1) $('.input-attrs').append(
-        //                                 input_attrs_item);
-
-        //                             $(document).on("input change", ".qty-attr",
-        //                                 function() {
-        //                                     validateQuantityInput(this);
-        //                                 });
-        //                         });
-        //                     } else if ($(this).is(":not(:checked)")) {
-        //                         $("#attr-name-" + attr_id).removeClass("text-primary");
-
-        //                         $("#confirm-attrs").click(function() {
-        //                             $('#input-attrs-item-' + attr_id).remove();
-
-        //                             var total_qty = 0;
-        //                             $(".qty-attr").each(function() {
-        //                                 if (!isNaN(parseInt($(this)
-        //                                     .val()))) {
-        //                                     total_qty += parseInt($(
-        //                                         this).val());
-        //                                 }
-        //                             });
-        //                             $("#Quantity").val(total_qty);
-        //                         });
-        //                     }
-
-        //                     $('.choose-attr').on('change', function() {
-        //                         $('.chk_attr').prop('checked', false);
-
-        //                         $("#confirm-attrs").click(function() {
-        //                             $('.input_attrs_items').remove();
-        //                         });
-        //                     });
-        //                 });
-
-        //                 $("#confirm-attrs").click(function() {
-        //                     if ($('[name="chk_attr[]"]:checked').length >= 1) {
-        //                         $('.attr-title-1').html(attr_group_name);
-        //                         $('.attr-title-1').removeClass('d-none');
-        //                         $('.attr-title-2').removeClass('d-none');
-        //                         $('#Quantity').addClass('disabled-input');
-        //                     } else {
-        //                         $('.attr-title-1').addClass('d-none');
-        //                         $('.attr-title-2').addClass('d-none');
-        //                         $('#Quantity').removeClass('disabled-input');
-        //                     }
-        //                 });
-        //             }
-        //         });
-        //     });
-        // });
     </script>
 @endsection

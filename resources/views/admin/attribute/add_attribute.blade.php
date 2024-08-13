@@ -24,8 +24,8 @@
                                         <span class="text-danger">{{ Session::get('error') }}</span>
                                     @endif
                                     <div class="form-group">
-                                        <label class="required">Tên nhóm phân loại</label>
-                                        <input type="text" name="AttributeName" class="form-control" placeholder="Nhập tên nhóm phân loại" required>
+                                        {{-- <label class="required">Tên nhóm phân loại</label> --}}
+                                        <input type="text" name="PropertyName" class="form-control" placeholder="Nhập tên nhóm phân loại" required>
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div>    

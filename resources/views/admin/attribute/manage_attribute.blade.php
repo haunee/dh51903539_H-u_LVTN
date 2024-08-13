@@ -45,23 +45,23 @@
                             <tbody class="ligth-body" id="load-attribute">
                                 @foreach ($list_attribute as $key => $attribute)
                                     <tr>
-                                        <td>{{ $attribute->idAttribute }}</td>
-                                        <td>{{ $attribute->AttributeName }}</td>
+                                        <td>{{ $attribute->idProperty }}</td>
+                                        <td>{{ $attribute->PropertyName }}</td>
                                         <td>
                                             <div class="d-flex align-items-center list-action">
                                                 <a class="badge bg-success mr-2" data-toggle="tooltip" data-placement="top"
                                                     title="" data-original-title="Sửa"
-                                                    href="{{ URL::to('/edit-attribute/' . $attribute->idAttribute) }}"><i
+                                                    href="{{ URL::to('/edit-attribute/' . $attribute->idProperty) }}"><i
                                                         class="fas fa-edit mr-0"></i></a>
                                                 <a class="badge bg-warning mr-2" data-toggle="modal"
-                                                    data-target="#model-delete-{{ $attribute->idAttribute }}"
+                                                    data-target="#model-delete-{{ $attribute->idProperty }}"
                                                     data-placement="top" title="" data-original-title="Xóa"
                                                     style="cursor:pointer;"><i class="fas fa-trash-alt mr-0 "></i></a>
                                             </div>
                                         </td>
                                     </tr>
                                     <div class="modal fade bd-example-modal-sm" role="dialog"
-                                        id="model-delete-{{ $attribute->idAttribute }}" aria-hidden="true">
+                                        id="model-delete-{{ $attribute->idProperty }}" aria-hidden="true">
                                         <div class="modal-dialog modal-sm">
                                             <div class="modal-content">
                                                 <div class="modal-header">
@@ -72,13 +72,13 @@
                                                     </button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <p>Bạn có muốn xóa nhóm phân loại {{ $attribute->AttributeName }} không?
+                                                    <p>Bạn có muốn xóa nhóm phân loại {{ $attribute->PropertyName }} không?
                                                     </p>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-light" data-dismiss="modal">Trở
                                                         về</button>
-                                                    <a href="{{ URL::to('/delete-attribute/' . $attribute->idAttribute) }}"
+                                                    <a href="{{ URL::to('/delete-attribute/' . $attribute->idProperty) }}"
                                                         type="button" class="btn btn-primary">Xác nhận</a>
                                                 </div>
                                             </div>

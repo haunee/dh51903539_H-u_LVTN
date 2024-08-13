@@ -15,8 +15,8 @@ return new class extends Migration
             $table->increments('idCart');
             $table->integer('idCustomer');
             $table->integer('idProduct');
-            $table->integer('idProAttr');
-            $table->string('AttributeProduct',50);
+            $table->integer('idProperPro');
+            $table->string('PropertyPro',50);
             $table->integer('Price');
             $table->integer('QuantityBuy');
             $table->integer('Total');

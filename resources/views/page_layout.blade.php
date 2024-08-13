@@ -192,7 +192,7 @@
                                                                         href="{{ URL::to('shop-single/' . $cart->idProduct) }}">{{ $cart->ProductName }}</a>
                                                                 </h6>
                                                                 <span class="title"
-                                                                    style="font-size:13px;">{{ $cart->AttributeProduct }}</span>
+                                                                    style="font-size:13px;">{{ $cart->PropertyPro }}</span>
                                                                 <div class="cart-price d-flex">
                                                                     <span
                                                                         class="amount">{{ number_format($cart->Price, 0, ',', '.') }}đ</span>

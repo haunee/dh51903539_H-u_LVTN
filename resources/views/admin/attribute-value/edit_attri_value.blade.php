@@ -14,7 +14,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <form action="{{URL::to('/submit-edit-attri-value/'.$select_attr_value->idAttriValue)}}" method="POST" data-toggle="validator">
+                        <form action="{{URL::to('/submit-edit-attri-value/'.$select_attr_value->idProVal)}}" method="POST" data-toggle="validator">
                             @csrf
                             <div class="row"> 
                                 <?php
@@ -30,11 +30,11 @@
                                 ?>            
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="idAttribute">Nhóm phân loại *</label>
-                                        <select id="idAttribute" name="idAttribute" class="selectpicker form-control" data-style="py-0" required>
-                                            <option value="{{$select_attr_value->idAttribute}}">{{$select_attr_value->AttributeName}}</option>
+                                        <label for="idProperty">Nhóm phân loại *</label>
+                                        <select id="idProperty" name="idProperty" class="selectpicker form-control" data-style="py-0" required>
+                                            <option value="{{$select_attr_value->idProperty}}">{{$select_attr_value->PropertyName}}</option>
                                             @foreach($list_attribute as $key => $attribute)
-                                            <option value="{{$attribute->idAttribute}}">{{$attribute->AttributeName}}</option>
+                                            <option value="{{$attribute->idProperty}}">{{$attribute->PropertyName}}</option>
                                             @endforeach
                                         </select>
                                         <div class="help-block with-errors"></div>
@@ -43,7 +43,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Tên phân loại</label>
-                                        <input type="text" name="AttriValName" class="form-control" value="{{$select_attr_value->AttriValName}}" placeholder="Nhập tên phân loại" required>
+                                        <input type="text" name="ProValName" class="form-control" value="{{$select_attr_value->ProValName}}" placeholder="Nhập tên phân loại" required>
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div>    

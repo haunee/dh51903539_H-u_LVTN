@@ -48,10 +48,10 @@
                                         <a
                                             href="{{ URL::to('/shop-single/' . $pd_cart->idProduct) }}">{{ $pd_cart->ProductName }}</a>
                                         <span>Mã sản phẩm: {{ $pd_cart->idProduct }}</span>
-                                        <span>{{ $pd_cart->AttributeProduct }}</span>
+                                        <span>{{ $pd_cart->PropertyPro }}</span>
                                         
                                         <?php $replace = [' ', ':']; ?>
-                                        <input type="hidden" class="Quantity" id="<?php echo 'Quantity-' . $pd_cart->idProduct . '-' . str_replace($replace, '', $pd_cart->AttributeProduct); ?>"
+                                        <input type="hidden" class="Quantity" id="<?php echo 'Quantity-' . $pd_cart->idProduct . '-' . str_replace($replace, '', $pd_cart->PropertyPro); ?>"
                                             value="{{ $pd_cart->Quantity }}">
                                     </td>
                                     <td class="price">
@@ -60,7 +60,7 @@
                                     <td class="quantity">
                                         <div class="quantity d-inline-flex">
                                             <button type="button" class="sub-qty"
-                                                id="sub-qty-{{ $pd_cart->idProduct }}-{{ $pd_cart->AttributeProduct }}"><i
+                                                id="sub-qty-{{ $pd_cart->idProduct }}-{{ $pd_cart->PropertyPro }}"><i
                                                     class="ti-minus"></i></button>
 
                                             <input type="number" class="QuantityBuy"
@@ -69,7 +69,7 @@
                                                 oninput="validity.valid||(value='1');" />
 
                                             <button type="button" class="add-qty"
-                                                id="{{ $pd_cart->idProduct }}-{{ $pd_cart->AttributeProduct }}"><i
+                                                id="{{ $pd_cart->idProduct }}-{{ $pd_cart->PropertyPro }}"><i
                                                     class="ti-plus"></i></button>
 
                                             <div class="alert-qty-input"><span class="message-qty-input">Mua tối đa

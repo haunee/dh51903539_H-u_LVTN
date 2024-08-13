@@ -73,12 +73,12 @@
                             </div>
 
                             <div class="form-group mt-15">
-                                <input type="submit" class="btn btn-primary btn-block" value="Đăng ký"/>
+                                <input type="submit" class="btn btn-primary btn-block" style="border-radius: 20px;" value="Đăng ký"/>
                             </div>
                             
                             <div class="form-group mt-15">
                                 <a>Bạn đã có tài khoản?</a>
-                                <a href="{{URL::to('/login')}}" class="btn btn-dark btn-block">Đăng nhập</a>
+                                <a href="{{URL::to('/login')}}" class="text-priamry">Đăng nhập ngay </a>
                             </div>
                         </form>
                     </div>

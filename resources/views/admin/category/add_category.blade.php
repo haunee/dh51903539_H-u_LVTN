@@ -30,7 +30,7 @@
                                     }
                                 ?>                      
                                 <div class="form-group">
-                                    <label class="required">Tên danh mục</label>
+                                    {{-- <label class="required">Tên danh mục</label> --}}
                                     <input type="text" name="CategoryName" class="form-control slug" placeholder="Nhập tên danh mục" required>
                                     <div class="help-block with-errors"></div>
                                 </div>

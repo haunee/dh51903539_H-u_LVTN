@@ -68,16 +68,16 @@
                         <div>{!! $product->ShortDes !!}</div>
 
                         <div class="shop-single-material pt-3">
-                            <div class="material-title col-lg-2">{{ $name_attribute->AttributeName }}:</div>
+                            <div class="material-title col-lg-2">{{ $name_attribute->PropertyName }}:</div>
                             <ul class="material-list">
                                 @foreach ($list_pd_attr as $key => $pd_attr)
                                     <li>
                                         <div class="material-radio">
-                                            <input type="radio" value="{{ $pd_attr->idProAttr }}" class="AttriValName"
-                                                name="material" id="{{ $pd_attr->idProAttr }}"
-                                                data-name="{{ $pd_attr->AttriValName }}"
+                                            <input type="radio" value="{{ $pd_attr->idProperPro }}" class="ProValName"
+                                                name="material" id="{{ $pd_attr->idProperPro }}"
+                                                data-name="{{ $pd_attr->ProValName }}"
                                                 data-qty="{{ $pd_attr->Quantity }}">
-                                            <label for="{{ $pd_attr->idProAttr }}">{{ $pd_attr->AttriValName }}</label>
+                                            <label for="{{ $pd_attr->idProperPro }}">{{ $pd_attr->ProValName }}</label>
                                         </div>
                                     </li>
                                 @endforeach
@@ -104,10 +104,10 @@
                                 value="{{ $name_attribute->Quantity }}">
 
 
-                            <input type="hidden" id="AttributeName" name="AttributeName"
-                                value="{{ $name_attribute->AttributeName }}">
-                            <input type="hidden" id="AttributeProduct" name="AttributeProduct">
-                            <input type="hidden" id="idProAttr" name="idProAttr">
+                            <input type="hidden" id="PropertyName" name="PropertyName"
+                                value="{{ $name_attribute->PropertyName }}">
+                            <input type="hidden" id="PropertyPro" name="PropertyPro">
+                            <input type="hidden" id="idProperPro" name="idProperPro">
 
                             <div class="text-primary alert-qty"></div>
 
@@ -258,26 +258,26 @@
                 var idCustomer = '<?php echo Session::get('idCustomer'); ?>';
                 var $Quantity = parseInt($('.qty-of-attr').val());
                 $("input:radio[name=material]:first").attr('checked', true);
-                $('#idProAttr').val($("input:radio[name=material]:first").val());
+                $('#idProperPro').val($("input:radio[name=material]:first").val());
 
-                var AttributeProduct = $('#AttributeName').val() + ': ' + $('.AttriValName').data("name");
-                $('#AttributeProduct').val(AttributeProduct);
+                var PropertyPro = $('#PropertyName').val() + ': ' + $('.ProValName').data("name");
+                $('#PropertyPro').val(PropertyPro);
 
                 $("input:radio[name=material]").on('click', function() {
                     $(".qty-buy").val("1");
                     $('.alert-qty').html("");
                     $('.alert-add-to-cart').html("");
                     $('.alert-buy-now').html("");
-                    $idAttribute = $(this).attr("id");
-                    $AttriValName = $(this).data("name");
+                    $idProperty = $(this).attr("id");
+                    $ProValName = $(this).data("name");
                     $Quantity = $(this).data("qty");
                     $('.qty-of-attr-label').html("Còn Lại: " + $Quantity);
                     $('.qty-of-attr').val($Quantity);
 
-                    AttributeProduct = $('#AttributeName').val() + ': ' + $AttriValName;
-                    $('#AttributeProduct').val(AttributeProduct);
+                    PropertyPro = $('#PropertyName').val() + ': ' + $ProValName;
+                    $('#PropertyPro').val(PropertyPro);
 
-                    $('#idProAttr').val($("#" + $idAttribute).val());
+                    $('#idProperPro').val($("#" + $idProperty).val());
                 });
 
                 $('.add-qty').on('click', function() {
@@ -304,20 +304,20 @@
                     } else {
                         // Thực hiện thêm vào giỏ hàng
                         var idProduct = $('#idProduct').val();
-                        var AttributeProduct = $('#AttributeProduct').val();
+                        var PropertyPro = $('#PropertyPro').val();
                         var QuantityBuy = $('.qty-buy').val();
                         var Price = $('input[name="Price"]').val();
                         var _token = $('input[name="_token"]').val();
                         var qty_of_attr = $('.qty-of-attr').val();
-                        var idProAttr = $('#idProAttr').val();
+                        var idProperPro = $('#idProperPro').val();
 
                         $.ajax({
                             url: '{{ url('/add-to-cart') }}',
                             method: 'POST',
                             data: {
                                 idProduct: idProduct,
-                                idProAttr: idProAttr,
-                                AttributeProduct: AttributeProduct,
+                                idProperPro: idProperPro,
+                                PropertyPro: PropertyPro,
                                 QuantityBuy: QuantityBuy,
                                 Price: Price,
                                 qty_of_attr: qty_of_attr,

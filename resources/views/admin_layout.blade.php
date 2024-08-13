@@ -16,7 +16,8 @@ use Illuminate\Support\Facades\Session;
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>KidAngel dashboard</title>
     
-   
+
+
     
     <!-- Dashboard -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
@@ -263,18 +264,26 @@ use Illuminate\Support\Facades\Session;
                                 <li class="nav-item nav-icon dropdown caption-content">
                                     <a href="#" class="search-toggle dropdown-toggle" id="dropdownMenuButton4"
                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        @if ($avatar != '')
+                                     
+                                        <div class="d-flex align-items">
+                                            @if ($avatar != '')
                                             <img src="{{ asset('/storage/kidadmin/images/user/' . $avatar) }}"
-                                                class="img-fluid rounded" alt="user">
+                                                class="img-fluid rounded" alt="user" style="width: 60px; height: 60px;">
                                         @else
                                             <img src="{{ asset('/kidadmin/images/user/12.jpg') }}"
                                                 class="img-fluid rounded" alt="user">
                                         @endif
+                                            <span class="ml-2">{{ Session::get('AdminName') }}</span>
+
+                                        </div>
+
                                     </a>
+                                   
+                                  
                                     <div class="iq-sub-dropdown dropdown-menu" aria-labelledby="dropdownMenuButton">
                                         <div class="card shadow-none m-0">
                                             <div class="card-body p-0 text-center">
-                                                <div class="media-body profile-detail text-center">
+                                                {{-- <div class="media-body profile-detail text-center">
 
                                                     @if ($avatar != null)
                                                         <img src="{{ asset('/storage/kidadmin/images/user/' . $avatar) }}"
@@ -285,10 +294,11 @@ use Illuminate\Support\Facades\Session;
                                                             alt="profile-img"
                                                             class="rounded profile-img img-fluid avatar-70">
                                                     @endif
-                                                </div>
+                                                </div> --}}
+                                               
                                                 <div class="p-3">
-                                                    <h5 class="mb-1"><?php echo Session::get('AdminName'); ?></h5>
-                                                    <p class="mb-0"><?php echo Session::get('AdminUser'); ?></p>
+                                                   
+                                                    <p class="mb-0"><?php echo Session::get('AdminName'); ?></p>
                                                     <div class="d-flex align-items-center justify-content-center mt-3">
                                                         <a href="{{ URL::to('/my-adprofile') }}"
                                                             class="btn border mr-2">Profile</a>

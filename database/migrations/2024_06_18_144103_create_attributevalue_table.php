@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('attributevalue', function (Blueprint $table) {
-            $table->increments('idAttriValue');
-            $table->integer('idAttribute');
-            $table->string('AttriValName');
+        Schema::create('propertyvalue', function (Blueprint $table) {
+            $table->increments('idProVal');
+            $table->integer('idProperty');
+            $table->string('ProValName');
             $table->timestamps();
         });
     }
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('attributevalue');
+        Schema::dropIfExists('propertyvalue');
     }
 };

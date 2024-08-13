@@ -30,7 +30,7 @@
                                         }
                                     ?>                      
                                     <div class="form-group">
-                                        <label class="required">Tên thương hiệu</label>
+                                        {{-- <label class="required">Tên thương hiệu</label> --}}
                                         <input type="text" name="BrandName" class="form-control slug" placeholder="Nhập tên thương hiệu" required>
                                         <div class="help-block with-errors"></div>
                                     </div>

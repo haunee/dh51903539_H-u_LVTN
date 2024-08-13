@@ -20,21 +20,7 @@
 <div class="register-page section-padding-5">
     <div class="container">
         <div class="row">
-            <div class="col-xl-3 col-md-4">
-                <div class="my-account-menu mt-30">
-                    <ul class="nav account-menu-list flex-column">
-                        <li>
-                            <a href="{{URL::to('/profile')}}"> Hồ Sơ</a>
-                        </li>
-                        <li>
-                            <a class="active"> Đổi Mật Khẩu</a>
-                        </li>
-                        <li>
-                            <a href="{{URL::to('/ordered')}}"> Đơn Hàng</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+      
             <div class="col-xl-9 col-md-8">
                 <div class="tab-content my-account-tab mt-30" id="pills-tabContent">
                     <div class="tab-pane fade show active" id="pills-password">

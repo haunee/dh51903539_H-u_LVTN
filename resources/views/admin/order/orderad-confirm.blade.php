@@ -36,15 +36,15 @@
                                     </a>
                                     <a class="dropdown-item" href="{{ URL::to('/orderad-shiping') }}"
                                         onclick="updateDropdownText('Đang giao'); return false;">
-                                        Đang giao
+                                        Đang vận chuyển
                                     </a>
                                     <a class="dropdown-item" href="{{ URL::to('/orderad-shiped') }}"
                                         onclick="updateDropdownText('Đã giao'); return false;">
-                                        Đã giao
+                                        Đã nhận hàng
                                     </a>
                                     <a class="dropdown-item" href="{{ URL::to('/oderad-cancelled') }}"
                                         onclick="updateDropdownText('Đã hủy'); return false;">
-                                        Đã hủy
+                                        Đơn đã hủy
                                     </a>
                                 </div>
                             </div>

@@ -21,7 +21,7 @@
                             <tr class="ligth ligth-data">
                                 <th>Mã giảm giá</th>
                                 <th>Tên mã giảm giá</th>
-                                <th>Phần trăm/Số tiền</th>
+                                <th>Loại giảm giá</th>
                                 <th>Số lượng</th>
                                 <th>Bắt đầu</th>
                                 <th>Kết thúc</th>

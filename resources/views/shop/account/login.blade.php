@@ -52,12 +52,14 @@
                                 <a href="{{ url('/forgot-password') }}">Quên mật khẩu?</a>
                             </div>
                             <div class="form-group mt-15">
-                                <input type="submit" class="btn btn-primary btn-block" value="Đăng nhập"/>
+                                <input type="submit" class="btn btn-primary btn-block"  style="border-radius: 20px;"value="Đăng nhập"/>
                             </div>
                          
                             <div class="form-group mt-15">
                                 <a>Bạn chưa có tài khoản?</a>
-                                <a href="{{URL::to('/register')}}" type="submit" class="btn btn-dark btn-block">Đăng ký ngay</a>
+                                <a href="{{ URL::to('/register') }}"style="text-decoration: underline;" class="text-primary">Đăng ký ngay</a>
+
+                                {{-- <a href="{{URL::to('/register')}}" type="submit" class="btn btn-dark btn-block">Đăng ký ngay</a> --}}
                             </div>
                         </form>
                     </div>

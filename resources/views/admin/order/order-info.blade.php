@@ -69,7 +69,7 @@
                                                         <div class="ml-2" style="flex:1;">
                                                             <h6 class="mb-0">{{$order_info->ProductName}}</h6>
                                                             <p class="mb-0">Mã sản phẩm: {{$order_info->idProduct}}</p>
-                                                            <span>{{$order_info->AttributeProduct}}</span>
+                                                            <span>{{$order_info->PropertyPro}}</span>
                                                         </div>
                                                 </td>
                                                 <td class="text-center" style="border-bottom:0;">{{number_format($order_info->Price,0,',','.')}}đ</td>

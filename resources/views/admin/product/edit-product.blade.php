@@ -68,46 +68,7 @@
                                     </div>
 
 
-                                    {{-- <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label for="idBrand" class="required">Phân loại hàng</label>
-                                            <button class="btn btn-primary d-block col-md-12" type="button"
-                                                data-toggle="modal" data-target="#modal-attributes">Chọn phân loại</button>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12 d-flex flex-wrap input-attrs">
-                                        <div class="col-md-12 d-flex flex-wrap attr-title">
-                                            @if ($name_attribute)
-                                                <div class="attr-title-1 col-md-6 text-center"> {{ $name_attribute->AttributeName }}</div>
-                                                <div class="attr-title-2 col-md-6 text-center">Số lượng</div>
-                                            @else
-                                                <div class="attr-title-1 col-md-6 text-center d-none"></div>
-                                                <div class="attr-title-2 col-md-6 text-center d-none">Số lượng</div>
-                                            @endif
-                                        </div>
-                                        @foreach ($list_pd_attr as $key => $pd_attr)
-                                            <div id="input-attrs-item-{{ $pd_attr->idAttriValue }}"
-                                                class="col-md-12 d-flex flex-wrap input_attrs_items">
-                                                <div class="col-md-6">
-                                                    <input class="form-control text-center" type="text"
-                                                        value="{{ $pd_attr->AttriValName }}" disabled>
-                                                </div>
-                                                <div class="form-group col-md-6">
-                                                    <input id="qty-attr-{{ $pd_attr->idAttriValue }}"
-                                                        value="{{ $pd_attr->Quantity }}"
-                                                        class="form-control text-center qty-attr" name="qty_attr[]"
-                                                        type="number" placeholder="Nhập số lượng phân loại">
-                                                </div>
-                                            </div>
-                                        @endforeach
-                                    </div> --}}
-
-
-
-
-
-
-
+                                
 
                                     <div class="col-md-4">
                                         <div class="form-group">
@@ -115,9 +76,9 @@
                                             <select id="product-attributes" name="attributes[]" class="form-control">
                                                 <option value="" disabled selected>Chọn thuộc tính</option>
                                                 @foreach ($list_attribute as $attribute)
-                                                    <option value="{{ $attribute->idAttribute }}"
-                                                        @if ($name_attribute && $name_attribute->idAttribute == $attribute->idAttribute) selected @endif>
-                                                        {{ $attribute->AttributeName }}
+                                                    <option value="{{ $attribute->idProperty }}"
+                                                        @if ($name_attribute && $name_attribute->idProperty == $attribute->idProperty) selected @endif>
+                                                        {{ $attribute->PropertyName }}
                                                     </option>
                                                 @endforeach
                                             </select>
@@ -129,8 +90,8 @@
                                             <label for="attribute_value">Kích thước:</label>
                                             <select id="attribute_value" name="size[]" class="form-control" multiple>
                                                 @foreach ($list_pd_attr as $pd_attr)
-                                                    <option value="{{ $pd_attr->idAttriValue }}" selected>
-                                                        {{ $pd_attr->AttriValName }}
+                                                    <option value="{{ $pd_attr->idProVal }}" selected>
+                                                        {{ $pd_attr->ProValName }}
                                                     </option>
                                                 @endforeach
                                             </select>
@@ -142,8 +103,8 @@
                                             @foreach ($list_pd_attr as $pd_attr)
                                                 <div class="input-group mb-2">
                                                     <input type="text" class="form-control text-center"
-                                                        value="{{ $pd_attr->AttriValName }}" disabled>
-                                                    <input id="qty-attr-{{ $pd_attr->idAttriValue }}"
+                                                        value="{{ $pd_attr->ProValName }}" disabled>
+                                                    <input id="qty-attr-{{ $pd_attr->idProVal }}"
                                                         value="{{ $pd_attr->Quantity }}"
                                                         class="form-control text-center qty-attr" name="qty_attr[]"
                                                         type="number" placeholder="Nhập số lượng phân loại">
@@ -151,39 +112,6 @@
                                             @endforeach
                                         </div>
                                     </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
                                     <div class="col-md-6">
@@ -207,8 +135,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label class="required">Hình ảnh</label>
-                                            <input name="ImageName[]" id="images" type="file"
-                                                onchange="loadPreview(this)" class="form-control  image-file" multiple />
+                                            <input name="ImageName[]" id="images" type="file" onchange="loadPreview(this)" class="form-control  image-file" multiple />
                                             <div class="help-block with-errors"></div>
                                             <div class="text-danger alert-img"></div>
                                             <div class="d-flex flex-wrap" id="image-list">
@@ -306,8 +233,8 @@
                                 // Thêm các tùy chọn kích thước vào dropdown
                                 $.each(response, function(index, value) {
                                     $('#attribute_value').append(
-                                        '<option value="' + value.idAttriValue +
-                                        '">' + value.AttriValName + '</option>'
+                                        '<option value="' + value.idProVal +
+                                        '">' + value.ProValName + '</option>'
                                     );
                                 });
                             } else {

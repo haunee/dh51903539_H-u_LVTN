@@ -68,8 +68,8 @@ class CartController extends Controller
             $cart->Price = $data['Price'];
             $cart->Total = $data['Price'] * $data['QuantityBuy'];
             $cart->idCustomer = Session::get('idCustomer');
-            $cart->AttributeProduct = $data['AttributeProduct'];
-            $cart->idProAttr = $data['idProAttr'];
+            $cart->PropertyPro = $data['PropertyPro'];
+            $cart->idProperPro = $data['idProperPro'];
             $qty_of_attr = $data['qty_of_attr'];//số lượng tối đa của 1 thuộc tính
 
             Log::info('Dữ liệu giỏ hàng', ['cart' => $cart]);
@@ -100,7 +100,7 @@ class CartController extends Controller
             //truy vấn đến bảng cart với điều kiện id= id
             $find_pd = Cart::where('idProduct', $data['idProduct'])//gtri lấy từ request
                 ->where('idCustomer', Session::get('idCustomer'))//id = id trong session
-                ->where('AttributeProduct', $data['AttributeProduct'])->first();//gtri từ request đại diện thuộc tính cho sp
+                ->where('PropertyPro', $data['PropertyPro'])->first();//gtri từ request đại diện thuộc tính cho sp
 
             if ($find_pd) {
                 $QuantityBuy = $data['QuantityBuy'] + $find_pd->QuantityBuy;//số lượng kh mua + sl sp có trong giỏ hàng
@@ -114,7 +114,7 @@ class CartController extends Controller
                     //cập nhật giỏ hàng dựa trên id cập nhật QuantityBuy với tổng sl và tổng tiền mới
                     Cart::where('idProduct', $data['idProduct'])
                         ->where('idCustomer', Session::get('idCustomer'))
-                        ->where('AttributeProduct', $data['AttributeProduct'])
+                        ->where('PropertyPro', $data['PropertyPro'])
                         ->update(['QuantityBuy' => $QuantityBuy, 'Total' => $Total]);
 
                     Log::info('Cập nhật giỏ hàng thành công');
@@ -146,7 +146,7 @@ class CartController extends Controller
             //join bảng pdim dựa id để lấy ảnh 
             ->join('productimage', 'productimage.idProduct', 'cart.idProduct')
             //join bảng pdA dựa id để lấy thuộc tính 
-            ->join('product_attribute', 'product_attribute.idProAttr', '=', 'cart.idProAttr')
+            ->join('property_product', 'property_product.idProperPro', '=', 'cart.idProperPro')
             ->where('idCustomer', Session::get('idCustomer'))->get();//chỉ lấy gtri id bằng với id lưu ở session 
 
         return view('shop.cart.cart')->with(compact('list_category', 'list_brand', 'list_pd_cart'));
@@ -227,7 +227,7 @@ class CartController extends Controller
 
         $list_pd_cart = Cart::join('product', 'product.idProduct', '=', 'cart.idProduct')
             ->join('productimage', 'productimage.idProduct', 'cart.idProduct')
-            ->join('product_attribute', 'product_attribute.idProAttr', '=', 'cart.idProAttr')
+            ->join('property_product', 'property_product.idProperPro', '=', 'cart.idProperPro')
             ->where('idCustomer', Session::get('idCustomer'))->get();
 
         return view("shop.cart.payment")->with(compact('list_category', 'list_brand', 'list_pd_cart'));
@@ -264,9 +264,9 @@ class CartController extends Controller
             $output .= '<li class="cus-radio align-items-center justify-content-between">
                             <input type="radio" name="address_rdo" value="' . $address->idAddress . '" id="radio' . $address->idAddress . '" checked>
                             <label for="radio' . $address->idAddress . '">
-                                <span>' . $address->CustomerName . '</span>
-                                <span>' . $address->PhoneNumber . '</span>
-                                <span>' . $address->Address . '</span>
+                            <span><strong>Tên người nhận:</strong> ' . $address->CustomerName . '</span><br>
+                            <span><strong>Số điện thoại:</strong> ' . $address->PhoneNumber . '</span><br>
+                            <span><strong>Địa chỉ:</strong> ' . $address->Address . '</span>
                             </label>
                             <div>
                                 <button type="button" data-toggle="modal" data-target="#EditAddressModal" class="edit-address btn btn-outline-primary" data-id="' . $address->idAddress . '" data-name="' . $address->CustomerName . '" data-phone="' . $address->PhoneNumber . '" data-address="' . $address->Address . '" style="background-color: #33ccff; color: white;">
@@ -503,10 +503,10 @@ class CartController extends Controller
                 $data_orderdetail = array(
                     'idOrder' => $get_Order->idOrder,//id được lấy từ get order
                     'idProduct' => $cart->idProduct,
-                    'AttributeProduct' => $cart->AttributeProduct,
+                    'PropertyPro' => $cart->PropertyPro,
                     'Price' => $cart->Price,
                     'QuantityBuy' => $cart->QuantityBuy,
-                    'idProAttr' => $cart->idProAttr,
+                    'idProperPro' => $cart->idProperPro,
                     'created_at' => now(),
                     'updated_at' => now()
                 );
@@ -518,9 +518,9 @@ class CartController extends Controller
                     $cart->idProduct,
                 ]);
     
-                DB::update('UPDATE product_attribute SET Quantity = Quantity - ? WHERE idProAttr = ?', [
+                DB::update('UPDATE property_product SET Quantity = Quantity - ? WHERE idProperPro = ?', [
                     $cart->QuantityBuy,
-                    $cart->idProAttr,
+                    $cart->idProperPro,
                 ]);
             }
             if (!empty($get_Order->Voucher)) {
@@ -581,10 +581,10 @@ class CartController extends Controller
                 $data_orderdetail = [
                     'idOrder' => $get_Order->idOrder,
                     'idProduct' => $cart->idProduct,
-                    'AttributeProduct' => $cart->AttributeProduct,
+                    'PropertyPro' => $cart->PropertyPro,
                     'Price' => $cart->Price,
                     'QuantityBuy' => $cart->QuantityBuy,
-                    'idProAttr' => $cart->idProAttr,
+                    'idProperPro' => $cart->idProperPro,
                     'created_at' => now(),
                     'updated_at' => now()
                 ];
@@ -596,9 +596,9 @@ class CartController extends Controller
                     $cart->idProduct,
                 ]);
     
-                DB::update('update product_attribute set Quantity = Quantity - ? where idProAttr = ?', [
+                DB::update('update property_product set Quantity = Quantity - ? where idProperPro = ?', [
                     $cart->QuantityBuy,
-                    $cart->idProAttr,
+                    $cart->idProperPro,
                 ]);
             }
     
@@ -656,7 +656,7 @@ class CartController extends Controller
                 // Cập nhật số lượng sản phẩm
                 $OrderDetail = OrderDetail::where('idOrder', $idOrder)->get();
                 foreach ($OrderDetail as $bi) {
-                    DB::update('update product_attribute set Quantity = Quantity + ? where idProAttr = ?', [$bi->QuantityBuy, $bi->idProAttr]);
+                    DB::update('update property_product set Quantity = Quantity + ? where idProperPro = ?', [$bi->QuantityBuy, $bi->idProperPro]);
                     DB::update('update product set QuantityTotal = QuantityTotal + ? where idProduct = ?', [$bi->QuantityBuy, $bi->idProduct]);
                 }
 
@@ -866,7 +866,7 @@ class CartController extends Controller
 
         $OrderDetail = OrderDetail::where('idOrder', $idOrder)->get();
         foreach ($OrderDetail as $key => $bi) {
-            DB::update('update product_attribute set Quantity = Quantity + ? where idProAttr = ?', [$bi->QuantityBuy, $bi->idProAttr]);
+            DB::update('update property_product set Quantity = Quantity + ? where idProperPro = ?', [$bi->QuantityBuy, $bi->idProperPro]);
             DB::update('update product set QuantityTotal = QuantityTotal + ? where idProduct = ?', [$bi->QuantityBuy, $bi->idProduct]);
         }
     }

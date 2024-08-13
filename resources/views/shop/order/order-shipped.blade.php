@@ -4,7 +4,7 @@
     use Carbon\Carbon;
 @endphp
 <!--Page Banner Start-->
-<div class="page-banner" style="background-image: url(/page/images/oso.png);">
+<div class="page-banner" style="background-image: url(/page/images/banner/banner5.jpg);">
     <div class="container">
         <div class="page-banner-content text-center">
             <h2 class="title">Đơn đặt hàng</h2>
@@ -65,17 +65,17 @@
                                         </a>
                                         <!-- Shipping Orders -->
                                         <a class="dropdown-item" href="{{ URL::to('/order-shipping') }}">
-                                            <i style="font-size:24px;"></i> Đang giao
+                                            <i style="font-size:24px;"></i> Đang vận chuyển
 
                                         </a>
                                         <!-- Shipped Orders -->
                                         <a class="dropdown-item" href="{{ URL::to('/order-shipped') }}">
-                                            <i style="font-size:24px;"></i> Đã giao
+                                            <i style="font-size:24px;"></i> Đã nhận hàng
 
                                         </a>
                                         <!-- Cancelled Orders -->
                                         <a class="dropdown-item" href="{{ URL::to('/order-cancelled') }}">
-                                            <i style="font-size:24px;"></i> Đã hủy
+                                            <i style="font-size:24px;"></i> Đơn hủy
 
                                         </a>
                                     </div>
@@ -89,7 +89,7 @@
                                             <th class="no">Mã ĐH</th>
                                             <th class="name">Tên người nhận</th>
                                             <th class="date">Ngày đặt</th>
-                                            <th class="date">Ngày giao</th>
+                                            <th class="date">Ngày nhận</th>
                                             <th class="total">Tổng tiền</th>
                                             <th class="action text-center">Thao tác</th>
                                         </tr>

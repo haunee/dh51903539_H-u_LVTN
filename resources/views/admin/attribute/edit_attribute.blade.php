@@ -14,7 +14,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <form action="{{URL::to('/submit-edit-attribute/'.$select_attribute->idAttribute)}}" method="POST" data-toggle="validator">
+                    <form action="{{URL::to('/submit-edit-attribute/'.$select_attribute->idProperty)}}" method="POST" data-toggle="validator">
                         @csrf
                         <div class="row"> 
                             <div class="col-md-12">
@@ -31,7 +31,7 @@
                                 ?>                      
                                 <div class="form-group">
                                     <label class="required">Tên nhóm phân loại</label>
-                                    <input type="text" name="AttributeName" class="form-control" value="{{$select_attribute->AttributeName}}" placeholder="Nhập tên nhóm phân loại" required>
+                                    <input type="text" name="PropertyName" class="form-control" value="{{$select_attribute->PropertyName}}" placeholder="Nhập tên nhóm phân loại" required>
                                     <div class="help-block with-errors"></div>
                                 </div>
                             </div>    

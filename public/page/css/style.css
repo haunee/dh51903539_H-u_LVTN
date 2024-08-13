@@ -309,7 +309,7 @@ figure {
 }
 
 .bg-primary {
-  background-color: #f379a7 !important;
+  background-color: #33ccff !important;
 }
 
 .bg-primary-light {
@@ -5483,7 +5483,7 @@ blockquote p {
   font-size: 24px;
   font-weight: 400;
   color: #222222;
-  font-family: 'Coiny', cursive;
+  font-family: 'Roboto', sans-serif;
 }
 
 @media only screen and (max-width: 575px) {
@@ -5792,7 +5792,7 @@ blockquote p {
 }
 
 .checkout-info .card-body {
-  padding: 0;
+  padding: 50px;
 }
 
 .checkout-info .card-body p {
@@ -9692,14 +9692,14 @@ input[type=number]::-webkit-inner-spin-button {
 }
 
 .rounded-circle {
-  border-radius: 50% !important;
+  border-radius: 10% !important;
 }
 
 .crm-p-image {
   content: "";
   position: absolute;
   top: auto;
-  left: 69px;
+  left: 50%; /* Đưa biểu tượng vào giữa theo chiều ngang */
   bottom: -9px;
   transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   border-radius: 50%;

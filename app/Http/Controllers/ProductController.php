@@ -5,13 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Brand;
-use App\Models\Attribute;
-use App\Models\AttributeValue;
+use App\Models\Property;
+use App\Models\PropertyValue;
 use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\Cart;
 use App\Models\OrderDetail;
-use App\Models\ProductAttriBute;
+use App\Models\PropertyPro;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Session;
@@ -20,7 +20,7 @@ use App\Models\WishList;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\File\File;
 
 class ProductController extends Controller
 {
@@ -40,12 +40,10 @@ class ProductController extends Controller
     {
         // Kiểm tra xem yêu cầu có phải là AJAX không
         if ($request->ajax()) {
-            // Nếu là AJAX, lấy idAttribute từ request
-            $idAttribute = $request->input('idAttribute', 1); // Giá trị mặc định là 1 nếu không có trong request
+            $idProperty = $request->input('idProperty', 1); // Giá trị mặc định là 1 nếu không có trong request
 
-            // Lấy danh sách giá trị thuộc tính dựa trên idAttribute
-            $list_attrivalue = DB::table('attributevalue')
-                ->where('idAttribute', $idAttribute)
+            $list_attrivalue = DB::table('propertyvalue')
+                ->where('idProperty', $idProperty)
                 ->get();
 
             // Trả về dữ liệu dưới dạng JSON
@@ -55,7 +53,7 @@ class ProductController extends Controller
         // Nếu không phải là AJAX, lấy dữ liệu cho view
         $list_category = Category::get();
         $list_brand = Brand::get();
-        $list_attribute = Attribute::get();
+        $list_attribute = Property::get();
 
         return view('admin.product.add-product')->with(compact('list_category', 'list_brand', 'list_attribute'));
     }
@@ -103,11 +101,11 @@ class ProductController extends Controller
 
             foreach ($attributes as $attributeId) {
                 foreach ($sizes as $sizeId => $quantity) {
-                    $productAttribute = new ProductAttribute();
-                    $productAttribute->idProduct = $product->idProduct;
-                    $productAttribute->idAttriValue= $sizeId;
-                    $productAttribute->Quantity = $quantity;
-                    $productAttribute->save();
+                    $PropertyPro = new PropertyPro();
+                    $PropertyPro->idProduct = $product->idProduct;
+                    $PropertyPro->idProVal = $sizeId;
+                    $PropertyPro->Quantity = $quantity;
+                    $PropertyPro->save();
                 }
             }
 
@@ -163,7 +161,7 @@ class ProductController extends Controller
             $productImage->delete();
         }
 
-        ProductAttribute::where('idProduct', $idProduct)->delete();
+        PropertyPro::where('idProduct', $idProduct)->delete();
 
         Cart::where('idProduct', $idProduct)->delete();
 
@@ -193,31 +191,31 @@ class ProductController extends Controller
             ->join('productimage', 'productimage.idProduct', '=', 'product.idProduct')
             ->where('product.idProduct', $idProduct)->first();
 
-        $list_pd_attr = ProductAttriBute::join('attributevalue', 'attributevalue.idAttriValue', '=', 'product_attribute.idAttriValue')
-            ->join('attribute', 'attribute.idAttribute', '=', 'attributevalue.idAttribute')
-            ->where('product_attribute.idProduct', $idProduct)->get();
+        $list_pd_attr = PropertyPro::join('propertyvalue', 'propertyvalue.idProVal', '=', 'property_product.idProVal')
+            ->join('property', 'property.idProperty', '=', 'propertyvalue.idProperty')
+            ->where('property_product.idProduct', $idProduct)->get();
 
-        $name_attribute = ProductAttriBute::join('attributevalue', 'attributevalue.idAttriValue', '=', 'product_attribute.idAttriValue')
-            ->join('attribute', 'attribute.idAttribute', '=', 'attributevalue.idAttribute')
-            ->where('product_attribute.idProduct', $idProduct)->first();
+        $name_attribute = PropertyPro::join('propertyvalue', 'propertyvalue.idProVal', '=', 'property_product.idProVal')
+            ->join('property', 'property.idProperty', '=', 'propertyvalue.idProperty')
+            ->where('property_product.idProduct', $idProduct)->first();
 
-        $list_attribute = Attribute::get();
+        $list_attribute = Property::get();
         $list_category = Category::get();
         $list_brand = Brand::get();
-        
-      
-        return view("admin.product.edit-product")->with(compact('product','list_category', 'list_brand', 'list_attribute', 'list_pd_attr', 'name_attribute'));
+
+
+        return view("admin.product.edit-product")->with(compact('product', 'list_category', 'list_brand', 'list_attribute', 'list_pd_attr', 'name_attribute'));
     }
 
 
 
 
 
-    public function getAttriValue($idAttribute)
+    public function getAttriValue($idProperty)
     {
-        $attributeValues = AttributeValue::where('idAttribute', $idAttribute)->get();
+        $PropertyValues = propertyvalue::where('idProperty', $idProperty)->get();
 
-        return response()->json($attributeValues);
+        return response()->json($PropertyValues);
     }
 
 
@@ -231,16 +229,20 @@ class ProductController extends Controller
     // public function submit_edit_product(Request $request, $idProduct)
     // {
     //     $data = $request->all();
-    
+
+    //     // Log dữ liệu nhận được
+    //     Log::info('Dữ liệu nhận được khi cập nhật sản phẩm:', $data);
+
     //     // Kiểm tra giá trị số lượng phân loại
     //     if (isset($data['qty_size']) && is_array($data['qty_size'])) {
     //         foreach ($data['qty_size'] as $quantity) {
     //             if ($quantity < 0) {
+    //                 Log::error('Số lượng phân loại không được là số âm:', ['quantity' => $quantity]);
     //                 return redirect()->back()->with('error', 'Số lượng phân loại không được là số âm');
     //             }
     //         }
     //     }
-    
+
     //     // Cập nhật sản phẩm
     //     $product = Product::find($idProduct);
     //     if ($product) {
@@ -252,112 +254,152 @@ class ProductController extends Controller
     //         $product->ShortDes = $data['ShortDes'];
     //         $product->DesProduct = $data['DesProduct'];
     //         $product->save();
-    
+
+    //         Log::info('Sản phẩm được cập nhật thành công:', ['product_id' => $product->idProduct]);
+
     //         // Xử lý thuộc tính và kích thước
     //         $attributes = $request->input('attributes', []);
     //         $sizes = $request->input('size', []);
     //         $quantities = $request->input('qty_attr', []);
-    
+
+    //         Log::info('Dữ liệu thuộc tính và kích thước:', [
+    //             'attributes' => $attributes,
+    //             'sizes' => $sizes,
+    //             'quantities' => $quantities,
+    //         ]);
+
     //         // Xóa thuộc tính cũ nếu có
-    //         ProductAttribute::where('idProduct', $product->idProduct)->delete();
-    
+    //         PropertyPro::where('idProduct', $product->idProduct)->delete();
+    //         Log::info('Xóa các thuộc tính cũ cho sản phẩm:', ['product_id' => $product->idProduct]);
+
     //         foreach ($attributes as $attributeId) {
     //             foreach ($sizes as $key => $sizeId) {
     //                 $quantity = $quantities[$key] ?? 0;
-    //                 if (Attribute::find($attributeId) ) {
-    //                     $productAttribute = new ProductAttribute();
-    //                     $productAttribute->idProduct = $product->idProduct;
-    //                     $productAttribute->idAttriValue = $sizeId;
-    //                     $productAttribute->Quantity = $quantity;
-    //                     $productAttribute->save();
+    //                 if (Property::find($attributeId)) {
+    //                     $PropertyPro = new PropertyPro();
+    //                     $PropertyPro->idProduct = $product->idProduct;
+    //                     $PropertyPro->idProVal = $sizeId;
+    //                     $PropertyPro->Quantity = $quantity;
+    //                     $PropertyPro->save();
+
+    //                     Log::info('Thêm thuộc tính sản phẩm mới:', [
+    //                         'product_id' => $product->idProduct,
+    //                         'attribute_id' => $attributeId,
+    //                         'size_id' => $sizeId,
+    //                         'quantity' => $quantity,
+    //                     ]);
     //                 }
     //             }
     //         }
-    
+
     //         return redirect()->back()->with('message', 'Cập nhật sản phẩm thành công');
     //     } else {
+    //         Log::error('Sản phẩm không tồn tại:', ['product_id' => $idProduct]);
     //         return redirect()->back()->with('error', 'Sản phẩm không tồn tại');
     //     }
     // }
 
-  
-    
 
-    
-    
-    
+
     public function submit_edit_product(Request $request, $idProduct)
-{
-    $data = $request->all();
-    
-    // Log dữ liệu nhận được
-    Log::info('Dữ liệu nhận được khi cập nhật sản phẩm:', $data);
+    {
+        $data = $request->all();
 
-    // Kiểm tra giá trị số lượng phân loại
-    if (isset($data['qty_size']) && is_array($data['qty_size'])) {
-        foreach ($data['qty_size'] as $quantity) {
-            if ($quantity < 0) {
-                Log::error('Số lượng phân loại không được là số âm:', ['quantity' => $quantity]);
-                return redirect()->back()->with('error', 'Số lượng phân loại không được là số âm');
-            }
-        }
-    }
+        // Log dữ liệu nhận được
+        Log::info('Dữ liệu nhận được khi cập nhật sản phẩm:', $data);
 
-    // Cập nhật sản phẩm
-    $product = Product::find($idProduct);
-    if ($product) {
-        $product->ProductName = $data['ProductName'];
-        $product->idCategory = $data['idCategory'];
-        $product->idBrand = $data['idBrand'];
-        $product->Price = $data['Price'];
-        $product->QuantityTotal = $data['QuantityTotal'];
-        $product->ShortDes = $data['ShortDes'];
-        $product->DesProduct = $data['DesProduct'];
-        $product->save();
-
-        Log::info('Sản phẩm được cập nhật thành công:', ['product_id' => $product->idProduct]);
-
-        // Xử lý thuộc tính và kích thước
-        $attributes = $request->input('attributes', []);
-        $sizes = $request->input('size', []);
-        $quantities = $request->input('qty_attr', []);
-
-        Log::info('Dữ liệu thuộc tính và kích thước:', [
-            'attributes' => $attributes,
-            'sizes' => $sizes,
-            'quantities' => $quantities,
-        ]);
-
-        // Xóa thuộc tính cũ nếu có
-        ProductAttribute::where('idProduct', $product->idProduct)->delete();
-        Log::info('Xóa các thuộc tính cũ cho sản phẩm:', ['product_id' => $product->idProduct]);
-
-        foreach ($attributes as $attributeId) {
-            foreach ($sizes as $key => $sizeId) {
-                $quantity = $quantities[$key] ?? 0;
-                if (Attribute::find($attributeId)) {
-                    $productAttribute = new ProductAttribute();
-                    $productAttribute->idProduct = $product->idProduct;
-                    $productAttribute->idAttriValue = $sizeId;
-                    $productAttribute->Quantity = $quantity;
-                    $productAttribute->save();
-
-                    Log::info('Thêm thuộc tính sản phẩm mới:', [
-                        'product_id' => $product->idProduct,
-                        'attribute_id' => $attributeId,
-                        'size_id' => $sizeId,
-                        'quantity' => $quantity,
-                    ]);
+        // Kiểm tra giá trị số lượng phân loại
+        if (isset($data['qty_size']) && is_array($data['qty_size'])) {
+            foreach ($data['qty_size'] as $quantity) {
+                if ($quantity < 0) {
+                    Log::error('Số lượng phân loại không được là số âm:', ['quantity' => $quantity]);
+                    return redirect()->back()->with('error', 'Số lượng phân loại không được là số âm');
                 }
             }
         }
 
-        return redirect()->back()->with('message', 'Cập nhật sản phẩm thành công');
-    } else {
-        Log::error('Sản phẩm không tồn tại:', ['product_id' => $idProduct]);
-        return redirect()->back()->with('error', 'Sản phẩm không tồn tại');
+        // Cập nhật sản phẩm
+        $product = Product::find($idProduct);
+        if ($product) {
+            $product_image = new ProductImage();
+            $product->ProductName = $data['ProductName'];
+            $product->idCategory = $data['idCategory'];
+            $product->idBrand = $data['idBrand'];
+            $product->Price = $data['Price'];
+            $product->QuantityTotal = $data['QuantityTotal'];
+            $product->ShortDes = $data['ShortDes'];
+            $product->DesProduct = $data['DesProduct'];
+            $product->save();
+
+            Log::info('Sản phẩm được cập nhật thành công:', ['product_id' => $product->idProduct]);
+
+            // Xử lý thuộc tính và kích thước
+            $attributes = $request->input('attributes', []);
+            $sizes = $request->input('size', []);
+            $quantities = $request->input('qty_attr', []);
+
+            Log::info('Dữ liệu thuộc tính và kích thước:', [
+                'attributes' => $attributes,
+                'sizes' => $sizes,
+                'quantities' => $quantities,
+            ]);
+
+            // Xóa thuộc tính cũ nếu có
+            PropertyPro::where('idProduct', $product->idProduct)->delete();
+            Log::info('Xóa các thuộc tính cũ cho sản phẩm:', ['product_id' => $product->idProduct]);
+
+            foreach ($attributes as $attributeId) {
+                foreach ($sizes as $key => $sizeId) {
+                    $quantity = $quantities[$key] ?? 0;
+                    if (Property::find($attributeId)) {
+                        $PropertyPro = new PropertyPro();
+                        $PropertyPro->idProduct = $product->idProduct;
+                        $PropertyPro->idProVal = $sizeId;
+                        $PropertyPro->Quantity = $quantity;
+                        $PropertyPro->save();
+
+                        Log::info('Thêm thuộc tính sản phẩm mới:', [
+                            'product_id' => $product->idProduct,
+                            'attribute_id' => $attributeId,
+                            'size_id' => $sizeId,
+                            'quantity' => $quantity,
+                        ]);
+                    }
+                }
+            }
+
+            // Thêm hình ảnh vào table ProductImage
+            if ($request->file('ImageName')) {
+                $get_image = $request->file('ImageName');
+
+                foreach ($get_image as $image) {
+                    $get_name_image = $image->getClientOriginalName();
+                    $name_image = current(explode('.', $get_name_image));
+                    $new_image = $name_image . rand(0, 99) . '.' . $image->getClientOriginalExtension();
+                    $image->storeAs('public/kidadmin/images/product', $new_image);
+                    $images[] = $new_image;
+                }
+
+                // Xoá hình cũ trong csdl và trong folder 
+                $get_old_mg = ProductImage::where('idProduct', $idProduct)->first();
+                foreach (json_decode($get_old_mg->ImageName) as $old_img) {
+                    Storage::delete('public/kidadmin/images/product/' . $old_img);
+                }
+                ProductImage::where('idProduct', $idProduct)->delete();
+
+                $product_image->ImageName = json_encode($images);
+                $product_image->idProduct = $idProduct;
+                $product_image->save();
+            }
+            $product_image->save();
+
+            return redirect()->back()->with('message', 'Cập nhật sản phẩm thành công');
+        } else {
+            Log::error('Sản phẩm không tồn tại:', ['product_id' => $idProduct]);
+            return redirect()->back()->with('error', 'Sản phẩm không tồn tại');
+        }
     }
-}
+
 
 
 
@@ -479,18 +521,16 @@ class ProductController extends Controller
 
 
         //lấy danh sách thuộc tính sản phẩm phân loại 
-
-        $list_pd_attr = ProductAttriBute::join('attributevalue', 'attributevalue.idAttriValue', '=', 'product_attribute.idAttriValue')
-            ->join('attribute', 'attribute.idAttribute', '=', 'attributevalue.idAttribute')
-            ->where('product_attribute.idProduct', $this_pro->idProduct)->get();
-        //điều kiện chỉ lấy những bảng ghi trong bảng product_attribute có idproduct khớp nhau
+        $list_pd_attr = PropertyPro::join('propertyvalue', 'propertyvalue.idProVal', '=', 'property_product.idProVal')
+            ->join('property', 'property.idProperty', '=', 'propertyvalue.idProperty')
+            ->where('property_product.idProduct', $this_pro->idProduct)->get();
+        //điều kiện chỉ lấy những bảng ghi trong bảng property_product có idproduct khớp nhau
 
 
         //lấy tên phân loại 
-
-        $name_attribute = ProductAttriBute::join('attributevalue', 'attributevalue.idAttriValue', '=', 'product_attribute.idAttriValue')
-            ->join('attribute', 'attribute.idAttribute', '=', 'attributevalue.idAttribute')
-            ->where('product_attribute.idProduct', $this_pro->idProduct)->first();
+        $name_attribute = PropertyPro::join('propertyvalue', 'propertyvalue.idProVal', '=', 'property_product.idProVal')
+            ->join('property', 'property.idProperty', '=', 'propertyvalue.idProperty')
+            ->where('property_product.idProduct', $this_pro->idProduct)->first();
 
         $product = Product::join('productimage', 'productimage.idProduct', '=', 'product.idProduct')
             ->where('product.idProduct', $this_pro->idProduct)->first();

@@ -52,16 +52,16 @@
                                         <a
                                             href="{{ URL::to('/shop-single/' . $pd_cart->idProduct) }}">{{ $pd_cart->ProductName }}</a>
                                         <span>Mã sản phẩm: {{ $pd_cart->idProduct }}</span>
-                                        <span>{{ $pd_cart->AttributeProduct }}</span>
+                                        <span>{{ $pd_cart->PropertyPro }}</span>
 
                                         <?php $replace = [' ', ':']; ?>
-                                        <input type="hidden" class="Quantity" id="<?php echo 'Quantity-' . $pd_cart->idProduct . '-' . str_replace($replace, '', $pd_cart->AttributeProduct); ?>"
+                                        <input type="hidden" class="Quantity" id="<?php echo 'Quantity-' . $pd_cart->idProduct . '-' . str_replace($replace, '', $pd_cart->PropertyPro); ?>"
                                             value="{{ $pd_cart->Quantity }}">
                                     </td>
                                     <td class="price">{{ number_format($pd_cart->Price, 0, ',', '.') }}đ</td>
                                     <td class="quantity">{{ $pd_cart->QuantityBuy }}</td>
                                     <td class="total">{{ number_format($pd_cart->Total, 0, ',', '.') }}đ</td>
-                                    <input type="hidden" name="idProAttr" value="{{ $pd_cart->idProAttr }}">
+                                    <input type="hidden" name="idProperPro" value="{{ $pd_cart->idProperPro }}">
                                 </tr>
                             @endforeach
                         </tbody>
@@ -257,7 +257,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="CustomerName" class="col-form-label">Họ và tên:</label>
+                            <label for="CustomerName" class="col-form-label">Tên người nhận:</label>
                             <input type="text" class="form-control" name="CustomerName" id="CustomerName"
                                 value="aa">
                             <span class="text-danger"></span>

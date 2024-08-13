@@ -30,11 +30,11 @@
                                 ?>       
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="idAttribute" class="required">Nhóm phân loại</label>
-                                        <select id="idAttribute" name="idAttribute" class="selectpicker form-control" data-style="py-0" required>
+                                        {{-- <label for="idProperty" class="required">Nhóm phân loại</label> --}}
+                                        <select id="idProperty" name="idProperty" class="selectpicker form-control" data-style="py-0" required>
                                             <option value="">Chọn nhóm phân loại</option>
                                             @foreach($list_attribute as $key => $attribute)
-                                            <option value="{{$attribute->idAttribute}}">{{$attribute->AttributeName}}</option>
+                                            <option value="{{$attribute->idProperty}}">{{$attribute->PropertyName}}</option>
                                             @endforeach
                                         </select>
                                         <div class="help-block with-errors"></div>
@@ -42,8 +42,8 @@
                                 </div>        
                                 <div class="col-md-12">         
                                     <div class="form-group">
-                                        <label class="required">Tên phân loại</label>
-                                        <input type="text" name="AttriValName" class="form-control" placeholder="Nhập tên phân loại" required>
+                                        {{-- <label class="required">Tên phân loại</label> --}}
+                                        <input type="text" name="ProValName" class="form-control" placeholder="Nhập tên phân loại" required>
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div>    

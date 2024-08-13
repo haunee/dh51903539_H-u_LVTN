@@ -45,15 +45,15 @@
                             <div class="col-md-6">                      
                                 <div class="form-group">
                                     <label class="required">Số lượng</label>
-                                    <input id="VoucherQuantity" name="VoucherQuantity" type="number" min="0" class="form-control" placeholder="Vui lòng nhập số lượng mã" data-errors="Please Enter Name." required>
+                                    <input id="VoucherQuantity" name="VoucherQuantity" type="number" min="0" class="form-control" placeholder="Nhập số lượng mã" data-errors="Please Enter Name." required>
                                     <div class="help-block with-errors"></div>
                                 </div>
                             </div>  
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="required" for="VoucherCondition">Hình thức</label>
+                                    <label class="required" for="VoucherCondition">Loại</label>
                                     <select id="VoucherCondition" name="VoucherCondition" class="selectpicker form-control" data-style="py-0" required>
-                                        <option value="">Chọn hình thức giảm giá</option>
+                                        <option value="">Loại giảm giá</option>
                                         <option value="1">Phần trăm</option>
                                         <option value="2">Tiền mặt</option>
                                     </select>
@@ -63,7 +63,7 @@
                             <div class="col-md-6">                      
                                 <div class="form-group">
                                     <label class="required">Phần trăm/Số tiền giảm</label>
-                                    <input id="VoucherNumber" name="VoucherNumber" type="number" min="0" class="form-control" placeholder="Vui lòng nhập phần trăm hoặc số tiền giảm" required>
+                                    <input id="VoucherNumber" name="VoucherNumber" type="number" min="0" class="form-control" placeholder=" Nhập phần trăm hoặc số tiền giảm" required>
                                     <div class="help-block with-errors"></div>
                                     <span class="text-danger"></span>
                                 </div>

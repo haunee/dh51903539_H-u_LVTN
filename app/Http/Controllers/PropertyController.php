@@ -4,18 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
-use App\Models\Attribute;
 use Illuminate\Support\Facades\Log;
-use App\Models\AttributeValue;
-use App\Models\ProductAttriBute;
+use App\Models\PropertyValue;
+use App\Models\Property;
 
 //NHÓM PHÂN LOẠI
-class AttributeController extends Controller
+class PropertyController extends Controller
 {
     public function manage_attribute()
     {
-        $list_attribute = Attribute::get();
-        $count_attribute = Attribute::count();
+        $list_attribute = Property::get();
+        $count_attribute = Property::count();
         return view("admin.attribute.manage_attribute")->with(compact('list_attribute', 'count_attribute'));
     }
 
@@ -30,15 +29,15 @@ class AttributeController extends Controller
     public function submit_add_attribute(Request $request)
     {
         $validatedData = $request->validate([
-            'AttributeName' => 'required|unique:attribute,AttributeName',
+            'PropertyName' => 'required|unique:property,PropertyName',
         ], [
-            'AttributeName.required' => 'Tên nhóm phân loại là bắt buộc',
-            'AttributeName.max' => 'Tên nhóm phân loại không được vượt quá 255 ký tự',
-            'AttributeName.unique' => 'Tên nhóm phân loại này đã tồn tại',
+            'PropertyName.required' => 'Tên nhóm phân loại là bắt buộc',
+            'PropertyName.max' => 'Tên nhóm phân loại không được vượt quá 255 ký tự',
+            'PropertyName.unique' => 'Tên nhóm phân loại này đã tồn tại',
         ]);
 
-        $attribute = new Attribute();
-        $attribute->AttributeName = $validatedData['AttributeName'];
+        $attribute = new Property();
+        $attribute->PropertyName = $validatedData['PropertyName'];
         $attribute->save();
 
         return redirect()->back()->with('message', 'Thêm nhóm phân loại thành công');
@@ -48,30 +47,30 @@ class AttributeController extends Controller
 
 
 
-    public function edit_attribute($idAttribute)
+    public function edit_attribute($idProperty)
     {
-        $select_attribute = Attribute::where('idAttribute', $idAttribute)->first();
+        $select_attribute = Property::where('idProperty', $idProperty)->first();
         return view('admin.attribute.edit_attribute')->with(compact('select_attribute'));
     }
 
 
-    public function submit_edit_attribute(Request $request, $idAttribute)
+    public function submit_edit_attribute(Request $request, $idProperty)
     {
         $data = $request->all();
 
      
-        $attribute = Attribute::find($idAttribute);
+        $attribute = Property::find($idProperty);
 
       
-        $select_attribute = Attribute::where('AttributeName', $data['AttributeName'])
-            ->where('idAttribute', '<>', $idAttribute)->first();
+        $select_attribute = Property::where('PropertyName', $data['PropertyName'])
+            ->where('idProperty', '<>', $idProperty)->first();
 
         if ($select_attribute) {
            
             return redirect()->back()->with('error', 'Tên nhóm phân loại này đã tồn tại');
         } else {
             
-            $attribute->AttributeName = $data['AttributeName'];
+            $attribute->PropertyName = $data['PropertyName'];
             $attribute->save();
 
             
@@ -80,10 +79,10 @@ class AttributeController extends Controller
     }
 
 
-    public function delete_attribute($idAttribute)
+    public function delete_attribute($idProperty)
     {
         // Kiểm tra xem có sản phẩm nào đang sử dụng thuộc tính này không
-        $hasProducts = AttributeValue::where('idAttribute', $idAttribute)->exists();
+        $hasProducts = propertyvalue::where('idProperty', $idProperty)->exists();
     
         if ($hasProducts) {
             // Nếu có sản phẩm, không cho phép xóa và trả về thông báo lỗi
@@ -91,7 +90,7 @@ class AttributeController extends Controller
         }
     
         // Nếu không có sản phẩm liên kết, thực hiện xóa thuộc tính
-        Attribute::where('idAttribute', $idAttribute)->delete();
+        Property::where('idProperty', $idProperty)->delete();
     
         // Trả về thông báo thành công
         return redirect()->back()->with('success', 'Thuộc tính đã được xóa thành công.');
@@ -107,10 +106,10 @@ class AttributeController extends Controller
         $output = '';
 
         if ($data['action'] && $data['action'] == "attribute") {
-            $list_attribute_val = AttributeValue::where('idAttribute', $data['idAttribute'])->get();
+            $list_attribute_val = propertyvalue::where('idProperty', $data['idProperty'])->get();
             foreach ($list_attribute_val as $key => $attribute_val) {
-                $output .= '<label for="chk-attr-' . $attribute_val->idAttriValue . '" class="d-block col-lg-3 p-0 m-0"><div id="attr-name-' . $attribute_val->idAttriValue . '" class="select-attr text-center mr-2 mt-2">' . $attribute_val->AttriValName . '</div></label>
-                            <input type="checkbox" class="checkstatus d-none chk_attr" id="chk-attr-' . $attribute_val->idAttriValue . '" data-id="' . $attribute_val->idAttriValue . '" data-name="' . $attribute_val->AttriValName . '" name="chk_attr[]" value="' . $attribute_val->idAttriValue . '">';
+                $output .= '<label for="chk-attr-' . $attribute_val->idProVal . '" class="d-block col-lg-3 p-0 m-0"><div id="attr-name-' . $attribute_val->idProVal . '" class="select-attr text-center mr-2 mt-2">' . $attribute_val->PropertyName . '</div></label>
+                            <input type="checkbox" class="checkstatus d-none chk_attr" id="chk-attr-' . $attribute_val->idProVal . '" data-id="' . $attribute_val->idProVal . '" data-name="' . $attribute_val->PropertyName . '" name="chk_attr[]" value="' . $attribute_val->idProVal . '">';
             }
         }
 

@@ -10,10 +10,10 @@ class Cart extends Model
     public $timestamp = false;
     protected $fillable = ['idCustomer',
     'idProduct',
-    'AttributeProduct',
+    'PropertyPro',
     'Price',
     'QuantityBuy',
-    'idProAttr',
+    'idProperPro',
     'Total'];
     protected $primaryKey = 'idCart';
     protected $table = 'cart';

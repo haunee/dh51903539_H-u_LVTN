@@ -45,19 +45,19 @@
                         <tbody class="ligth-body">
                             @foreach($list_attr_value as $key => $attr_value)
                             <tr>
-                                <td>{{$attr_value->idAttriValue}}</td>
-                                <td>{{$attr_value->AttributeName}}</td>
-                                <td>{{$attr_value->AttriValName}}</td>
+                                <td>{{$attr_value->idProVal}}</td>
+                                <td>{{$attr_value->PropertyName}}</td>
+                                <td>{{$attr_value->ProValName}}</td>
                                 <td>
                                     <div class="d-flex align-items-center list-action">
                                         <a class="badge bg-success mr-2" data-toggle="tooltip" data-placement="top" title="" data-original-title="Sửa"
-                                            href="{{URL::to('/edit-attri-value/'.$attr_value->idAttriValue)}}"><i class="fas fa-edit mr-0"></i></a>
-                                        <a class="badge bg-warning mr-2" data-toggle="modal" data-target="#model-delete-{{$attr_value->idAttriValue}}" data-placement="top" title="" data-original-title="Xóa"
+                                            href="{{URL::to('/edit-attri-value/'.$attr_value->idProVal)}}"><i class="fas fa-edit mr-0"></i></a>
+                                        <a class="badge bg-warning mr-2" data-toggle="modal" data-target="#model-delete-{{$attr_value->idProVal}}" data-placement="top" title="" data-original-title="Xóa"
                                             style="cursor:pointer;"><i class="fas fa-trash-alt mr-0"></i></a>
                                     </div>
                                 </td>
                             </tr>
-                            <div class="modal fade bd-example-modal-sm"  role="dialog" id="model-delete-{{$attr_value->idAttriValue}}"  aria-hidden="true">
+                            <div class="modal fade bd-example-modal-sm"  role="dialog" id="model-delete-{{$attr_value->idProVal}}"  aria-hidden="true">
                                 <div class="modal-dialog modal-sm">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -71,7 +71,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-light" data-dismiss="modal">Trở về</button>
-                                        <a href="{{URL::to('/delete-attri-value/'.$attr_value->idAttriValue)}}" type="button" class="btn btn-primary">Xác nhận</a>
+                                        <a href="{{URL::to('/delete-attri-value/'.$attr_value->idProVal)}}" type="button" class="btn btn-primary">Xác nhận</a>
                                     </div>
                                 </div>
                                 </div>

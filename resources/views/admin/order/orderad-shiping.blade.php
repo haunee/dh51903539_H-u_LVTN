@@ -36,15 +36,15 @@
                                             </a>
                                             <a class="dropdown-item" href="{{ URL::to('/orderad-shiping') }}"
                                                 onclick="updateDropdownText('Đang giao'); return false;">
-                                                Đang giao
+                                                Đang vận chuyển
                                             </a>
                                             <a class="dropdown-item" href="{{ URL::to('/orderad-shiped') }}"
                                                 onclick="updateDropdownText('Đã giao'); return false;">
-                                                Đã giao
+                                                Đã nhận hàng
                                             </a>
                                             <a class="dropdown-item" href="{{ URL::to('/oderad-cancelled') }}"
                                                 onclick="updateDropdownText('Đã hủy'); return false;">
-                                                Đã hủy
+                                                Đơn đã hủy
                                             </a>
                                         </div>
                                     </div>
@@ -65,8 +65,8 @@
                                     <th>SĐT</th>
                                     <th>Thanh Toán</th>
                                     <th>Ngày Đặt </th>
-                                    <th>NV Xác Nhận</th>
                                     <th>Ngày Xác Nhận</th>
+                                    <th>NV Xác Nhận</th>
                                     <th>Thao tác</th>
                                 </tr>
                             </thead>
@@ -85,13 +85,13 @@
                                         </td>
                                         <td>{{ Carbon::parse($order->created_at)->setTimezone('Asia/Ho_Chi_Minh')->format('d/m/Y H:i:s') }}
                                         </td>
+                                       
+                                        <td>{{ Carbon::parse($order->TimeConfirm)->setTimezone('Asia/Ho_Chi_Minh')->format('d/m/Y H:i:s') }}
+                                        </td>
                                         <td>
                                             <div class=" align-items-center badge badge-warning">{{ $order->AdminName }}
                                             </div>
                                         </td>
-                                        <td>{{ Carbon::parse($order->TimeConfirm)->setTimezone('Asia/Ho_Chi_Minh')->format('d/m/Y H:i:s') }}
-                                        </td>
-
                                         <td>
                                             <form action="{{ URL::to('/confirm-bill/' . $order->idOrder) }}" method="POST">
                                                 @csrf

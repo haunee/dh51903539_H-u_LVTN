@@ -455,17 +455,6 @@ class AdminController extends Controller
 
 
 
-
-
-
-
-
-
-
-
-  
-
-
     // Chuyển đến trang thêm mã giảm giá
     public function add_voucher(){
         return view("admin.voucher.add-voucher");

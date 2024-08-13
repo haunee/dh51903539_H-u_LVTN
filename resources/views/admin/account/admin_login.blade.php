@@ -53,15 +53,15 @@
                                     <div class="row">
                                        <div class="col-lg-12">
                                           <div class="floating-label form-group">
-                                             <input class="floating-input form-control" type="text" placeholder=" " name="AdminUser" required>
-                                             <label>Tên Đăng Nhập</label>
+                                             <input class="floating-input form-control" type="text" placeholder="Tên Đăng Nhập " name="AdminUser" required>
+                                       
                                              
                                           </div>
                                        </div>
                                        <div class="col-lg-12">
                                           <div class="floating-label form-group">
-                                             <input class="floating-input form-control" type="password" placeholder=" " name="AdminPass" required>
-                                             <label>Mật Khẩu</label>
+                                             <input class="floating-input form-control" type="password" placeholder=" Mật Khẩu" name="AdminPass" required>
+                                             
                                              
                                           </div>
                                        </div>

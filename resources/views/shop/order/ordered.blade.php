@@ -22,15 +22,7 @@
     <div class="register-page section-padding-5">
         <div class="container">
             <div class="row">
-                <div class="col-xl-3 col-md-4">
-                    <div class="my-account-menu mt-30">
-                        <ul class="nav account-menu-list flex-column">
-                            <li><a href="{{ URL::to('/profile') }}"></i> Hồ Sơ</a></li>
-                            <li><a href="{{ URL::to('/change-password') }}"> Đổi Mật Khẩu</a></li>
-                            <li><a class="active"> Đơn Hàng</a></li>
-                        </ul>
-                    </div>
-                </div>
+                <div class="col-xl-2 "> </div>
                 <div class="col-xl-9 col-md-8">
                     <div class="tab-content my-account-tab mt-30" id="pills-tabContent">
                         <div class="tab-pane fade active show">
@@ -63,17 +55,17 @@
                                                 <!-- Shipping Orders -->
                                                 <a class="dropdown-item" href="{{ URL::to('/order-shipping') }}"
                                                     onclick="updateDropdownText('Đang giao'); return false;">
-                                                    Đang giao
+                                                    Đang vận chuyển
                                                 </a>
                                                 <!-- Shipped Orders -->
                                                 <a class="dropdown-item" href="{{ URL::to('/order-shipped') }}"
                                                     onclick="updateDropdownText('Đã giao'); return false;">
-                                                    Đã giao
+                                                    Đã nhận hàng
                                                 </a>
                                                 <!-- Cancelled Orders -->
                                                 <a class="dropdown-item" href="{{ URL::to('/order-cancelled') }}"
                                                     onclick="updateDropdownText('Đã hủy'); return false;">
-                                                    Đã hủy
+                                                    Đơn hủy
                                                 </a>
                                             </div>
                                         </div>
@@ -106,11 +98,11 @@
                                                 </td>
 
                                                 @if ($order->Status == 0)
-                                                    <td>Chờ xác nhận...</td>
+                                                    <td>Chờ xác nhận</td>
                                                 @elseif($order->Status == 1)
-                                                    <td>Đang giao</td>
+                                                    <td>Đang vận chuyển</td>
                                                 @elseif($order->Status == 2)
-                                                    <td>Đã giao</td>
+                                                    <td>Đã nhận hàng</td>
                                                 @else
                                                     <td>Đã hủy</td>
                                                 @endif
